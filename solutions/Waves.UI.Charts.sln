@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B1407E8D-3675-4CFD-A93D-5FCD9270D624}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Props", "Props", "{2E536556-8186-4EED-90DE-8B91419DB670}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\props\common.props = ..\build\props\common.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waves.UI.Charts", "..\sources\Waves.UI.Charts\Waves.UI.Charts.csproj", "{6606C004-1645-49A5-8546-81904D2E9CB1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2E536556-8186-4EED-90DE-8B91419DB670} = {B1407E8D-3675-4CFD-A93D-5FCD9270D624}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6606C004-1645-49A5-8546-81904D2E9CB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6606C004-1645-49A5-8546-81904D2E9CB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6606C004-1645-49A5-8546-81904D2E9CB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6606C004-1645-49A5-8546-81904D2E9CB1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

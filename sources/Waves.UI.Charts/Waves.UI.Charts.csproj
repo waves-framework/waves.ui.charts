@@ -12,4 +12,12 @@
         <PackageTags>waves ui charts framework</PackageTags>
     </PropertyGroup>
 
+    <ItemGroup Condition="'$(Configuration)'=='Debug'">
+        <ProjectReference Include="..\..\submodules\ui\sources\Waves.UI\Waves.UI.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)'!='Debug'">
+        <PackageReference Include="Waves.UI" Version="2022.3.3-preview.3" />
+    </ItemGroup>
+
 </Project>

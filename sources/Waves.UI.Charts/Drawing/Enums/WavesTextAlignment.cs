@@ -18,5 +18,5 @@ public enum WavesTextAlignment
     /// <summary>
     ///     Center.
     /// </summary>
-    Center = 2
+    Center = 2,
 }

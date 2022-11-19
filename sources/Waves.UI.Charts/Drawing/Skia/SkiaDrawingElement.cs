@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using SkiaSharp;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
+using Waves.UI.Charts.Drawing.Skia.Extensions;
+using static System.GC;
 
 namespace Waves.UI.Charts.Drawing.Skia;
 
@@ -17,7 +19,7 @@ public class SkiaDrawingElement : IWavesDrawingElement
     /// <inheritdoc />
     public void Dispose()
     {
-        throw new NotImplementedException();
+        Dispose(true);
     }
 
     /// <inheritdoc />
@@ -47,14 +49,38 @@ public class SkiaDrawingElement : IWavesDrawingElement
     }
 
     /// <inheritdoc />
-    public void Draw(IWavesDrawingObject obj)
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <inheritdoc />
     public void Draw(WavesLine line)
     {
-        throw new NotImplementedException();
+        using var skPaint = new SKPaint
+        {
+            Color = line.Fill.ToSkColor(line.Opacity),
+            StrokeWidth = line.StrokeThickness,
+            IsAntialias = line.IsAntialiased,
+            IsStroke = Math.Abs(line.StrokeThickness) > float.Epsilon,
+        };
+
+        if (line.DashPattern != null)
+        {
+            var dashEffect = SKPathEffect.CreateDash(line.DashPattern, 0);
+            skPaint.PathEffect = skPaint.PathEffect != null
+                ? SKPathEffect.CreateCompose(dashEffect, skPaint.PathEffect)
+                : dashEffect;
+        }
+
+        _surface.Canvas.DrawLine(line.Point1.ToSkPoint(), line.Point1.ToSkPoint(), skPaint);
+    }
+
+    /// <summary>
+    /// Dispose object.
+    /// </summary>
+    /// <param name="disposing">Disposing or not.</param>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            SuppressFinalize(this);
+        }
+
+        _surface.Dispose();
     }
 }

@@ -14,12 +14,6 @@ public interface IWavesDrawingElement : IDisposable
     /// <param name="element">Drawing element.</param>
     void Update(object element);
 
-    /// <summary>
-    /// Draws object.
-    /// </summary>
-    /// <param name="obj">Object.</param>
-    void Draw(IWavesDrawingObject obj);
-
     // /// <summary>
     // /// Draws pixel.
     // /// </summary>

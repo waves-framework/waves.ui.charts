@@ -18,30 +18,8 @@
         <OutputPath>..\..\bin\common\anyCPU\debug\</OutputPath>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-        <OutputPath>..\..\bin\common\x64\debug\</OutputPath>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-        <OutputPath>..\..\bin\common\x86\debug\</OutputPath>
-    </PropertyGroup>
-
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <OutputPath>..\..\bin\common\anyCPU\release\</OutputPath>
-        <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-        <DebugType>none</DebugType>
-        <DebugSymbols>false</DebugSymbols>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-        <OutputPath>..\..\bin\common\x86\release\</OutputPath>
-        <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-        <DebugType>none</DebugType>
-        <DebugSymbols>false</DebugSymbols>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-        <OutputPath>..\..\bin\common\x64\release\</OutputPath>
         <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
         <DebugType>none</DebugType>
         <DebugSymbols>false</DebugSymbols>

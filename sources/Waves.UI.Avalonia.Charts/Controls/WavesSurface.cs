@@ -2,9 +2,8 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Metadata;
-using Avalonia.Platform;
-using Avalonia.Skia;
 using Waves.UI.Avalonia.Charts.Primitives;
+using Waves.UI.Avalonia.Charts.Renderer;
 using Waves.UI.Charts.Drawing.Skia;
 
 namespace Waves.UI.Avalonia.Charts.Controls;
@@ -16,16 +15,16 @@ public class WavesSurface :
     Control
 {
     /// <summary>
-    /// Defines the <see cref="DrawingObjects"/> property.
+    ///     Defines the <see cref="DrawingObjects" /> property.
     /// </summary>
     public static readonly AttachedProperty<WavesDrawingObjects> DrawingObjectsProperty =
         AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, WavesDrawingObjects>(
             nameof(DrawingObjects),
             new WavesDrawingObjects(),
-            inherits: true);
+            true);
 
     private readonly SkiaDrawingRenderer _renderer;
-    private bool _changed = true;
+    private SkiaDrawingOperation _renderingLogic;
 
     /// <summary>
     ///     Creates new instance of <see cref="WavesSurface" />.
@@ -33,6 +32,8 @@ public class WavesSurface :
     public WavesSurface()
     {
         _renderer = new SkiaDrawingRenderer();
+
+        AffectsRender<WavesSurface>(DesiredSizeProperty);
         AffectsRender<WavesSurface>(DrawingObjectsProperty);
     }
 
@@ -43,11 +44,7 @@ public class WavesSurface :
     public WavesDrawingObjects? DrawingObjects
     {
         get => GetValue(DrawingObjectsProperty);
-        set
-        {
-            _changed = true;
-            SetValue(DrawingObjectsProperty, value);
-        }
+        set => SetValue(DrawingObjectsProperty, value);
     }
 
     /// <inheritdoc />
@@ -62,25 +59,31 @@ public class WavesSurface :
     /// </summary>
     private void Refresh(DrawingContext context)
     {
-        //// if (!_changed)
-        //// {
-        ////     return;
-        //// }
-
-        _changed = false;
-
         if (!DrawingObjects.Any())
         {
             return;
         }
 
-        var feature = context.PlatformImpl.GetFeature<ISkiaSharpApiLeaseFeature>();
-        if (feature == null)
+        if (_renderingLogic == null || _renderingLogic.Bounds != Bounds)
         {
-            return;
+            _renderingLogic?.Dispose();
+            _renderingLogic = new SkiaDrawingOperation();
+            _renderingLogic.RenderAction += OnSkiaRendering;
+            _renderingLogic.Bounds = new Rect(0, 0, Bounds.Width, Bounds.Height);
         }
 
-        var surface = feature.Lease().SkSurface;
-        _renderer.Update(surface, DrawingObjects);
+        _renderingLogic.Bounds = new Rect(0, 0, Bounds.Width, Bounds.Height);
+        context.Custom(_renderingLogic);
+    }
+
+    /// <summary>
+    /// Skia rendering actions.
+    /// </summary>
+    /// <param name="canvas">Canvas.</param>
+    /// <returns>Not used.</returns>
+    private object OnSkiaRendering(object canvas)
+    {
+        _renderer.Update(canvas, DrawingObjects);
+        return true;
     }
 }

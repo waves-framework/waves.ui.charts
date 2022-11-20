@@ -19,8 +19,4 @@
       <ProjectReference Include="..\Waves.UI.Charts\Waves.UI.Charts.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Renderer" />
-    </ItemGroup>
-
 </Project>

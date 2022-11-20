@@ -11,19 +11,19 @@ namespace Waves.UI.Charts.Drawing.Skia;
 /// <summary>
 ///     Skia drawing element.
 /// </summary>
-public class SkiaDrawingElement : IWavesDrawingElement
+public class SkiaDrawingRenderer : IWavesDrawingRenderer
 {
     private SKSurface _surface;
-    private ICollection<IWavesDrawingObject> _drawingObjects;
 
     /// <inheritdoc />
     public void Dispose()
     {
         Dispose(true);
+        SuppressFinalize(this);
     }
 
     /// <inheritdoc />
-    public void Update(object element)
+    public void Update(object element, IEnumerable<IWavesDrawingObject> objects)
     {
         if (element is not SKSurface surface)
         {
@@ -37,12 +37,12 @@ public class SkiaDrawingElement : IWavesDrawingElement
 
         _surface.Canvas.Clear(SKColor.Empty);
 
-        if (_drawingObjects == null)
+        if (objects == null)
         {
             return;
         }
 
-        foreach (var obj in _drawingObjects)
+        foreach (var obj in objects)
         {
             obj.Draw(this);
         }
@@ -78,9 +78,7 @@ public class SkiaDrawingElement : IWavesDrawingElement
     {
         if (disposing)
         {
-            SuppressFinalize(this);
+            _surface.Dispose();
         }
-
-        _surface.Dispose();
     }
 }

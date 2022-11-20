@@ -25,7 +25,7 @@ public class WavesLine : WavesDrawingObject
     public float[] DashPattern { get; set; } = { 0, 0, 0, 0 };
 
     /// <inheritdoc />
-    public override void Draw(IWavesDrawingElement e)
+    public override void Draw(IWavesDrawingRenderer e)
     {
         if (!IsVisible)
         {

@@ -15,11 +15,15 @@
         <!--<CodesignKey></CodesignKey>-->
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <CodesignKey>Apple Development: nuessence@yandex.ru (MFGXGHRRRQ)</CodesignKey>
+    </PropertyGroup>
+
     <ItemGroup>
-        <PackageReference Include="Avalonia.iOS" Version="$(AvaloniaVersion)"/>
+        <PackageReference Include="Avalonia.iOS" Version="$(AvaloniaVersion)" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Waves.UI.Avalonia.Charts.Showcase\Waves.UI.Avalonia.Charts.Showcase.csproj"/>
+        <ProjectReference Include="..\Waves.UI.Avalonia.Charts.Showcase\Waves.UI.Avalonia.Charts.Showcase.csproj" />
     </ItemGroup>
 </Project>

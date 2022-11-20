@@ -24,7 +24,7 @@ public class WavesDrawingLayer : WavesDrawingObject, IWavesDrawingLayer
     }
 
     /// <inheritdoc />
-    public override void Draw(IWavesDrawingElement e)
+    public override void Draw(IWavesDrawingRenderer e)
     {
         if (DrawingObjects == null)
         {

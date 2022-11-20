@@ -6,13 +6,14 @@ namespace Waves.UI.Charts.Drawing.Primitives.Interfaces;
 /// <summary>
 ///     Interface for drawing element.
 /// </summary>
-public interface IWavesDrawingElement : IDisposable
+public interface IWavesDrawingRenderer : IDisposable
 {
     /// <summary>
     ///     Updates view.
     /// </summary>
     /// <param name="element">Drawing element.</param>
-    void Update(object element);
+    /// <param name="objects">Drawing objects.</param>
+    void Update(object element, IEnumerable<IWavesDrawingObject> objects);
 
     // /// <summary>
     // /// Draws pixel.

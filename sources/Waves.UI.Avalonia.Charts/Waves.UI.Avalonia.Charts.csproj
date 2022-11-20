@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Avalonia.Skia" Version="$(AvaloniaVersion)" />
         <PackageReference Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
         <PackageReference Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
         <PackageReference Include="Avalonia.Xaml.Behaviors" Version="$(AvaloniaVersion)" />
@@ -16,6 +17,10 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Waves.UI.Charts\Waves.UI.Charts.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Renderer" />
     </ItemGroup>
 
 </Project>

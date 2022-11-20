@@ -45,6 +45,6 @@ public interface IWavesDrawingObject
     /// <summary>
     ///     Draw object in current canvas.
     /// </summary>
-    /// <param name="element">Drawing element.</param>
-    void Draw(IWavesDrawingElement element);
+    /// <param name="e">Renderer.</param>
+    void Draw(IWavesDrawingRenderer e);
 }

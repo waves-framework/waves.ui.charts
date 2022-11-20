@@ -31,5 +31,5 @@ public abstract class WavesDrawingObject : IWavesDrawingObject
     public Color Stroke { get; set; } = Color.Gray;
 
     /// <inheritdoc />
-    public abstract void Draw(IWavesDrawingElement e);
+    public abstract void Draw(IWavesDrawingRenderer e);
 }

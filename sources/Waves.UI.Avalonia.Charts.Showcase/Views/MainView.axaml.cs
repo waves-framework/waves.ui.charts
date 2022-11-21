@@ -1,5 +1,9 @@
+using System;
 using System.Drawing;
+using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Threading;
+using Waves.Core.Extensions;
 using Waves.UI.Avalonia.Charts.Controls;
 using Waves.UI.Avalonia.Charts.Primitives;
 using Waves.UI.Charts.Drawing.Primitives;
@@ -26,24 +30,36 @@ public partial class MainView : UserControl
     private void InitializeChart()
     {
         var surface = this.FindControl<WavesSurface>("Surface");
-        var objects = new WavesDrawingObjects
-        {
-            new WavesLine()
-            {
-                Fill = Color.Red,
-                StrokeThickness = 2,
-                Point1 = new Point(0, 0),
-                Point2 = new Point(100, 100),
-            },
-            new WavesLine()
-            {
-                Fill = Color.Red,
-                StrokeThickness = 2,
-                Point1 = new Point(0, 100),
-                Point2 = new Point(100, 0),
-            },
-        };
 
-        surface.DrawingObjects = objects;
+        var task = new Task(async () =>
+        {
+            var random = new Random();
+            do
+            {
+                var value = random.Next(100);
+                var objects = new WavesDrawingObjects
+                {
+                    new WavesLine()
+                    {
+                        Fill = Color.Red,
+                        StrokeThickness = 2,
+                        Point1 = new Point(0, 0),
+                        Point2 = new Point(value, value),
+                    },
+                    new WavesLine()
+                    {
+                        Fill = Color.Red,
+                        StrokeThickness = 2,
+                        Point1 = new Point(0, value),
+                        Point2 = new Point(value, 0),
+                    },
+                };
+
+                Dispatcher.UIThread.InvokeAsync(() => { surface.DrawingObjects = objects; });
+                await Task.Delay(1);
+            }
+            while (true);
+        });
+        task.Start();
     }
 }

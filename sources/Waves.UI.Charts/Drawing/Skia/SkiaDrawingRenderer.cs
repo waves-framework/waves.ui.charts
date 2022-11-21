@@ -14,6 +14,7 @@ namespace Waves.UI.Charts.Drawing.Skia;
 public class SkiaDrawingRenderer : IWavesDrawingRenderer
 {
     private SKSurface _surface;
+    private SKCanvas _canvas;
 
     /// <inheritdoc />
     public void Dispose()
@@ -25,17 +26,17 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
     /// <inheritdoc />
     public void Update(object element, IEnumerable<IWavesDrawingObject> objects)
     {
-        if (element is not SKSurface surface)
+        if (element is not SKCanvas canvas)
         {
             return;
         }
 
-        if (_surface == null || _surface.Handle == IntPtr.Zero)
+        if (_canvas == null || _canvas.Handle == IntPtr.Zero)
         {
-            _surface = surface;
+            _canvas = canvas;
         }
 
-        _surface.Canvas.Clear(SKColor.Empty);
+        _canvas.Clear(SKColor.Empty);
 
         if (objects == null)
         {
@@ -67,7 +68,7 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
                 : dashEffect;
         }
 
-        _surface.Canvas.DrawLine(line.Point1.ToSkPoint(), line.Point1.ToSkPoint(), skPaint);
+        _canvas.DrawLine(line.Point1.ToSkPoint(), line.Point1.ToSkPoint(), skPaint);
     }
 
     /// <summary>
@@ -78,7 +79,7 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
     {
         if (disposing)
         {
-            _surface.Dispose();
+            _canvas.Dispose();
         }
     }
 }

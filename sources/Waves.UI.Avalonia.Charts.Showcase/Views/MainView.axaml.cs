@@ -30,13 +30,17 @@ public partial class MainView : UserControl
         {
             new WavesLine()
             {
+                Fill = Color.Red,
+                StrokeThickness = 2,
                 Point1 = new Point(0, 0),
-                Point2 = new Point(50, 50),
+                Point2 = new Point(100, 100),
             },
             new WavesLine()
             {
-                Point1 = new Point(0, 50),
-                Point2 = new Point(50, 0),
+                Fill = Color.Red,
+                StrokeThickness = 2,
+                Point1 = new Point(0, 100),
+                Point2 = new Point(100, 0),
             },
         };
 

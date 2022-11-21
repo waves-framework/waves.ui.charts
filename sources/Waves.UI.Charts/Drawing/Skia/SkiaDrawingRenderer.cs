@@ -36,7 +36,7 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
             _canvas = canvas;
         }
 
-        _canvas.Clear(SKColor.Empty);
+        _canvas.Clear(new SKColor(0, 0, 0, 255));
 
         if (objects == null)
         {
@@ -68,7 +68,7 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
                 : dashEffect;
         }
 
-        _canvas.DrawLine(line.Point1.ToSkPoint(), line.Point1.ToSkPoint(), skPaint);
+        _canvas.DrawLine(line.Point1.ToSkPoint(), line.Point2.ToSkPoint(), skPaint);
     }
 
     /// <summary>

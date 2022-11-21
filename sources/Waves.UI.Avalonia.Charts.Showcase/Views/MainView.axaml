@@ -16,6 +16,7 @@
 
     <Grid>
         <controls:WavesSurface x:Name="Surface"/>
+        <Border Width="100" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center"/>
     </Grid>
   
 </UserControl>

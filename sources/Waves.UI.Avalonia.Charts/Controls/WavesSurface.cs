@@ -4,6 +4,7 @@ using Avalonia.Media;
 using Avalonia.Metadata;
 using Waves.UI.Avalonia.Charts.Primitives;
 using Waves.UI.Avalonia.Charts.Renderer;
+using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 using Waves.UI.Charts.Drawing.Skia;
 
 namespace Waves.UI.Avalonia.Charts.Controls;
@@ -23,7 +24,7 @@ public class WavesSurface :
             new WavesDrawingObjects(),
             true);
 
-    private readonly SkiaDrawingRenderer _renderer;
+    private readonly IWavesDrawingRenderer _renderer;
     private SkiaDrawingOperation _renderingLogic;
 
     /// <summary>
@@ -31,7 +32,7 @@ public class WavesSurface :
     /// </summary>
     public WavesSurface()
     {
-        _renderer = new SkiaDrawingRenderer();
+        _renderer = new AvaloniaDrawingRenderer();
 
         AffectsRender<WavesSurface>(DesiredSizeProperty);
         AffectsRender<WavesSurface>(DrawingObjectsProperty);
@@ -64,6 +65,23 @@ public class WavesSurface :
             return;
         }
 
+        if (_renderer is SkiaDrawingRenderer)
+        {
+            RenderSkia(context);
+        }
+        else
+        {
+            // avalonia renderer
+            _renderer.Update(context, DrawingObjects);
+        }
+    }
+
+    /// <summary>
+    /// Skia render operations.
+    /// </summary>
+    /// <param name="context">Drawing context.</param>
+    private void RenderSkia(DrawingContext context)
+    {
         if (_renderingLogic == null || _renderingLogic.Bounds != Bounds)
         {
             _renderingLogic?.Dispose();

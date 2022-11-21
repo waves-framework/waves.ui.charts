@@ -10,14 +10,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <WasmExtraFilesToDeploy Include="AppBundle\**"/>
+        <WasmExtraFilesToDeploy Include="AppBundle\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia.Web" Version="$(AvaloniaVersion)"/>
+        <PackageReference Include="Avalonia.Web" Version="$(AvaloniaVersion)" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Waves.UI.Avalonia.Charts.Showcase\Waves.UI.Avalonia.Charts.Showcase.csproj"/>
+        <ProjectReference Include="..\Waves.UI.Avalonia.Charts.Showcase\Waves.UI.Avalonia.Charts.Showcase.csproj" />
     </ItemGroup>
 </Project>

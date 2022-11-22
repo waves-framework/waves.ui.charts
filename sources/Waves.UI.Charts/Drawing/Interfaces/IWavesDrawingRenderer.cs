@@ -47,12 +47,13 @@ public interface IWavesDrawingRenderer : IDisposable
     // /// <param name="rectangle">Rectangle.</param>
     // void Draw(WavesRectangle rectangle);
     //
-    // /// <summary>
-    // /// Draws text.
-    // /// </summary>
-    // /// <param name="text">Text.</param>
-    // void Draw(WavesText text);
-    //
+
+    /// <summary>
+    /// Draws text.
+    /// </summary>
+    /// <param name="text">Text.</param>
+    void Draw(WavesText text);
+
     // /// <summary>
     // /// Draws image.
     // /// </summary>

@@ -1,4 +1,4 @@
-﻿using Waves.UI.Charts.Drawing.Enums;
+﻿using Waves.UI.Charts.Drawing.Primitives.Enums;
 
 namespace Waves.UI.Charts.Drawing.Primitives.Interfaces;
 

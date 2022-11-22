@@ -26,7 +26,7 @@ public interface IWavesDrawingObject
     /// <summary>
     ///     Gets or sets object's opacity.
     /// </summary>
-    float Opacity { get; set; }
+    double Opacity { get; set; }
 
     /// <summary>
     ///     Gets or sets stroke thickness.

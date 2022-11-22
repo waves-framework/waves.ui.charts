@@ -2,7 +2,7 @@
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 
-namespace Waves.UI.Drawing;
+namespace Waves.UI.Charts.Drawing.Primitives;
 
 /// <summary>
 ///     Base abstract class for drawing objects.

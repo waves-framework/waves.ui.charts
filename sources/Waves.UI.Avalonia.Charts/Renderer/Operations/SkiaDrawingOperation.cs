@@ -3,7 +3,7 @@ using Avalonia.Platform;
 using Avalonia.Rendering.SceneGraph;
 using Avalonia.Skia;
 
-namespace Waves.UI.Avalonia.Charts.Renderer;
+namespace Waves.UI.Avalonia.Charts.Renderer.Operations;
 
 /// <summary>
 /// Skia drawing operation.

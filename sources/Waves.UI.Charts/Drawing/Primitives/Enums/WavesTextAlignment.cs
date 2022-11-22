@@ -1,4 +1,4 @@
-﻿namespace Waves.UI.Charts.Drawing.Enums;
+﻿namespace Waves.UI.Charts.Drawing.Primitives.Enums;
 
 /// <summary>
 ///     Text alignment enum.

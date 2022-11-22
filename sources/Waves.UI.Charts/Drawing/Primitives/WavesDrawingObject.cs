@@ -1,9 +1,8 @@
 ﻿using System.Drawing;
 using Waves.UI.Charts.Drawing.Interfaces;
-using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 
-namespace Waves.UI.Drawing;
+namespace Waves.UI.Charts.Drawing.Primitives;
 
 /// <summary>
 ///     Base abstract class for drawing objects.
@@ -20,7 +19,7 @@ public abstract class WavesDrawingObject : IWavesDrawingObject
     public bool IsVisible { get; set; } = true;
 
     /// <inheritdoc />
-    public float Opacity { get; set; } = 1.0f;
+    public double Opacity { get; set; } = 1.0f;
 
     /// <inheritdoc />
     public float StrokeThickness { get; set; } = 1;

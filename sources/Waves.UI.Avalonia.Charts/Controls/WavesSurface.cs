@@ -1,9 +1,11 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using Avalonia.Metadata;
 using Waves.UI.Avalonia.Charts.Primitives;
 using Waves.UI.Avalonia.Charts.Renderer;
+using Waves.UI.Avalonia.Charts.Renderer.Operations;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 using Waves.UI.Charts.Renderer.Skia;
@@ -14,7 +16,7 @@ namespace Waves.UI.Avalonia.Charts.Controls;
 ///     Waves drawing surface.
 /// </summary>
 public class WavesSurface :
-    Control
+    TemplatedControl
 {
     /// <summary>
     ///     Defines the <see cref="DrawingObjects" /> property.
@@ -59,7 +61,7 @@ public class WavesSurface :
     /// <summary>
     ///     Refresh image.
     /// </summary>
-    private void Refresh(DrawingContext context)
+    protected virtual void Refresh(DrawingContext context)
     {
         if (!DrawingObjects.Any())
         {

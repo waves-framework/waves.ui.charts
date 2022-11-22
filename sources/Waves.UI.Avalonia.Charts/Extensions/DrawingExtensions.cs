@@ -1,5 +1,6 @@
 using System.Drawing;
 using Avalonia.Media;
+using Waves.UI.Charts.Drawing.Primitives;
 using Color = System.Drawing.Color;
 
 namespace Waves.UI.Avalonia.Charts.Extensions;
@@ -14,7 +15,7 @@ public static class DrawingExtensions
     /// </summary>
     /// <param name="color">Color.</param>
     /// <returns>Return <see cref="SolidColorBrush"/>.</returns>
-    public static SolidColorBrush ToSolidColorBrush(this Color color)
+    public static SolidColorBrush ToAvaloniaSolidColorBrush(this Color color)
     {
         return new SolidColorBrush((uint)color.ToArgb());
     }
@@ -24,7 +25,7 @@ public static class DrawingExtensions
     /// </summary>
     /// <param name="point">Point.</param>
     /// <returns>Returns Avalonia point.</returns>
-    public static global::Avalonia.Point ToAvaloniaPoint(this Point point)
+    public static global::Avalonia.Point ToAvaloniaPoint(this WavesPoint point)
     {
         return new global::Avalonia.Point(point.X, point.Y);
     }

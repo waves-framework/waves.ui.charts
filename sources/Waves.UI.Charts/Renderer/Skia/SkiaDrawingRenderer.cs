@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using SkiaSharp;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
@@ -55,7 +56,7 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
     {
         using var skPaint = new SKPaint
         {
-            Color = line.Fill.ToSkColor(line.Opacity),
+            Color = line.Fill.ToSkColor((float)line.Opacity),
             StrokeWidth = line.StrokeThickness,
             IsAntialias = line.IsAntialiased,
             IsStroke = Math.Abs(line.StrokeThickness) > float.Epsilon,
@@ -72,6 +73,13 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
         _canvas.DrawLine(line.Point1.ToSkPoint(), line.Point2.ToSkPoint(), skPaint);
     }
 
+    /// <inheritdoc />
+    public void Draw(WavesText text)
+    {
+        using var skPaint = GetSkiaTextPaint(text);
+        _canvas.DrawText(text.Value, text.Location.ToSkPoint(), skPaint);
+    }
+
     /// <summary>
     /// Dispose object.
     /// </summary>
@@ -82,5 +90,39 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
         {
             _canvas.Dispose();
         }
+    }
+
+    /// <summary>
+    /// Measures text.
+    /// </summary>
+    /// <param name="text">Text.</param>
+    /// <returns>Returns size.</returns>
+    private (float, float) MeasureText(WavesText text)
+    {
+        using var skPaint = GetSkiaTextPaint(text);
+
+        var bounds = new SKRect();
+        skPaint.MeasureText(text.Value, ref bounds);
+
+        return new ValueTuple<float, float>(bounds.Width, bounds.Height);
+    }
+
+    /// <summary>
+    ///     Gets Skia text paint.
+    /// </summary>
+    /// <param name="text">Waves text.</param>
+    /// <returns>Skia text paint.</returns>
+    private SKPaint GetSkiaTextPaint(WavesText text)
+    {
+        return new SKPaint
+        {
+            TextSize = text.Style.FontSize,
+            Color = text.Fill.ToSkColor(),
+            IsStroke = false,
+            SubpixelText = true,
+            IsAntialias = true,
+            TextAlign = text.Style.TextAlignment.ToSkTextAlign(),
+            Typeface = SKTypeface.FromFamilyName(text.Style.FontFamily),
+        };
     }
 }

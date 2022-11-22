@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using SkiaSharp;
-using Waves.UI.Charts.Drawing.Enums;
+using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Enums;
 
 namespace Waves.UI.Charts.Renderer.Skia.Extensions;
 
@@ -37,9 +38,9 @@ public static class SkiaExtensions
     /// </summary>
     /// <param name="point">Point.</param>
     /// <returns>Skia point.</returns>
-    public static SKPoint ToSkPoint(this Point point)
+    public static SKPoint ToSkPoint(this WavesPoint point)
     {
-        return new SKPoint(point.X, point.Y);
+        return new SKPoint((float)point.X, (float)point.Y);
     }
 
     /// <summary>

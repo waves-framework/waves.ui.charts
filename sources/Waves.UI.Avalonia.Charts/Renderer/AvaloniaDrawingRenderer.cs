@@ -1,3 +1,4 @@
+using System.Globalization;
 using Avalonia.Media;
 using Waves.UI.Avalonia.Charts.Extensions;
 using Waves.UI.Charts.Drawing.Interfaces;
@@ -50,11 +51,29 @@ public class AvaloniaDrawingRenderer : IWavesDrawingRenderer
     {
         var pen = new Pen()
         {
-            Brush = line.Fill.ToSolidColorBrush(),
+            Brush = line.Fill.ToAvaloniaSolidColorBrush(),
             Thickness = line.StrokeThickness,
             DashStyle = new DashStyle(line.DashPattern.ToDouble(), 0),
         };
 
         _context.DrawLine(pen, line.Point1.ToAvaloniaPoint(), line.Point2.ToAvaloniaPoint());
+    }
+
+    /// <inheritdoc />
+    public void Draw(WavesText text)
+    {
+        var formattedText = new FormattedText(
+            text.Value,
+            CultureInfo.CurrentCulture,
+            FlowDirection.LeftToRight,
+            new Typeface(
+                new FontFamily(text.Style.FontFamily),
+                FontStyle.Normal,
+                (FontWeight)((int)text.Style.FontWeight),
+                FontStretch.Normal),
+            text.Style.FontSize,
+            text.Fill.ToAvaloniaSolidColorBrush());
+
+        _context.DrawText(formattedText, text.Location.ToAvaloniaPoint());
     }
 }

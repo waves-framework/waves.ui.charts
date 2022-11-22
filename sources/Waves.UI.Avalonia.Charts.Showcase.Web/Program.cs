@@ -2,9 +2,10 @@
 using Avalonia;
 using Avalonia.ReactiveUI;
 using Avalonia.Web;
-using Waves.UI.Avalonia.Charts.Showcase;
 
 [assembly: SupportedOSPlatform("browser")]
+
+namespace Waves.UI.Avalonia.Charts.Showcase.Web;
 
 /// <summary>
 ///     Program.

@@ -24,4 +24,8 @@
       <PackageReference Include="SkiaSharp" Version="2.88.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Drawing\Enums" />
+    </ItemGroup>
+
 </Project>

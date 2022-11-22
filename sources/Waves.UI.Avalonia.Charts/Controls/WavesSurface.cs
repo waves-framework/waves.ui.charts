@@ -48,7 +48,7 @@ public class WavesSurface :
     public IWavesDrawingObjects? DrawingObjects
     {
         get => GetValue(DrawingObjectsProperty);
-        set => SetValue(DrawingObjectsProperty, value);
+        set => SetValue(DrawingObjectsProperty !, value);
     }
 
     /// <inheritdoc />
@@ -59,8 +59,9 @@ public class WavesSurface :
     }
 
     /// <summary>
-    ///     Refresh image.
+    /// Refresh image.
     /// </summary>
+    /// <param name="context">Drawing context.</param>
     protected virtual void Refresh(DrawingContext context)
     {
         if (!DrawingObjects.Any())

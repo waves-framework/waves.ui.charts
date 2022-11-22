@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using SkiaSharp;
+using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
-using Waves.UI.Charts.Drawing.Skia.Extensions;
+using Waves.UI.Charts.Renderer.Skia.Extensions;
 using static System.GC;
 
-namespace Waves.UI.Charts.Drawing.Skia;
+namespace Waves.UI.Charts.Renderer.Skia;
 
 /// <summary>
 ///     Skia drawing element.

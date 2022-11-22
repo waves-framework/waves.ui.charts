@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 
-namespace Waves.UI.Charts.Drawing.Primitives.Interfaces;
+namespace Waves.UI.Charts.Drawing.Interfaces;
 
 /// <summary>
 ///     Interface for drawing element.

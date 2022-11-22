@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 
 namespace Waves.UI.Drawing;

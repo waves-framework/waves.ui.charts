@@ -3,7 +3,7 @@ using System.Drawing;
 using SkiaSharp;
 using Waves.UI.Charts.Drawing.Enums;
 
-namespace Waves.UI.Charts.Drawing.Skia.Extensions;
+namespace Waves.UI.Charts.Renderer.Skia.Extensions;
 
 /// <summary>
 ///     Skia extensions.

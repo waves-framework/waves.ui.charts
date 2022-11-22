@@ -2,7 +2,6 @@ using Avalonia;
 using Avalonia.Platform;
 using Avalonia.Rendering.SceneGraph;
 using Avalonia.Skia;
-using Waves.UI.Charts.Drawing.Skia;
 
 namespace Waves.UI.Avalonia.Charts.Renderer;
 

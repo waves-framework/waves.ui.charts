@@ -4,8 +4,9 @@ using Avalonia.Media;
 using Avalonia.Metadata;
 using Waves.UI.Avalonia.Charts.Primitives;
 using Waves.UI.Avalonia.Charts.Renderer;
+using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
-using Waves.UI.Charts.Drawing.Skia;
+using Waves.UI.Charts.Renderer.Skia;
 
 namespace Waves.UI.Avalonia.Charts.Controls;
 
@@ -18,8 +19,8 @@ public class WavesSurface :
     /// <summary>
     ///     Defines the <see cref="DrawingObjects" /> property.
     /// </summary>
-    public static readonly AttachedProperty<WavesDrawingObjects> DrawingObjectsProperty =
-        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, WavesDrawingObjects>(
+    public static readonly AttachedProperty<IWavesDrawingObjects> DrawingObjectsProperty =
+        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, IWavesDrawingObjects>(
             nameof(DrawingObjects),
             new WavesDrawingObjects(),
             true);
@@ -42,7 +43,7 @@ public class WavesSurface :
     ///     Gets or sets drawing objects.
     /// </summary>
     [Content]
-    public WavesDrawingObjects? DrawingObjects
+    public IWavesDrawingObjects? DrawingObjects
     {
         get => GetValue(DrawingObjectsProperty);
         set => SetValue(DrawingObjectsProperty, value);

@@ -5,6 +5,6 @@ namespace Waves.UI.Charts.Drawing.Primitives.Interfaces;
 /// <summary>
 /// Waves drawing objects.
 /// </summary>
-public interface IWavesDrawingObjects : IEnumerable<IWavesDrawingObject>
+public interface IWavesDrawingObjects : ICollection<IWavesDrawingObject>
 {
 }

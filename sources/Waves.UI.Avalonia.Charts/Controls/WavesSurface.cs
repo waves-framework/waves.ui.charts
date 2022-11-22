@@ -16,7 +16,8 @@ namespace Waves.UI.Avalonia.Charts.Controls;
 ///     Waves drawing surface.
 /// </summary>
 public class WavesSurface :
-    TemplatedControl
+    TemplatedControl,
+    IWavesSurface
 {
     /// <summary>
     ///     Defines the <see cref="DrawingObjects" /> property.

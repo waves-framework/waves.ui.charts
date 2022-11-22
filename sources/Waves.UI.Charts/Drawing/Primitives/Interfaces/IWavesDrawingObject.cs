@@ -31,7 +31,7 @@ public interface IWavesDrawingObject
     /// <summary>
     ///     Gets or sets stroke thickness.
     /// </summary>
-    float StrokeThickness { get; set; }
+    double StrokeThickness { get; set; }
 
     /// <summary>
     ///     Gets or sets fill.

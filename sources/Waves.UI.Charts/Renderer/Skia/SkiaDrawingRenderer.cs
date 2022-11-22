@@ -5,6 +5,7 @@ using SkiaSharp;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
+using Waves.UI.Charts.Extensions;
 using Waves.UI.Charts.Renderer.Skia.Extensions;
 using static System.GC;
 
@@ -57,14 +58,14 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
         using var skPaint = new SKPaint
         {
             Color = line.Fill.ToSkColor((float)line.Opacity),
-            StrokeWidth = line.StrokeThickness,
+            StrokeWidth = (float)line.StrokeThickness,
             IsAntialias = line.IsAntialiased,
             IsStroke = Math.Abs(line.StrokeThickness) > float.Epsilon,
         };
 
         if (line.DashPattern != null)
         {
-            var dashEffect = SKPathEffect.CreateDash(line.DashPattern, 0);
+            var dashEffect = SKPathEffect.CreateDash(line.DashPattern.ToFloat(), 0);
             skPaint.PathEffect = skPaint.PathEffect != null
                 ? SKPathEffect.CreateCompose(dashEffect, skPaint.PathEffect)
                 : dashEffect;

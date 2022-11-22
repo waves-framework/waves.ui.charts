@@ -53,7 +53,7 @@ public class AvaloniaDrawingRenderer : IWavesDrawingRenderer
         {
             Brush = line.Fill.ToAvaloniaSolidColorBrush(),
             Thickness = line.StrokeThickness,
-            DashStyle = new DashStyle(line.DashPattern.ToDouble(), 0),
+            DashStyle = new DashStyle(line.DashPattern, 0),
         };
 
         _context.DrawLine(pen, line.Point1.ToAvaloniaPoint(), line.Point2.ToAvaloniaPoint());

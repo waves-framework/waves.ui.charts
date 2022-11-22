@@ -15,8 +15,8 @@
   </Design.DataContext>
 
     <Grid>
-        <controls:WavesSurface x:Name="Surface"/>
-        <Border Width="100" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <controls:WavesChart x:Name="Surface"/>
+        <Border Width="100" Height="100" Background="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
     </Grid>
   
 </UserControl>

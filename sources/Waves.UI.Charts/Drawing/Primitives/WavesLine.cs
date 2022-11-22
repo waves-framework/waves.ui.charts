@@ -22,7 +22,7 @@ public class WavesLine : WavesDrawingObject
     /// <summary>
     ///     Gets or sets dash pattern.
     /// </summary>
-    public float[] DashPattern { get; set; } = { 0, 0, 0, 0 };
+    public double[] DashPattern { get; set; } = { 0, 0, 0, 0 };
 
     /// <inheritdoc />
     public override void Draw(IWavesDrawingRenderer e)

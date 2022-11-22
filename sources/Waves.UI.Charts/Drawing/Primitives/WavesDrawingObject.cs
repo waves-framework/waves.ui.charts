@@ -22,7 +22,7 @@ public abstract class WavesDrawingObject : IWavesDrawingObject
     public double Opacity { get; set; } = 1.0f;
 
     /// <inheritdoc />
-    public float StrokeThickness { get; set; } = 1;
+    public double StrokeThickness { get; set; } = 1;
 
     /// <inheritdoc />
     public Color Fill { get; set; } = Color.Black;

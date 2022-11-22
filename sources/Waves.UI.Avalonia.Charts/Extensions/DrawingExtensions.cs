@@ -29,14 +29,4 @@ public static class DrawingExtensions
     {
         return new global::Avalonia.Point(point.X, point.Y);
     }
-
-    /// <summary>
-    /// Converts float array to double.
-    /// </summary>
-    /// <param name="array">Array.</param>
-    /// <returns>Double.</returns>
-    public static IEnumerable<double> ToDouble(this float[] array)
-    {
-        return Array.ConvertAll(array, x => (double)x);
-    }
 }

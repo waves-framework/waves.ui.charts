@@ -43,19 +43,19 @@ public partial class MainView : UserControl
                     {
                         Fill = Color.Red,
                         StrokeThickness = 2,
-                        Point1 = new Point(0, 0),
-                        Point2 = new Point(value, value),
+                        Point1 = new WavesPoint(0, 0),
+                        Point2 = new WavesPoint(value, value),
                     },
                     new WavesLine()
                     {
                         Fill = Color.Red,
                         StrokeThickness = 2,
-                        Point1 = new Point(0, value),
-                        Point2 = new Point(value, 0),
+                        Point1 = new WavesPoint(0, value),
+                        Point2 = new WavesPoint(value, 0),
                     },
                 };
 
-                Dispatcher.UIThread.InvokeAsync(() => { surface.DrawingObjects = objects; });
+                await Dispatcher.UIThread.InvokeAsync(() => { surface.DrawingObjects = objects; });
                 await Task.Delay(1);
             }
             while (true);

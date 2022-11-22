@@ -10,7 +10,7 @@ public enum WavesAxisTickOrientation
     /// </summary>
     /// <returns></returns>
     Horizontal = 0,
-    
+
     /// <summary>
     /// Vertical.
     /// </summary>

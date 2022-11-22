@@ -9,17 +9,17 @@ public enum WavesAxisTickType
     /// Primary.
     /// </summary>
     Primary = 0,
-    
+
     /// <summary>
     /// Additional.
     /// </summary>
     Additional = 1,
-    
+
     /// <summary>
     /// Zero line.
     /// </summary>
     Zero = 2,
-    
+
     /// <summary>
     /// Marker line.
     /// </summary>

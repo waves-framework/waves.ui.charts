@@ -28,7 +28,6 @@ public class WavesSurface :
             new WavesDrawingObjects(),
             true);
 
-    private readonly IWavesDrawingRenderer _renderer;
     private SkiaDrawingOperation _renderingLogic;
 
     /// <summary>
@@ -36,7 +35,7 @@ public class WavesSurface :
     /// </summary>
     public WavesSurface()
     {
-        _renderer = new AvaloniaDrawingRenderer();
+        Renderer = new AvaloniaDrawingRenderer();
 
         AffectsRender<WavesSurface>(DesiredSizeProperty);
         AffectsRender<WavesSurface>(DrawingObjectsProperty);
@@ -51,6 +50,11 @@ public class WavesSurface :
         get => GetValue(DrawingObjectsProperty);
         set => SetValue(DrawingObjectsProperty !, value);
     }
+
+    /// <summary>
+    /// Gets renderer.
+    /// </summary>
+    protected IWavesDrawingRenderer Renderer { get; }
 
     /// <inheritdoc />
     public override void Render(DrawingContext context)
@@ -70,14 +74,14 @@ public class WavesSurface :
             return;
         }
 
-        if (_renderer is SkiaDrawingRenderer)
+        if (Renderer is SkiaDrawingRenderer)
         {
             RenderSkia(context);
         }
         else
         {
             // avalonia renderer
-            _renderer.Update(context, DrawingObjects);
+            Renderer.Update(context, DrawingObjects);
         }
     }
 
@@ -106,7 +110,7 @@ public class WavesSurface :
     /// <returns>Not used.</returns>
     private object OnSkiaRendering(object canvas)
     {
-        _renderer.Update(canvas, DrawingObjects);
+        Renderer.Update(canvas, DrawingObjects);
         return true;
     }
 }

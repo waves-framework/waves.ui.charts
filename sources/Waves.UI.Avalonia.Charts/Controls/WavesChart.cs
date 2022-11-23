@@ -197,7 +197,7 @@ public class WavesChart : WavesSurface, IWavesChart
     public static readonly StyledProperty<double[]> XAxisPrimaryTicksDashArrayProperty =
         AvaloniaProperty.Register<WavesChart, double[]>(
             nameof(XAxisPrimaryTicksDashArray),
-            new double[] { 1, 1, 1, 1 });
+            new double[] { 4, 4, 4, 4 });
 
     /// <summary>
     /// Defines <see cref="XAxisAdditionalTicksDashArray"/> styled property.
@@ -205,7 +205,7 @@ public class WavesChart : WavesSurface, IWavesChart
     public static readonly StyledProperty<double[]> XAxisAdditionalTicksDashArrayProperty =
         AvaloniaProperty.Register<WavesChart, double[]>(
             nameof(XAxisAdditionalTicksDashArray),
-            new double[] { 1, 1, 1, 1 });
+            new double[] { 4, 4, 4, 4 });
 
     /// <summary>
     /// Defines <see cref="XAxisZeroLineDashArray"/> styled property.
@@ -213,7 +213,7 @@ public class WavesChart : WavesSurface, IWavesChart
     public static readonly StyledProperty<double[]> XAxisZeroLineDashArrayProperty =
         AvaloniaProperty.Register<WavesChart, double[]>(
             nameof(XAxisZeroLineDashArray),
-            new double[] { 1, 1, 1, 1 });
+            new double[] { 0, 0, 0, 0 });
 
     /// <summary>
     /// Defines <see cref="YAxisPrimaryTicksDashArray"/> styled property.
@@ -221,7 +221,7 @@ public class WavesChart : WavesSurface, IWavesChart
     public static readonly StyledProperty<double[]> YAxisPrimaryTicksDashArrayProperty =
         AvaloniaProperty.Register<WavesChart, double[]>(
             nameof(YAxisPrimaryTicksDashArray),
-            new double[] { 1, 1, 1, 1 });
+            new double[] { 4, 4, 4, 4 });
 
     /// <summary>
     /// Defines <see cref="YAxisAdditionalTicksDashArray"/> styled property.
@@ -229,7 +229,7 @@ public class WavesChart : WavesSurface, IWavesChart
     public static readonly StyledProperty<double[]> YAxisAdditionalTicksDashArrayProperty =
         AvaloniaProperty.Register<WavesChart, double[]>(
             nameof(YAxisAdditionalTicksDashArray),
-            new double[] { 1, 1, 1, 1 });
+            new double[] { 4, 4, 4, 4 });
 
     /// <summary>
     /// Defines <see cref="YAxisZeroLineDashArray"/> styled property.
@@ -237,7 +237,7 @@ public class WavesChart : WavesSurface, IWavesChart
     public static readonly StyledProperty<double[]> YAxisZeroLineDashArrayProperty =
         AvaloniaProperty.Register<WavesChart, double[]>(
             nameof(YAxisZeroLineDashArray),
-            new double[] { 1, 1, 1, 1 });
+            new double[] { 0, 0, 0, 0 });
 
     /// <summary>
     /// Defines <see cref="XAxisPrimaryTicksColor"/> styled property.
@@ -253,7 +253,7 @@ public class WavesChart : WavesSurface, IWavesChart
     public static readonly StyledProperty<WavesColor> XAxisAdditionalTicksColorProperty =
         AvaloniaProperty.Register<WavesChart, WavesColor>(
             nameof(XAxisAdditionalTicksColor),
-            WavesColor.Gray);
+            WavesColor.DarkGray);
 
     /// <summary>
     /// Defines <see cref="XAxisZeroLineColor"/> styled property.
@@ -261,7 +261,7 @@ public class WavesChart : WavesSurface, IWavesChart
     public static readonly StyledProperty<WavesColor> XAxisZeroLineColorProperty =
         AvaloniaProperty.Register<WavesChart, WavesColor>(
             nameof(XAxisZeroLineColor),
-            WavesColor.Gray);
+            WavesColor.LightGray);
 
     /// <summary>
     /// Defines <see cref="YAxisPrimaryTicksColor"/> styled property.
@@ -277,7 +277,7 @@ public class WavesChart : WavesSurface, IWavesChart
     public static readonly StyledProperty<WavesColor> YAxisAdditionalTicksColorProperty =
         AvaloniaProperty.Register<WavesChart, WavesColor>(
             nameof(YAxisAdditionalTicksColor),
-            WavesColor.Gray);
+            WavesColor.DarkGray);
 
     /// <summary>
     /// Defines <see cref="YAxisZeroLineColor"/> styled property.
@@ -285,7 +285,7 @@ public class WavesChart : WavesSurface, IWavesChart
     public static readonly StyledProperty<WavesColor> YAxisZeroLineColorProperty =
         AvaloniaProperty.Register<WavesChart, WavesColor>(
             nameof(YAxisZeroLineColor),
-            WavesColor.Gray);
+            WavesColor.LightGray);
 
     /// <summary>
     /// Defines <see cref="HasDefaultTicks"/> styled property.
@@ -595,7 +595,7 @@ public class WavesChart : WavesSurface, IWavesChart
         }
 
         this.GenerateAxisTicksDrawingObjects(_ticks, _ticksCache, Bounds.Width, Bounds.Height);
-        this.GenerateAxisSignaturesDrawingObjects(_ticks, _signaturesCache, Bounds.Width, Bounds.Height);
+        this.GenerateAxisSignaturesDrawingObjects(Renderer, _ticks, _signaturesCache, Bounds.Width, Bounds.Height);
 
         base.Refresh(context);
     }

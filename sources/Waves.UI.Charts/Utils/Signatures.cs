@@ -17,6 +17,7 @@ public static class Signatures
     /// Generates signatures drawing objects.
     /// </summary>
     /// <param name="chart">Chart.</param>
+    /// <param name="renderer">Renderer.</param>
     /// <param name="axisTicks">Axis ticks.</param>
     /// <param name="cache">Axis signatures drawing objects cache.</param>
     /// <param name="width">Width.</param>
@@ -24,6 +25,7 @@ public static class Signatures
     /// <returns>Returns cache.</returns>
     public static ICollection<IWavesDrawingObject> GenerateAxisSignaturesDrawingObjects(
         this IWavesChart chart,
+        IWavesDrawingRenderer renderer,
         List<WavesAxisTick> axisTicks,
         List<IWavesDrawingObject> cache,
         double width,
@@ -41,7 +43,7 @@ public static class Signatures
 
         cache.Clear();
 
-        var horizontalTextStyle = new WavesTextStyle();
+        var horizontalTextStyle = new WavesTextStyle() { TextAlignment = WavesTextAlignment.Center };
         var verticalTextStyle = new WavesTextStyle();
 
         foreach (var tick in axisTicks)
@@ -56,6 +58,7 @@ public static class Signatures
             {
                 case WavesAxisTickOrientation.Horizontal:
                     signature = GetXAxisSignature(
+                        renderer,
                         tick.Value,
                         tick.Description,
                         WavesColor.White,
@@ -67,6 +70,17 @@ public static class Signatures
                         height);
                     break;
                 case WavesAxisTickOrientation.Vertical:
+                    signature = GetYAxisSignature(
+                        renderer,
+                        tick.Value,
+                        tick.Description,
+                        WavesColor.White,
+                        horizontalTextStyle,
+                        1.0f,
+                        chart.XMin,
+                        chart.XMax,
+                        width,
+                        height);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -87,6 +101,7 @@ public static class Signatures
     /// <summary>
     /// Generates X axis signature.
     /// </summary>
+    /// <param name="renderer">Renderer.</param>
     /// <param name="value">Value.</param>
     /// <param name="description">Description.</param>
     /// <param name="fill">Fill.</param>
@@ -98,6 +113,7 @@ public static class Signatures
     /// <param name="height">Height.</param>
     /// <returns>Returns X axis signature drawing object.</returns>
     public static WavesText GetXAxisSignature(
+        IWavesDrawingRenderer renderer,
         double value,
         string description,
         WavesColor fill,
@@ -108,7 +124,7 @@ public static class Signatures
         double width,
         double height)
     {
-        return new WavesText
+        var obj = new WavesText
         {
             Location = new WavesPoint(Valuation.NormalizePointX2D(value, width, xMin, xMax), height),
             Style = style,
@@ -118,6 +134,52 @@ public static class Signatures
             Opacity = opacity,
             Fill = fill,
         };
+
+        var size = renderer.MeasureText(obj);
+        obj.Location = new WavesPoint(obj.Location.X - size.Width / 2, obj.Location.Y - size.Height * 2);
+        return obj;
+    }
+
+    /// <summary>
+    /// Generates Y axis signature.
+    /// </summary>
+    /// <param name="renderer">Renderer.</param>
+    /// <param name="value">Value.</param>
+    /// <param name="description">Description.</param>
+    /// <param name="fill">Fill.</param>
+    /// <param name="style">Text style.</param>
+    /// <param name="opacity">Opacity.</param>
+    /// <param name="yMin">yMin.</param>
+    /// <param name="yMax">yMax.</param>
+    /// <param name="width">Width.</param>
+    /// <param name="height">Height.</param>
+    /// <returns>Returns Y axis signature drawing object.</returns>
+    public static WavesText GetYAxisSignature(
+        IWavesDrawingRenderer renderer,
+        double value,
+        string description,
+        WavesColor fill,
+        WavesTextStyle style,
+        double opacity,
+        double yMin,
+        double yMax,
+        double width,
+        double height)
+    {
+        var obj = new WavesText
+        {
+            Location = new WavesPoint(0, Valuation.NormalizePointY2D(value, height, yMin, yMax)),
+            Style = style,
+            Value = description,
+            IsVisible = true,
+            IsAntialiased = true,
+            Opacity = opacity,
+            Fill = fill,
+        };
+
+        var size = renderer.MeasureText(obj);
+        obj.Location = new WavesPoint(obj.Location.X + size.Width, obj.Location.Y - size.Height / 2);
+        return obj;
     }
 
     // ///
@@ -166,25 +228,6 @@ public static class Signatures
     //     };
     // }
     //
-    // public static WavesText GetYAxisSignature(
-    //     double value,
-    //     string description,
-    //     TextPaint paint,
-    //     double yMin,
-    //     double yMax,
-    //     double height)
-    // {
-    //     return new WavesText
-    //     {
-    //         Location = new Point(13, Valuation.NormalizePointY2D(value, height, yMin, yMax)),
-    //         Style = paint.TextStyle,
-    //         Value = description,
-    //         IsVisible = true,
-    //         IsAntialiased = true,
-    //         Fill = paint.Fill,
-    //         Opacity = paint.Opacity
-    //     };
-    // }
     //
     // public static Rectangle GetXAxisSignatureRectangle(
     //     double value,
@@ -217,17 +260,29 @@ public static class Signatures
     //     };
     // }
     //
+
+    // /// <summary>
+    // /// Generates Y axis signature.
+    // /// </summary>
+    // /// <param name="value">Value.</param>
+    // /// <param name="description">Description.</param>
+    // /// <param name="fill">Fill.</param>
+    // /// <param name="style">Text style.</param>
+    // /// <param name="opacity">Opacity.</param>
+    // /// <param name="yMin">yMin.</param>
+    // /// <param name="yMax">yMax.</param>
+    // /// <param name="width">Width.</param>
+    // /// <param name="height">Height.</param>
+    // /// <returns>Returns Y axis signature drawing object.</returns>
     // public static Rectangle GetYAxisSignatureRectangle(
     //     double value,
-    //     Color fill,
-    //     Color stroke,
-    //     double strokeThickness,
+    //     string description,
+    //     WavesColor fill,
+    //     WavesTextStyle style,
     //     double opacity,
-    //     double cornerRadius,
-    //     double innerTextWidth,
-    //     double innerTextHeight,
     //     double yMin,
     //     double yMax,
+    //     double width,
     //     double height)
     // {
     //     return new Rectangle
@@ -246,7 +301,7 @@ public static class Signatures
     //         Opacity = opacity
     //     };
     // }
-    //
+
     // /// <summary>
     // ///     Optimizes value for view.
     // /// </summary>

@@ -33,6 +33,16 @@ public struct WavesColor
     public static readonly WavesColor Gray = FromArgb(255, 100, 100, 100);
 
     /// <summary>
+    ///     Light color.
+    /// </summary>
+    public static readonly WavesColor LightGray = FromArgb(255, 150, 150, 150);
+
+    /// <summary>
+    ///     Dark gray color.
+    /// </summary>
+    public static readonly WavesColor DarkGray = FromArgb(255, 50, 50, 50);
+
+    /// <summary>
     ///     Black color.
     /// </summary>
     public static readonly WavesColor Black = FromArgb(255, 0, 0, 0);
@@ -41,11 +51,6 @@ public struct WavesColor
     ///     Transparent color.
     /// </summary>
     public static readonly WavesColor Transparent = FromArgb(0, 0, 0, 0);
-
-    /// <summary>
-    ///     Light gray color.
-    /// </summary>
-    public static readonly WavesColor LightGray = FromHex("#d3d3d3");
 
     /// <summary>
     ///     Creates new instance of color structure.

@@ -1,7 +1,7 @@
 using System.Drawing;
 using Avalonia.Media;
 using Waves.UI.Charts.Drawing.Primitives;
-using Color = System.Drawing.Color;
+using Color = Avalonia.Media.Color;
 
 namespace Waves.UI.Avalonia.Charts.Extensions;
 
@@ -18,6 +18,16 @@ public static class DrawingExtensions
     public static SolidColorBrush ToAvaloniaSolidColorBrush(this WavesColor color)
     {
         return new SolidColorBrush(color.ToUint());
+    }
+
+    /// <summary>
+    /// Converts <see cref="Color"/> to <see cref="WavesColor"/>.
+    /// </summary>
+    /// <param name="color">Color.</param>
+    /// <returns>Return <see cref="WavesColor"/>.</returns>
+    public static WavesColor ToWavesColor(this Color color)
+    {
+        return new WavesColor(color.A, color.R, color.G, color.B);
     }
 
     /// <summary>

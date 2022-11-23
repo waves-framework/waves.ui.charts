@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using SkiaSharp;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
@@ -16,7 +15,6 @@ namespace Waves.UI.Charts.Renderer.Skia;
 /// </summary>
 public class SkiaDrawingRenderer : IWavesDrawingRenderer
 {
-    private SKSurface _surface;
     private SKCanvas _canvas;
 
     /// <inheritdoc />
@@ -75,6 +73,49 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
     }
 
     /// <inheritdoc />
+    public void Draw(WavesRectangle rectangle)
+    {
+        using (var skPaint = new SKPaint
+               {
+                   Color = rectangle.Fill.ToSkColor((float)rectangle.Opacity),
+                   IsAntialias = rectangle.IsAntialiased,
+               })
+        {
+            _canvas.DrawRoundRect(
+                (float)rectangle.Location.X,
+                (float)rectangle.Location.Y,
+                (float)rectangle.Width,
+                (float)rectangle.Height,
+                (float)rectangle.CornerRadius,
+                (float)rectangle.CornerRadius,
+                skPaint);
+        }
+
+        if (!(rectangle.StrokeThickness > 0))
+        {
+            return;
+        }
+
+        using (var skPaint = new SKPaint
+               {
+                   Color = rectangle.Stroke.ToSkColor((float)rectangle.Opacity),
+                   IsAntialias = rectangle.IsAntialiased,
+                   StrokeWidth = (float)rectangle.StrokeThickness,
+                   IsStroke = true,
+               })
+        {
+            _canvas.DrawRoundRect(
+                (float)rectangle.Location.X,
+                (float)rectangle.Location.Y,
+                (float)rectangle.Width,
+                (float)rectangle.Height,
+                (float)rectangle.CornerRadius,
+                (float)rectangle.CornerRadius,
+                skPaint);
+        }
+    }
+
+    /// <inheritdoc />
     public void Draw(WavesText text)
     {
         using var skPaint = GetSkiaTextPaint(text);
@@ -93,7 +134,7 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
     }
 
     /// <summary>
-    /// Dispose object.
+    ///     Dispose object.
     /// </summary>
     /// <param name="disposing">Disposing or not.</param>
     protected virtual void Dispose(bool disposing)

@@ -41,12 +41,12 @@ public interface IWavesDrawingRenderer : IDisposable
     // /// <param name="lines">Lines.</param>
     // void Draw(IEnumerable<WavesLine> lines);
     //
-    // /// <summary>
-    // /// Draws rectangle.
-    // /// </summary>
-    // /// <param name="rectangle">Rectangle.</param>
-    // void Draw(WavesRectangle rectangle);
-    //
+
+    /// <summary>
+    /// Draws rectangle.
+    /// </summary>
+    /// <param name="rectangle">Rectangle.</param>
+    void Draw(WavesRectangle rectangle);
 
     /// <summary>
     /// Draws text.

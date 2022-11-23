@@ -1,4 +1,5 @@
 using System.Globalization;
+using Avalonia;
 using Avalonia.Media;
 using Waves.UI.Avalonia.Charts.Extensions;
 using Waves.UI.Charts.Drawing.Interfaces;
@@ -57,6 +58,20 @@ public class AvaloniaDrawingRenderer : IWavesDrawingRenderer
         };
 
         _context.DrawLine(pen, line.Point1.ToAvaloniaPoint(), line.Point2.ToAvaloniaPoint());
+    }
+
+    /// <inheritdoc />
+    public void Draw(WavesRectangle rectangle)
+    {
+        var pen = new Pen()
+        {
+            Brush = rectangle.Stroke.ToAvaloniaSolidColorBrush(),
+            Thickness = rectangle.StrokeThickness,
+        };
+
+        var rect = new Rect(rectangle.Location.ToAvaloniaPoint(), new Size(rectangle.Width, rectangle.Height));
+
+        _context.DrawRectangle(rectangle.Fill.ToAvaloniaSolidColorBrush(), pen, rect, rectangle.CornerRadius, rectangle.CornerRadius);
     }
 
     /// <inheritdoc />

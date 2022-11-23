@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Enums;
 
 namespace Waves.UI.Charts.Drawing.Interfaces;
 
@@ -180,14 +181,29 @@ public interface IWavesChart : IWavesSurface
     public WavesColor YAxisZeroLineColor { get; set; }
 
     /// <summary>
+    /// Gets or sets text color.
+    /// </summary>
+    public WavesColor TextColor { get; set; }
+
+    /// <summary>
+    /// Gets or sets background color.
+    /// </summary>
+    public WavesColor BackgroundColor { get; set; }
+
+    /// <summary>
     /// Gets or sets font size.
     /// </summary>
     public double FontSize { get; set; }
 
-    // /// <summary>
-    // /// Gets or sets Axis ticks collection.
-    // /// </summary>
-    // ICollection<WavesAxisTick> AxisTicks { get; set; }
+    /// <summary>
+    /// Gets or sets horizontal signature alignment.
+    /// </summary>
+    public WavesAxisHorizontalSignatureAlignment HorizontalSignatureAlignment { get; set; }
+
+    /// <summary>
+    /// Gets or sets vertical signature alignment.
+    /// </summary>
+    public WavesAxisVerticalSignatureAlignment VerticalSignatureAlignment { get; set; }
 
     /// <summary>
     /// Gets or sets whether chart has default ticks or not.

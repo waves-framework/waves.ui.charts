@@ -1,12 +1,12 @@
-using System.Runtime.CompilerServices;
 using Avalonia;
 using Avalonia.Media;
+using Avalonia.Media.Immutable;
+using Waves.UI.Avalonia.Charts.Extensions;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Enums;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 using Waves.UI.Charts.Utils;
-using Color = System.Drawing.Color;
 
 namespace Waves.UI.Avalonia.Charts.Controls;
 
@@ -295,6 +295,22 @@ public class WavesChart : WavesSurface, IWavesChart
             nameof(HasDefaultTicks),
             true);
 
+    /// <summary>
+    /// Defines <see cref="HorizontalSignatureAlignment"/> styled property.
+    /// </summary>
+    public static readonly StyledProperty<WavesAxisHorizontalSignatureAlignment> HorizontalSignatureAlignmentProperty =
+        AvaloniaProperty.Register<WavesChart, WavesAxisHorizontalSignatureAlignment>(
+            nameof(HorizontalSignatureAlignment),
+            WavesAxisHorizontalSignatureAlignment.Bottom);
+
+    /// <summary>
+    /// Defines <see cref="VerticalSignatureAlignment"/> styled property.
+    /// </summary>
+    public static readonly StyledProperty<WavesAxisVerticalSignatureAlignment> VerticalSignatureAlignmentProperty =
+        AvaloniaProperty.Register<WavesChart, WavesAxisVerticalSignatureAlignment>(
+            nameof(VerticalSignatureAlignment),
+            WavesAxisVerticalSignatureAlignment.Left);
+
     private readonly List<WavesAxisTick> _ticks = new ();
     private readonly List<IWavesDrawingObject> _ticksCache = new ();
     private readonly List<IWavesDrawingObject> _signaturesCache = new ();
@@ -339,6 +355,11 @@ public class WavesChart : WavesSurface, IWavesChart
         AffectsRender<WavesChart>(YAxisPrimaryTicksColorProperty);
         AffectsRender<WavesChart>(YAxisAdditionalTicksColorProperty);
         AffectsRender<WavesChart>(YAxisZeroLineColorProperty);
+        AffectsRender<WavesChart>(HorizontalSignatureAlignmentProperty);
+        AffectsRender<WavesChart>(VerticalSignatureAlignmentProperty);
+
+        ForegroundProperty.Changed.Subscribe(OnForegroundChanged);
+        BackgroundProperty.Changed.Subscribe(OnBackgroundChanged);
     }
 
     /// <inheritdoc />
@@ -580,6 +601,26 @@ public class WavesChart : WavesSurface, IWavesChart
     }
 
     /// <inheritdoc />
+    public WavesColor TextColor { get; set; }
+
+    /// <inheritdoc />
+    public WavesColor BackgroundColor { get; set; }
+
+    /// <inheritdoc />
+    public WavesAxisHorizontalSignatureAlignment HorizontalSignatureAlignment
+    {
+        get => GetValue(HorizontalSignatureAlignmentProperty);
+        set => SetValue(HorizontalSignatureAlignmentProperty, value);
+    }
+
+    /// <inheritdoc />
+    public WavesAxisVerticalSignatureAlignment VerticalSignatureAlignment
+    {
+        get => GetValue(VerticalSignatureAlignmentProperty);
+        set => SetValue(VerticalSignatureAlignmentProperty, value);
+    }
+
+    /// <inheritdoc />
     public bool HasDefaultTicks
     {
         get => GetValue(HasDefaultTicksProperty);
@@ -594,9 +635,73 @@ public class WavesChart : WavesSurface, IWavesChart
             HasDefaultTicks = this.GenerateDefaultTicks(_ticks);
         }
 
-        this.GenerateAxisTicksDrawingObjects(_ticks, _ticksCache, Bounds.Width, Bounds.Height);
-        this.GenerateAxisSignaturesDrawingObjects(Renderer, _ticks, _signaturesCache, Bounds.Width, Bounds.Height);
+        // generate axis ticks
+        this.GenerateAxisTicksDrawingObjects(
+            _ticks,
+            _ticksCache,
+            Bounds.Width,
+            Bounds.Height);
+
+        // generate signatures
+        this.GenerateAxisSignaturesDrawingObjects(
+            Renderer,
+            _ticks,
+            _signaturesCache,
+            Bounds.Width,
+            Bounds.Height,
+            TextColor,
+            BackgroundColor,
+            HorizontalSignatureAlignment,
+            VerticalSignatureAlignment);
 
         base.Refresh(context);
+    }
+
+    /// <summary>
+    /// Gets color.
+    /// </summary>
+    /// <param name="brush">Brush.</param>
+    /// <returns>Waves color.</returns>
+    private static WavesColor GetWavesColor(IBrush brush)
+    {
+        if (brush is SolidColorBrush solidColorBrush)
+        {
+            var color = solidColorBrush.Color;
+            return color.ToWavesColor();
+        }
+
+        if (brush is ImmutableSolidColorBrush immutableSolidColorBrush)
+        {
+            var color = immutableSolidColorBrush.Color;
+            return color.ToWavesColor();
+        }
+
+        return WavesColor.Transparent;
+    }
+
+    /// <summary>
+    /// On foreground changed.
+    /// </summary>
+    /// <param name="obj">Obj.</param>
+    private void OnForegroundChanged(AvaloniaPropertyChangedEventArgs<IBrush?> obj)
+    {
+        var newValue = obj.NewValue.Value;
+        if (newValue != null)
+        {
+            TextColor = GetWavesColor(newValue);
+        }
+    }
+
+    /// <summary>
+    /// On background changed.
+    /// </summary>
+    /// <param name="obj">Obj.</param>
+    private void OnBackgroundChanged(AvaloniaPropertyChangedEventArgs<IBrush?> obj)
+    {
+        var newValue = obj.NewValue.Value;
+        if (newValue != null)
+        {
+            BackgroundColor = GetWavesColor(newValue);
+        }
     }
 }

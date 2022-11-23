@@ -1,28 +1,85 @@
+using System;
+
 namespace Waves.UI.Charts.Drawing.Primitives;
 
 /// <summary>
-/// Waves point.
+///     Waves point.
 /// </summary>
 public struct WavesPoint
 {
     /// <summary>
-    /// Creates new instance of <see cref="WavesPoint"/>.
+    ///     X coordinate.
     /// </summary>
-    /// <param name="x">X.</param>
-    /// <param name="y">Y.</param>
-    public WavesPoint(double x, double y)
+    public double X { get; set; }
+
+    /// <summary>
+    ///     Y coordinate.
+    /// </summary>
+    public double Y { get; set; }
+
+    /// <summary>
+    ///     The length of the vector.
+    /// </summary>
+    public double Length => Math.Sqrt(SquaredLength);
+
+    /// <summary>
+    ///     The squared length of the vector. Useful for optimi.
+    /// </summary>
+    public double SquaredLength => X * X + Y * Y;
+
+    /// <summary>
+    ///     The absolute angle of the vector.
+    /// </summary>
+    public double Angle => Math.Atan2(Y, X);
+
+    /// <summary>
+    ///     Main Constructor.
+    /// </summary>
+    /// <param name="xValue">The x value of the vector. </param>
+    /// <param name="yValue">The y value of the vector. </param>
+    public WavesPoint(double xValue, double yValue)
+        : this()
     {
-        X = x;
-        Y = y;
+        X = xValue;
+        Y = yValue;
     }
 
     /// <summary>
-    /// Gets X value.
+    ///     Overrides the Equals method to provice better equality for vectors.
     /// </summary>
-    public double X { get; }
+    /// <param name="obj">The object to test equality against.</param>
+    /// <returns>Whether the objects are equal. </returns>
+    public override bool Equals(object obj)
+    {
+        if (ReferenceEquals(obj, null))
+        {
+            return false;
+        }
+
+        if (GetType() != obj.GetType())
+        {
+            return false;
+        }
+
+        var other = (WavesPoint)obj;
+        return Math.Abs(X - other.X) < double.Epsilon && Math.Abs(Y - other.Y) < double.Epsilon;
+    }
 
     /// <summary>
-    /// Gets y value.
+    ///     Overrides the hashcode.
     /// </summary>
-    public double Y { get; }
+    /// <returns>The hashcode for the vector.</returns>
+    public override int GetHashCode()
+    {
+        return X.GetHashCode() ^ Y.GetHashCode();
+    }
+
+    /// <summary>
+    ///     ToString method overriden for easy printing/debugging.
+    /// </summary>
+    /// <returns>The string representation of the vector.</returns>
+    public override string ToString()
+    {
+        return "(" + X + ", " + Y + ")";
+    }
 }

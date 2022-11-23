@@ -15,6 +15,173 @@ namespace Waves.UI.Charts.Utils;
 public static class Ticks
 {
     /// <summary>
+    /// Generates ticks drawing objects.
+    /// </summary>
+    /// <param name="chart">Chart.</param>
+    /// <param name="ticks">Ticks.</param>
+    /// <param name="cache">Axis ticks drawing objects cache.</param>
+    /// <param name="width">Width.</param>
+    /// <param name="height">Height.</param>
+    /// <returns>Returns cache.</returns>
+    public static ICollection<IWavesDrawingObject> GenerateAxisTicksDrawingObjects(
+        this IWavesChart chart,
+        List<WavesAxisTick> ticks,
+        List<IWavesDrawingObject> cache,
+        double width,
+        double height)
+    {
+        if (chart.DrawingObjects is null)
+        {
+            throw new Exception("Collection of drawing object has not been initialized.");
+        }
+
+        foreach (var obj in cache)
+        {
+            chart.DrawingObjects.Remove(obj);
+        }
+
+        cache.Clear();
+
+        foreach (var tick in ticks)
+        {
+            if (tick.Orientation == WavesAxisTickOrientation.Horizontal)
+            {
+                if (tick.Type == WavesAxisTickType.Primary)
+                {
+                    if (!chart.IsXAxisPrimaryTicksVisible)
+                    {
+                        continue;
+                    }
+
+                    var obj = Ticks.GetXAxisTickLine(
+                        tick.Value,
+                        chart.XAxisPrimaryTickThickness,
+                        chart.XAxisPrimaryTicksColor,
+                        chart.XAxisPrimaryTicksDashArray,
+                        0.5f,
+                        chart.XMin,
+                        chart.XMax,
+                        width,
+                        height);
+
+                    chart.DrawingObjects.Add(obj);
+                    cache.Add(obj);
+                }
+                else if (tick.Type == WavesAxisTickType.Additional)
+                {
+                    if (!chart.IsXAxisAdditionalTicksVisible)
+                    {
+                        continue;
+                    }
+
+                    var obj = Ticks.GetXAxisTickLine(
+                        tick.Value,
+                        chart.XAxisAdditionalTickThickness,
+                        chart.XAxisAdditionalTicksColor,
+                        chart.XAxisAdditionalTicksDashArray,
+                        0.25f,
+                        chart.XMin,
+                        chart.XMax,
+                        width,
+                        height);
+
+                    chart.DrawingObjects.Add(obj);
+                    cache.Add(obj);
+                }
+                else if (tick.Type == WavesAxisTickType.Zero)
+                {
+                    if (!chart.IsXAxisZeroLineVisible)
+                    {
+                        continue;
+                    }
+
+                    var obj = Ticks.GetXAxisTickLine(
+                        tick.Value,
+                        chart.XAxisZeroLineThickness,
+                        chart.XAxisZeroLineColor,
+                        chart.XAxisZeroLineDashArray,
+                        1f,
+                        chart.XMin,
+                        chart.XMax,
+                        width,
+                        height);
+
+                    chart.DrawingObjects.Add(obj);
+                    cache.Add(obj);
+                }
+            }
+            else if (tick.Orientation == WavesAxisTickOrientation.Vertical)
+            {
+                if (tick.Type == WavesAxisTickType.Primary)
+                {
+                    if (!chart.IsYAxisPrimaryTicksVisible)
+                    {
+                        continue;
+                    }
+
+                    var obj = Ticks.GetYAxisTickLine(
+                        tick.Value,
+                        chart.YAxisPrimaryTickThickness,
+                        chart.YAxisPrimaryTicksColor,
+                        chart.YAxisPrimaryTicksDashArray,
+                        0.5f,
+                        chart.YMin,
+                        chart.YMax,
+                        width,
+                        height);
+
+                    chart.DrawingObjects.Add(obj);
+                    cache.Add(obj);
+                }
+                else if (tick.Type == WavesAxisTickType.Additional)
+                {
+                    if (!chart.IsYAxisAdditionalTicksVisible)
+                    {
+                        continue;
+                    }
+
+                    var obj = Ticks.GetYAxisTickLine(
+                        tick.Value,
+                        chart.YAxisAdditionalTickThickness,
+                        chart.YAxisAdditionalTicksColor,
+                        chart.YAxisAdditionalTicksDashArray,
+                        0.25f,
+                        chart.YMin,
+                        chart.YMax,
+                        width,
+                        height);
+
+                    chart.DrawingObjects.Add(obj);
+                    cache.Add(obj);
+                }
+                else if (tick.Type == WavesAxisTickType.Zero)
+                {
+                    if (!chart.IsYAxisZeroLineVisible)
+                    {
+                        continue;
+                    }
+
+                    var obj = Ticks.GetYAxisTickLine(
+                        tick.Value,
+                        chart.YAxisZeroLineThickness,
+                        chart.YAxisZeroLineColor,
+                        chart.YAxisZeroLineDashArray,
+                        1f,
+                        chart.YMin,
+                        chart.YMax,
+                        width,
+                        height);
+
+                    chart.DrawingObjects.Add(obj);
+                    cache.Add(obj);
+                }
+            }
+        }
+
+        return cache;
+    }
+
+    /// <summary>
     /// Generates axis ticks.
     /// </summary>
     /// <param name="ticks">Input ticks.</param>
@@ -198,25 +365,21 @@ public static class Ticks
     /// Generates default ticks.
     /// </summary>
     /// <param name="chart">Chart.</param>
+    /// <param name="ticks">Ticks.</param>
     /// <returns>Returns true.</returns>
-    public static bool GenerateDefaultTicks(this IWavesChart chart)
+    public static bool GenerateDefaultTicks(this IWavesChart chart, List<WavesAxisTick> ticks)
     {
-        chart.AxisTicks?.Clear();
-        chart.AxisTicks ??= new List<WavesAxisTick>();
+        ticks?.Clear();
+        ticks ??= new List<WavesAxisTick>();
 
-        if (chart.AxisTicks is not List<WavesAxisTick> axisTicks)
-        {
-            throw new Exception("Axis ticks must be type of List");
-        }
-
-        axisTicks.GenerateAxisTicks(
+        ticks.GenerateAxisTicks(
             chart.XMin,
             chart.XMax,
             chart.XAxisPrimaryTicksNumber,
             chart.XAxisAdditionalTicksNumber,
             WavesAxisTickOrientation.Horizontal);
 
-        axisTicks.GenerateAxisTicks(
+        ticks.GenerateAxisTicks(
             chart.YMin,
             chart.YMax,
             chart.YAxisPrimaryTicksNumber,
@@ -224,170 +387,5 @@ public static class Ticks
             WavesAxisTickOrientation.Vertical);
 
         return true;
-    }
-
-    /// <summary>
-    /// Generates ticks drawing objects.
-    /// </summary>
-    /// <param name="chart">Chart.</param>
-    /// <param name="cache">Axis ticks drawing objects cache.</param>
-    /// <param name="width">Width.</param>
-    /// <param name="height">Height.</param>
-    /// <returns>Returns cache.</returns>
-    public static List<IWavesDrawingObject> GenerateAxisTicksDrawingObjects(
-        this IWavesChart chart,
-        List<IWavesDrawingObject> cache,
-        double width,
-        double height)
-    {
-        if (chart.DrawingObjects is null)
-        {
-            throw new Exception("Collection of drawing object has not been initialized.");
-        }
-        
-        foreach (var obj in cache)
-        {
-            chart.DrawingObjects.Remove(obj);
-        }
-
-        cache.Clear();
-
-        foreach (var tick in chart.AxisTicks)
-        {
-            if (tick.Orientation == WavesAxisTickOrientation.Horizontal)
-            {
-                if (tick.Type == WavesAxisTickType.Primary)
-                {
-                    if (!chart.IsXAxisPrimaryTicksVisible)
-                    {
-                        continue;
-                    }
-
-                    var obj = Ticks.GetXAxisTickLine(
-                        tick.Value,
-                        chart.XAxisPrimaryTickThickness,
-                        chart.XAxisPrimaryTicksColor,
-                        chart.XAxisPrimaryTicksDashArray,
-                        0.5f,
-                        chart.XMin,
-                        chart.XMax,
-                        width,
-                        height);
-
-                    chart.DrawingObjects.Add(obj);
-                    cache.Add(obj);
-                }
-                else if (tick.Type == WavesAxisTickType.Additional)
-                {
-                    if (!chart.IsXAxisAdditionalTicksVisible)
-                    {
-                        continue;
-                    }
-
-                    var obj = Ticks.GetXAxisTickLine(
-                        tick.Value,
-                        chart.XAxisAdditionalTickThickness,
-                        chart.XAxisAdditionalTicksColor,
-                        chart.XAxisAdditionalTicksDashArray,
-                        0.25f,
-                        chart.XMin,
-                        chart.XMax,
-                        width,
-                        height);
-
-                    chart.DrawingObjects.Add(obj);
-                    cache.Add(obj);
-                }
-                else if (tick.Type == WavesAxisTickType.Zero)
-                {
-                    if (!chart.IsXAxisZeroLineVisible)
-                    {
-                        continue;
-                    }
-
-                    var obj = Ticks.GetXAxisTickLine(
-                        tick.Value,
-                        chart.XAxisZeroLineThickness,
-                        chart.XAxisZeroLineColor,
-                        chart.XAxisZeroLineDashArray,
-                        1f,
-                        chart.XMin,
-                        chart.XMax,
-                        width,
-                        height);
-
-                    chart.DrawingObjects.Add(obj);
-                    cache.Add(obj);
-                }
-            }
-            else if (tick.Orientation == WavesAxisTickOrientation.Vertical)
-            {
-                if (tick.Type == WavesAxisTickType.Primary)
-                {
-                    if (!chart.IsYAxisPrimaryTicksVisible)
-                    {
-                        continue;
-                    }
-
-                    var obj = Ticks.GetYAxisTickLine(
-                        tick.Value,
-                        chart.YAxisPrimaryTickThickness,
-                        chart.YAxisPrimaryTicksColor,
-                        chart.YAxisPrimaryTicksDashArray,
-                        0.5f,
-                        chart.YMin,
-                        chart.YMax,
-                        width,
-                        height);
-
-                    chart.DrawingObjects.Add(obj);
-                    cache.Add(obj);
-                }
-                else if (tick.Type == WavesAxisTickType.Additional)
-                {
-                    if (!chart.IsYAxisAdditionalTicksVisible)
-                    {
-                        continue;
-                    }
-
-                    var obj = Ticks.GetYAxisTickLine(
-                        tick.Value,
-                        chart.YAxisAdditionalTickThickness,
-                        chart.YAxisAdditionalTicksColor,
-                        chart.YAxisAdditionalTicksDashArray,
-                        0.25f,
-                        chart.YMin,
-                        chart.YMax,
-                        width,
-                        height);
-
-                    chart.DrawingObjects.Add(obj);
-                    cache.Add(obj);
-                }
-                else if (tick.Type == WavesAxisTickType.Zero)
-                {
-                    if (!chart.IsYAxisZeroLineVisible)
-                    {
-                        continue;
-                    }
-
-                    var obj = Ticks.GetYAxisTickLine(
-                        tick.Value,
-                        chart.YAxisZeroLineThickness,
-                        chart.YAxisZeroLineColor,
-                        chart.YAxisZeroLineDashArray,
-                        1f,
-                        chart.YMin,
-                        chart.YMax,
-                        width,
-                        height);
-
-                    chart.DrawingObjects.Add(obj);
-                    cache.Add(obj);
-                }
-            }
-        }
-
-        return cache;
     }
 }

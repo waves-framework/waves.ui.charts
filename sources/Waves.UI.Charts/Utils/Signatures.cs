@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Enums;
@@ -23,7 +22,7 @@ public static class Signatures
     /// <param name="width">Width.</param>
     /// <param name="height">Height.</param>
     /// <returns>Returns cache.</returns>
-    public static List<IWavesDrawingObject> GenerateAxisSignaturesDrawingObjects(
+    public static ICollection<IWavesDrawingObject> GenerateAxisSignaturesDrawingObjects(
         this IWavesChart chart,
         List<WavesAxisTick> axisTicks,
         List<IWavesDrawingObject> cache,
@@ -34,7 +33,7 @@ public static class Signatures
         {
             throw new Exception("Collection of drawing object has not been initialized.");
         }
-        
+
         foreach (var obj in cache)
         {
             chart.DrawingObjects.Remove(obj);
@@ -42,42 +41,86 @@ public static class Signatures
 
         cache.Clear();
 
+        var horizontalTextStyle = new WavesTextStyle();
+        var verticalTextStyle = new WavesTextStyle();
+
         foreach (var tick in axisTicks)
         {
             if (tick.Type is WavesAxisTickType.Additional)
             {
                 continue;
             }
-            
-            
+
+            WavesText signature = null;
+            switch (tick.Orientation)
+            {
+                case WavesAxisTickOrientation.Horizontal:
+                    signature = GetXAxisSignature(
+                        tick.Value,
+                        tick.Description,
+                        Color.White,
+                        horizontalTextStyle,
+                        1.0f,
+                        chart.XMin,
+                        chart.XMax,
+                        width,
+                        height);
+                    break;
+                case WavesAxisTickOrientation.Vertical:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            if (signature == null)
+            {
+                continue;
+            }
+
+            chart.DrawingObjects.Add(signature);
+            cache.Add(signature);
         }
 
         return cache;
     }
-    
-    // public static WavesText GetXAxisSignature(
-    //     double value,
-    //     string description,
-    //     Color fill,
-    //     WavesTextStyle style,
-    //     double opacity,
-    //     double xMin,
-    //     double xMax,
-    //     double width,
-    //     double height)
-    // {
-    //     return new WavesText
-    //     {
-    //         Location = new WavesPoint(Valuation.NormalizePointX2D(value, width, xMin, xMax), height),
-    //         Style = style,
-    //         Value = description,
-    //         IsVisible = true,
-    //         IsAntialiased = true,
-    //         Opacity = opacity,
-    //         Fill = fill
-    //     };
-    // }
-    //
+
+    /// <summary>
+    /// Generates X axis signature.
+    /// </summary>
+    /// <param name="value">Value.</param>
+    /// <param name="description">Description.</param>
+    /// <param name="fill">Fill.</param>
+    /// <param name="style">Text style.</param>
+    /// <param name="opacity">Opacity.</param>
+    /// <param name="xMin">xMin.</param>
+    /// <param name="xMax">xMax.</param>
+    /// <param name="width">Width.</param>
+    /// <param name="height">Height.</param>
+    /// <returns>Returns X axis signature drawing object.</returns>
+    public static WavesText GetXAxisSignature(
+        double value,
+        string description,
+        Color fill,
+        WavesTextStyle style,
+        double opacity,
+        double xMin,
+        double xMax,
+        double width,
+        double height)
+    {
+        return new WavesText
+        {
+            Location = new WavesPoint(Valuation.NormalizePointX2D(value, width, xMin, xMax), height),
+            Style = style,
+            Value = description,
+            IsVisible = true,
+            IsAntialiased = true,
+            Opacity = opacity,
+            Fill = fill,
+        };
+    }
+
+    // ///
     // public static WavesText GetXAxisSignature(
     //     double value,
     //     string description,

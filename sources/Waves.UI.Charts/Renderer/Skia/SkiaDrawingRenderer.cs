@@ -81,6 +81,12 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
         _canvas.DrawText(text.Value, text.Location.ToSkPoint(), skPaint);
     }
 
+    /// <inheritdoc />
+    public WavesSize MeasureText(string text, IWavesTextStyle style)
+    {
+        throw new NotImplementedException();
+    }
+
     /// <summary>
     /// Dispose object.
     /// </summary>

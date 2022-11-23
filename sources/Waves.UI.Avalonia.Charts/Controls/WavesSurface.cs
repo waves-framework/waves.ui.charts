@@ -36,7 +36,7 @@ public class WavesSurface :
     /// </summary>
     public WavesSurface()
     {
-        _renderer = new AvaloniaDrawingRenderer();
+        _renderer = new SkiaDrawingRenderer();
 
         AffectsRender<WavesSurface>(DesiredSizeProperty);
         AffectsRender<WavesSurface>(DrawingObjectsProperty);

@@ -60,11 +60,12 @@ public interface IWavesDrawingRenderer : IDisposable
     // /// <param name="image">Image.</param>
     // void Draw(WavesImage image);
     //
-    // /// <summary>
-    // ///     Measures text size.
-    // /// </summary>
-    // /// <param name="text">Text.</param>
-    // /// <param name="paint">Paint.</param>
-    // /// <returns>Text's size.</returns>
-    // WavesSize MeasureText(string text, IWavesTextPaint paint);
+    
+    /// <summary>
+    ///     Measures text size.
+    /// </summary>
+    /// <param name="text">Text.</param>
+    /// <param name="style">Style.</param>
+    /// <returns>Text's size.</returns>
+    WavesSize MeasureText(string text, IWavesTextStyle style);
 }

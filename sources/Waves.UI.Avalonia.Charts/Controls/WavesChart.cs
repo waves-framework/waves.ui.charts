@@ -287,13 +287,13 @@ public class WavesChart : WavesSurface, IWavesChart
             nameof(YAxisZeroLineColor),
             Color.Gray);
 
-    /// <summary>
-    /// Defines <see cref="AxisTicks"/> styled property.
-    /// </summary>
-    public static readonly StyledProperty<ICollection<WavesAxisTick>> AxisTicksProperty =
-        AvaloniaProperty.Register<WavesChart, ICollection<WavesAxisTick>>(
-            nameof(AxisTicks),
-            new List<WavesAxisTick>());
+    // /// <summary>
+    // /// Defines <see cref="AxisTicks"/> styled property.
+    // /// </summary>
+    // public static readonly StyledProperty<ICollection<WavesAxisTick>> AxisTicksProperty =
+    //     AvaloniaProperty.Register<WavesChart, ICollection<WavesAxisTick>>(
+    //         nameof(AxisTicks),
+    //         new List<WavesAxisTick>());
 
     /// <summary>
     /// Defines <see cref="HasDefaultTicks"/> styled property.
@@ -303,8 +303,9 @@ public class WavesChart : WavesSurface, IWavesChart
             nameof(HasDefaultTicks),
             true);
 
-    private readonly List<IWavesDrawingObject> _axisTicksDrawingObjects = new ();
-    private List<WavesAxisTick> _axisTicks;
+    private readonly List<WavesAxisTick> _ticks = new ();
+    private readonly List<IWavesDrawingObject> _ticksCache = new ();
+    private readonly List<IWavesDrawingObject> _signaturesCache = new ();
 
     /// <summary>
     /// Creates new instance of <see cref="WavesChart"/>.
@@ -586,16 +587,12 @@ public class WavesChart : WavesSurface, IWavesChart
         set => SetValue(YAxisZeroLineColorProperty, value);
     }
 
-    /// <inheritdoc />
-    public ICollection<WavesAxisTick> AxisTicks
-    {
-        get => GetValue(AxisTicksProperty);
-        set
-        {
-            _axisTicks = value.ToList();
-            SetValue(AxisTicksProperty, value);
-        }
-    }
+    // /// <inheritdoc />
+    // public ICollection<WavesAxisTick> AxisTicks
+    // {
+    //     get => GetValue(AxisTicksProperty);
+    //     set => SetValue(AxisTicksProperty, value);
+    // }
 
     /// <inheritdoc />
     public bool HasDefaultTicks
@@ -609,11 +606,11 @@ public class WavesChart : WavesSurface, IWavesChart
     {
         if (HasDefaultTicks)
         {
-            HasDefaultTicks = this.GenerateDefaultTicks();
+            HasDefaultTicks = this.GenerateDefaultTicks(_ticks);
         }
 
-        this.GenerateAxisTicksDrawingObjects(_axisTicksDrawingObjects, Bounds.Width, Bounds.Height);
-        this.GenerateAxisSignaturesDrawingObjects(_axisTicks, _axisTicksDrawingObjects, Bounds.Width, Bounds.Height);
+        this.GenerateAxisTicksDrawingObjects(_ticks, _ticksCache, Bounds.Width, Bounds.Height);
+        this.GenerateAxisSignaturesDrawingObjects(_ticks, _signaturesCache, Bounds.Width, Bounds.Height);
 
         base.Refresh(context);
     }

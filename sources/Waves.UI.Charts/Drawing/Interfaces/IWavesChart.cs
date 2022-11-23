@@ -184,10 +184,10 @@ public interface IWavesChart : IWavesSurface
     /// </summary>
     public double FontSize { get; set; }
 
-    /// <summary>
-    /// Gets or sets Axis ticks collection.
-    /// </summary>
-    ICollection<WavesAxisTick> AxisTicks { get; set; }
+    // /// <summary>
+    // /// Gets or sets Axis ticks collection.
+    // /// </summary>
+    // ICollection<WavesAxisTick> AxisTicks { get; set; }
 
     /// <summary>
     /// Gets or sets whether chart has default ticks or not.

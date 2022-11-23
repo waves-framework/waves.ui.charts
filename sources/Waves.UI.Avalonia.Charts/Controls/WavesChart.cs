@@ -613,7 +613,7 @@ public class WavesChart : WavesSurface, IWavesChart
         }
 
         this.GenerateAxisTicksDrawingObjects(_axisTicksDrawingObjects, Bounds.Width, Bounds.Height);
-        //// GenerateAxisTicksSignaturesDrawingObjects();
+        this.GenerateAxisSignaturesDrawingObjects(_axisTicks, _axisTicksDrawingObjects, Bounds.Width, Bounds.Height);
 
         base.Refresh(context);
     }

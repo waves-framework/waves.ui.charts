@@ -230,13 +230,13 @@ public static class Ticks
     /// Generates ticks drawing objects.
     /// </summary>
     /// <param name="chart">Chart.</param>
-    /// <param name="axisTicksObjectsCache">Axis ticks drawing objects cache.</param>
+    /// <param name="cache">Axis ticks drawing objects cache.</param>
     /// <param name="width">Width.</param>
     /// <param name="height">Height.</param>
     /// <returns>Returns cache.</returns>
     public static List<IWavesDrawingObject> GenerateAxisTicksDrawingObjects(
         this IWavesChart chart,
-        List<IWavesDrawingObject> axisTicksObjectsCache,
+        List<IWavesDrawingObject> cache,
         double width,
         double height)
     {
@@ -245,12 +245,12 @@ public static class Ticks
             throw new Exception("Collection of drawing object has not been initialized.");
         }
         
-        foreach (var obj in axisTicksObjectsCache)
+        foreach (var obj in cache)
         {
             chart.DrawingObjects.Remove(obj);
         }
 
-        axisTicksObjectsCache.Clear();
+        cache.Clear();
 
         foreach (var tick in chart.AxisTicks)
         {
@@ -275,7 +275,7 @@ public static class Ticks
                         height);
 
                     chart.DrawingObjects.Add(obj);
-                    axisTicksObjectsCache.Add(obj);
+                    cache.Add(obj);
                 }
                 else if (tick.Type == WavesAxisTickType.Additional)
                 {
@@ -296,7 +296,7 @@ public static class Ticks
                         height);
 
                     chart.DrawingObjects.Add(obj);
-                    axisTicksObjectsCache.Add(obj);
+                    cache.Add(obj);
                 }
                 else if (tick.Type == WavesAxisTickType.Zero)
                 {
@@ -317,7 +317,7 @@ public static class Ticks
                         height);
 
                     chart.DrawingObjects.Add(obj);
-                    axisTicksObjectsCache.Add(obj);
+                    cache.Add(obj);
                 }
             }
             else if (tick.Orientation == WavesAxisTickOrientation.Vertical)
@@ -341,7 +341,7 @@ public static class Ticks
                         height);
 
                     chart.DrawingObjects.Add(obj);
-                    axisTicksObjectsCache.Add(obj);
+                    cache.Add(obj);
                 }
                 else if (tick.Type == WavesAxisTickType.Additional)
                 {
@@ -362,7 +362,7 @@ public static class Ticks
                         height);
 
                     chart.DrawingObjects.Add(obj);
-                    axisTicksObjectsCache.Add(obj);
+                    cache.Add(obj);
                 }
                 else if (tick.Type == WavesAxisTickType.Zero)
                 {
@@ -383,11 +383,11 @@ public static class Ticks
                         height);
 
                     chart.DrawingObjects.Add(obj);
-                    axisTicksObjectsCache.Add(obj);
+                    cache.Add(obj);
                 }
             }
         }
 
-        return axisTicksObjectsCache;
+        return cache;
     }
 }

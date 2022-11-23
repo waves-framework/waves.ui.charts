@@ -1,7 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Enums;
+using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 
 namespace Waves.UI.Charts.Utils;
 
@@ -10,6 +14,47 @@ namespace Waves.UI.Charts.Utils;
 /// </summary>
 public static class Signatures
 {
+    /// <summary>
+    /// Generates signatures drawing objects.
+    /// </summary>
+    /// <param name="chart">Chart.</param>
+    /// <param name="axisTicks">Axis ticks.</param>
+    /// <param name="cache">Axis signatures drawing objects cache.</param>
+    /// <param name="width">Width.</param>
+    /// <param name="height">Height.</param>
+    /// <returns>Returns cache.</returns>
+    public static List<IWavesDrawingObject> GenerateAxisSignaturesDrawingObjects(
+        this IWavesChart chart,
+        List<WavesAxisTick> axisTicks,
+        List<IWavesDrawingObject> cache,
+        double width,
+        double height)
+    {
+        if (chart.DrawingObjects is null)
+        {
+            throw new Exception("Collection of drawing object has not been initialized.");
+        }
+        
+        foreach (var obj in cache)
+        {
+            chart.DrawingObjects.Remove(obj);
+        }
+
+        cache.Clear();
+
+        foreach (var tick in axisTicks)
+        {
+            if (tick.Type is WavesAxisTickType.Additional)
+            {
+                continue;
+            }
+            
+            
+        }
+
+        return cache;
+    }
+    
     // public static WavesText GetXAxisSignature(
     //     double value,
     //     string description,

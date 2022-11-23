@@ -22,7 +22,7 @@ public class AvaloniaDrawingRenderer : IWavesDrawingRenderer
     }
 
     /// <inheritdoc />
-    public void Update(object element, IEnumerable<IWavesDrawingObject> objects)
+    public void Update(object element, IEnumerable<IWavesDrawingObject> objects, WavesColor background)
     {
         if (element is not DrawingContext context)
         {
@@ -34,7 +34,7 @@ public class AvaloniaDrawingRenderer : IWavesDrawingRenderer
             _context = context;
         }
 
-        _context.PlatformImpl.Clear(Color.FromArgb(0, 0, 0, 0));
+        _context.PlatformImpl.Clear(background.ToAvaloniaColor());
 
         if (objects == null)
         {

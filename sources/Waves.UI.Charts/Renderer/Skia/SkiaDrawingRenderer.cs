@@ -25,7 +25,7 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
     }
 
     /// <inheritdoc />
-    public void Update(object element, IEnumerable<IWavesDrawingObject> objects)
+    public void Update(object element, IEnumerable<IWavesDrawingObject> objects, WavesColor background)
     {
         if (element is not SKCanvas canvas)
         {
@@ -37,7 +37,7 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
             _canvas = canvas;
         }
 
-        _canvas.Clear(new SKColor(0, 0, 0, 255));
+        _canvas.Clear(background.ToSkColor());
 
         if (objects == null)
         {

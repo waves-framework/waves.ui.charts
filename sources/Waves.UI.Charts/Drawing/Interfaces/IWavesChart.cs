@@ -71,6 +71,26 @@ public interface IWavesChart : IWavesSurface
     public double YMax { get; set; }
 
     /// <summary>
+    /// Gets or sets current X min.
+    /// </summary>
+    public double CurrentXMin { get; set; }
+
+    /// <summary>
+    /// Gets or sets current X max.
+    /// </summary>
+    public double CurrentXMax { get; set; }
+
+    /// <summary>
+    /// Gets or sets current Y min.
+    /// </summary>
+    public double CurrentYMin { get; set; }
+
+    /// <summary>
+    /// Gets or sets current Y max.
+    /// </summary>
+    public double CurrentYMax { get; set; }
+
+    /// <summary>
     /// Gets or sets X axis primary ticks number.
     /// </summary>
     public int XAxisPrimaryTicksNumber { get; set; }

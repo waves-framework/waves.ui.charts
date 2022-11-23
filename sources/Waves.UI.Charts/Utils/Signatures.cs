@@ -22,10 +22,6 @@ public static class Signatures
     /// <param name="cache">Axis signatures drawing objects cache.</param>
     /// <param name="width">Width.</param>
     /// <param name="height">Height.</param>
-    /// <param name="textColor">Text color.</param>
-    /// <param name="backgroundColor">Background color.</param>
-    /// <param name="horizontalSignatureAlignment">Horizontal signature alignment.</param>
-    /// <param name="verticalSignatureAlignment">Vertical signature alignment,</param>
     /// <returns>Returns cache.</returns>
     public static ICollection<IWavesDrawingObject> GenerateAxisSignaturesDrawingObjects(
         this IWavesChart chart,
@@ -33,11 +29,7 @@ public static class Signatures
         List<WavesAxisTick> axisTicks,
         List<IWavesDrawingObject> cache,
         double width,
-        double height,
-        WavesColor textColor,
-        WavesColor backgroundColor,
-        WavesAxisHorizontalSignatureAlignment horizontalSignatureAlignment,
-        WavesAxisVerticalSignatureAlignment verticalSignatureAlignment)
+        double height)
     {
         if (chart.DrawingObjects is null)
         {
@@ -71,46 +63,46 @@ public static class Signatures
                         renderer,
                         tick.Value,
                         tick.Description,
-                        textColor,
+                        chart.TextColor,
                         horizontalTextStyle,
                         chart.XMin,
                         chart.XMax,
                         width,
                         height,
-                        horizontalSignatureAlignment);
+                        chart.HorizontalSignatureAlignment);
                     rectangle = GetXAxisSignatureRectangle(
                         tick.Value,
-                        backgroundColor,
-                        textColor,
+                        chart.BackgroundColor,
+                        chart.TextColor,
                         chart.XMin,
                         chart.XMax,
                         width,
                         height,
                         size,
-                        horizontalSignatureAlignment);
+                        chart.HorizontalSignatureAlignment);
                     break;
                 case WavesAxisTickOrientation.Vertical:
                     (signature, size) = GetYAxisSignature(
                         renderer,
                         tick.Value,
                         tick.Description,
-                        textColor,
+                        chart.TextColor,
                         verticalTextStyle,
                         chart.YMin,
                         chart.YMax,
                         width,
                         height,
-                        verticalSignatureAlignment);
+                        chart.VerticalSignatureAlignment);
                     rectangle = GetYAxisSignatureRectangle(
                         tick.Value,
-                        backgroundColor,
-                        textColor,
+                        chart.BackgroundColor,
+                        chart.TextColor,
                         chart.YMin,
                         chart.YMax,
                         width,
                         height,
                         size,
-                        verticalSignatureAlignment);
+                        chart.VerticalSignatureAlignment);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

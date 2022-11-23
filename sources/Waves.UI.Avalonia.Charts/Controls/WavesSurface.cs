@@ -7,6 +7,7 @@ using Waves.UI.Avalonia.Charts.Primitives;
 using Waves.UI.Avalonia.Charts.Renderer;
 using Waves.UI.Avalonia.Charts.Renderer.Operations;
 using Waves.UI.Charts.Drawing.Interfaces;
+using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 using Waves.UI.Charts.Renderer.Skia;
 
@@ -81,7 +82,7 @@ public class WavesSurface :
         else
         {
             // avalonia renderer
-            Renderer.Update(context, DrawingObjects);
+            Renderer.Update(context, DrawingObjects, WavesColor.Transparent);
         }
     }
 
@@ -110,7 +111,7 @@ public class WavesSurface :
     /// <returns>Not used.</returns>
     private object OnSkiaRendering(object canvas)
     {
-        Renderer.Update(canvas, DrawingObjects);
+        Renderer.Update(canvas, DrawingObjects, WavesColor.Transparent);
         return true;
     }
 }

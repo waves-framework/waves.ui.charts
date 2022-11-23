@@ -15,7 +15,7 @@
     <Grid>
         <controls:WavesChart x:Name="Surface"
                              VerticalSignatureAlignment="Right"
-                             HorizontalSignatureAlignment="Top"/>
+                             HorizontalSignatureAlignment="Bottom"/>
     </Grid>
   
 </UserControl>

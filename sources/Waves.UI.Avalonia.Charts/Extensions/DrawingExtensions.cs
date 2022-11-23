@@ -11,13 +11,23 @@ namespace Waves.UI.Avalonia.Charts.Extensions;
 public static class DrawingExtensions
 {
     /// <summary>
-    /// Converts <see cref="Color"/> to <see cref="SolidColorBrush"/>.
+    /// Converts <see cref="WavesColor"/> to <see cref="SolidColorBrush"/>.
     /// </summary>
     /// <param name="color">Color.</param>
     /// <returns>Return <see cref="SolidColorBrush"/>.</returns>
     public static SolidColorBrush ToAvaloniaSolidColorBrush(this WavesColor color)
     {
         return new SolidColorBrush(color.ToUint());
+    }
+
+    /// <summary>
+    /// Converts <see cref="WavesColor"/> to <see cref="Color"/>.
+    /// </summary>
+    /// <param name="color">Color.</param>
+    /// <returns>Return <see cref="Color"/>.</returns>
+    public static Color ToAvaloniaColor(this WavesColor color)
+    {
+        return new Color(color.A, color.R, color.G, color.B);
     }
 
     /// <summary>

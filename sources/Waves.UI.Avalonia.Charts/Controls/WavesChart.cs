@@ -1,4 +1,5 @@
 using Avalonia;
+using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Immutable;
 using Waves.UI.Avalonia.Charts.Extensions;
@@ -109,6 +110,38 @@ public class WavesChart : WavesSurface, IWavesChart
     public static readonly StyledProperty<double> YMaxProperty =
         AvaloniaProperty.Register<WavesChart, double>(
             nameof(YMax),
+            1);
+
+    /// <summary>
+    /// Defines <see cref="CurrentXMin"/> styled property.
+    /// </summary>
+    public static readonly StyledProperty<double> CurrentXMinProperty =
+        AvaloniaProperty.Register<WavesChart, double>(
+            nameof(CurrentXMin),
+            0);
+
+    /// <summary>
+    /// Defines <see cref="CurrentXMax"/> styled property.
+    /// </summary>
+    public static readonly StyledProperty<double> CurrentXMaxProperty =
+        AvaloniaProperty.Register<WavesChart, double>(
+            nameof(CurrentXMax),
+            1);
+
+    /// <summary>
+    /// Defines <see cref="CurrentYMin"/> styled property.
+    /// </summary>
+    public static readonly StyledProperty<double> CurrentYMinProperty =
+        AvaloniaProperty.Register<WavesChart, double>(
+            nameof(CurrentYMin),
+            -1);
+
+    /// <summary>
+    /// Defines <see cref="CurrentYMax"/> styled property.
+    /// </summary>
+    public static readonly StyledProperty<double> CurrentYMaxProperty =
+        AvaloniaProperty.Register<WavesChart, double>(
+            nameof(CurrentYMax),
             1);
 
     /// <summary>
@@ -315,6 +348,11 @@ public class WavesChart : WavesSurface, IWavesChart
     private readonly List<IWavesDrawingObject> _ticksCache = new ();
     private readonly List<IWavesDrawingObject> _signaturesCache = new ();
 
+    private double _xMin = 0;
+    private double _xMax = 1;
+    private double _yMin = -1;
+    private double _yMax = 1;
+
     /// <summary>
     /// Creates new instance of <see cref="WavesChart"/>.
     /// </summary>
@@ -357,9 +395,16 @@ public class WavesChart : WavesSurface, IWavesChart
         AffectsRender<WavesChart>(YAxisZeroLineColorProperty);
         AffectsRender<WavesChart>(HorizontalSignatureAlignmentProperty);
         AffectsRender<WavesChart>(VerticalSignatureAlignmentProperty);
+        AffectsRender<WavesChart>(BackgroundProperty);
+        AffectsRender<WavesChart>(ForegroundProperty);
 
         ForegroundProperty.Changed.Subscribe(OnForegroundChanged);
         BackgroundProperty.Changed.Subscribe(OnBackgroundChanged);
+
+        XMinProperty.Changed.Subscribe(OnXMinChanged);
+        XMaxProperty.Changed.Subscribe(OnXMaxChanged);
+        YMinProperty.Changed.Subscribe(OnYMinChanged);
+        YMaxProperty.Changed.Subscribe(OnYMaxChanged);
     }
 
     /// <inheritdoc />
@@ -444,6 +489,34 @@ public class WavesChart : WavesSurface, IWavesChart
     {
         get => GetValue(YMaxProperty);
         set => SetValue(YMaxProperty, value);
+    }
+
+    /// <inheritdoc />
+    public double CurrentXMin
+    {
+        get => GetValue(CurrentXMinProperty);
+        set => SetValue(CurrentXMinProperty, value);
+    }
+
+    /// <inheritdoc />
+    public double CurrentXMax
+    {
+        get => GetValue(CurrentXMaxProperty);
+        set => SetValue(CurrentXMaxProperty, value);
+    }
+
+    /// <inheritdoc />
+    public double CurrentYMin
+    {
+        get => GetValue(CurrentYMinProperty);
+        set => SetValue(CurrentYMinProperty, value);
+    }
+
+    /// <inheritdoc />
+    public double CurrentYMax
+    {
+        get => GetValue(CurrentYMaxProperty);
+        set => SetValue(CurrentYMaxProperty, value);
     }
 
     /// <inheritdoc />
@@ -627,6 +700,78 @@ public class WavesChart : WavesSurface, IWavesChart
         private set => SetValue(HasDefaultTicksProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets whether if Shift key pressed or not.
+    /// </summary>
+    public bool IsShiftPressed { get; private set; }
+
+    /// <summary>
+    /// Gets or sets whether if Ctrl key pressed or not.
+    /// </summary>
+    public bool IsCtrlPressed { get; private set; }
+
+    /// <summary>
+    /// Gets or sets whether if mouse over control.
+    /// </summary>
+    public bool IsMouseOver { get; private set; }
+
+    /// <inheritdoc />
+    protected override void OnPointerEntered(PointerEventArgs e)
+    {
+        base.OnPointerEntered(e);
+        IsMouseOver = true;
+    }
+
+    /// <inheritdoc />
+    protected override void OnPointerExited(PointerEventArgs e)
+    {
+        base.OnPointerExited(e);
+        IsMouseOver = false;
+    }
+
+    /// <inheritdoc />
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        base.OnKeyDown(e);
+
+        if (e.Key == Key.LeftShift || e.Key == Key.RightShift)
+        {
+            IsShiftPressed = true;
+        }
+
+        if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
+        {
+            IsCtrlPressed = true;
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void OnKeyUp(KeyEventArgs e)
+    {
+        base.OnKeyDown(e);
+
+        if (e.Key == Key.LeftShift || e.Key == Key.RightShift)
+        {
+            IsShiftPressed = false;
+        }
+
+        if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
+        {
+            IsCtrlPressed = false;
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void OnPointerWheelChanged(PointerWheelEventArgs e)
+    {
+        base.OnPointerWheelChanged(e);
+
+        var position = e.GetPosition(this);
+        var delta = e.Delta;
+
+        ZoomChart(delta, position);
+    }
+
     /// <inheritdoc />
     protected override void Refresh(DrawingContext context)
     {
@@ -648,11 +793,7 @@ public class WavesChart : WavesSurface, IWavesChart
             _ticks,
             _signaturesCache,
             Bounds.Width,
-            Bounds.Height,
-            TextColor,
-            BackgroundColor,
-            HorizontalSignatureAlignment,
-            VerticalSignatureAlignment);
+            Bounds.Height);
 
         base.Refresh(context);
     }
@@ -702,6 +843,203 @@ public class WavesChart : WavesSurface, IWavesChart
         if (newValue != null)
         {
             BackgroundColor = GetWavesColor(newValue);
+        }
+    }
+
+    /// <summary>
+    /// On XMin changed.
+    /// </summary>
+    /// <param name="obj">Obj.</param>
+    private void OnXMinChanged(AvaloniaPropertyChangedEventArgs<double> obj)
+    {
+        var newValue = obj.NewValue.Value;
+        if (Math.Abs(newValue - _xMin) < double.Epsilon)
+        {
+            return;
+        }
+
+        _xMin = newValue;
+        CurrentXMin = newValue;
+    }
+
+    /// <summary>
+    /// On XMax changed.
+    /// </summary>
+    /// <param name="obj">Obj.</param>
+    private void OnXMaxChanged(AvaloniaPropertyChangedEventArgs<double> obj)
+    {
+        var newValue = obj.NewValue.Value;
+        if (Math.Abs(newValue - _xMax) < double.Epsilon)
+        {
+            return;
+        }
+
+        _xMax = newValue;
+        CurrentXMax = newValue;
+    }
+
+    /// <summary>
+    /// On YMin changed.
+    /// </summary>
+    /// <param name="obj">Obj.</param>
+    private void OnYMinChanged(AvaloniaPropertyChangedEventArgs<double> obj)
+    {
+        var newValue = obj.NewValue.Value;
+        if (Math.Abs(newValue - _yMin) < double.Epsilon)
+        {
+            return;
+        }
+
+        _yMin = newValue;
+        CurrentYMin = newValue;
+    }
+
+    /// <summary>
+    /// On YMax changed.
+    /// </summary>
+    /// <param name="obj">Obj.</param>
+    private void OnYMaxChanged(AvaloniaPropertyChangedEventArgs<double> obj)
+    {
+        var newValue = obj.NewValue.Value;
+        if (Math.Abs(newValue - _yMax) < double.Epsilon)
+        {
+            return;
+        }
+
+        _yMax = newValue;
+        CurrentYMax = newValue;
+    }
+
+    /// <summary>
+    ///     Zooms chart.
+    /// </summary>
+    /// <param name="delta">Zoom delta.</param>
+    /// <param name="position">Zoom position.</param>
+    private void ZoomChart(Vector delta, Point position)
+    {
+        if (!IsMouseOver)
+        {
+            return;
+        }
+
+        //// if (!IsZoomEnabled)
+        //// {
+        ////     return;
+        //// }
+
+        var deltaF = delta.X / 1000.0d;
+
+        var x = Valuation.DenormalizePointX2D(position.X, Width, CurrentXMin, CurrentXMax);
+        var y = Valuation.DenormalizePointY2D(position.Y, Height, CurrentYMin, CurrentYMax);
+
+        if (double.IsInfinity(x))
+        {
+            return;
+        }
+
+        if (double.IsInfinity(y))
+        {
+            return;
+        }
+
+        if (IsCtrlPressed)
+        {
+            var yMin = 0.0d;
+            var yMax = 0.0d;
+
+            if (false) // TODO:
+            {
+                yMin = -CurrentYMin * deltaF;
+                yMax = CurrentYMax * deltaF;
+            }
+            else
+            {
+                yMin = (y - CurrentYMin) * deltaF;
+                yMax = (CurrentYMax - y) * deltaF;
+            }
+
+            if (CurrentYMax - yMax - (CurrentYMin + yMin) > (YMax - YMin) / 1000000)
+            {
+                CurrentYMax -= yMax;
+                CurrentYMin += yMin;
+            }
+
+            if (CurrentYMin < YMin)
+            {
+                CurrentYMin = YMin;
+            }
+
+            if (CurrentYMax > YMax)
+            {
+                CurrentYMax = YMax;
+            }
+
+            InvalidateVisual();
+            return;
+        }
+
+        if (IsShiftPressed)
+        {
+            ScrollChart(deltaF, x, y);
+
+            InvalidateVisual();
+            return;
+        }
+
+        var xMin = (x - CurrentXMin) * deltaF;
+        var xMax = (CurrentXMax - x) * deltaF;
+
+        if (CurrentXMax - xMax - (CurrentXMin + xMin) > (XMax - XMin) / 1000000)
+        {
+            CurrentXMax -= xMax;
+            CurrentXMin += xMin;
+        }
+
+        if (CurrentXMin < XMin)
+        {
+            CurrentXMin = XMin;
+        }
+
+        if (CurrentXMax > XMax)
+        {
+            CurrentXMax = XMax;
+        }
+
+        InvalidateVisual();
+    }
+
+    /// <summary>
+    ///     Scrolls chart along the X axis.
+    /// </summary>
+    /// <param name="delta">Scrolling delta.</param>
+    /// <param name="x">Scroll value along the X axis.</param>
+    /// <param name="y">Scroll value along the Y axis.</param>
+    private void ScrollChart(double delta, double x, double y)
+    {
+        var xMin = delta * 10f;
+        var xMax = delta * 10f;
+
+        if (CurrentXMax + xMax > XMax)
+        {
+            return;
+        }
+
+        if (CurrentXMin + xMin < XMin)
+        {
+            return;
+        }
+
+        CurrentXMax += xMax;
+        CurrentXMin += xMin;
+
+        if (CurrentXMin < XMin)
+        {
+            CurrentXMin = XMin;
+        }
+
+        if (CurrentXMax > XMax)
+        {
+            CurrentXMax = XMax;
         }
     }
 }

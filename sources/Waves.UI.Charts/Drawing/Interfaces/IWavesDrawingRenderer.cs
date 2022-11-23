@@ -15,7 +15,8 @@ public interface IWavesDrawingRenderer : IDisposable
     /// </summary>
     /// <param name="element">Drawing element.</param>
     /// <param name="objects">Drawing objects.</param>
-    void Update(object element, IEnumerable<IWavesDrawingObject> objects);
+    /// <param name="background">Background.</param>
+    void Update(object element, IEnumerable<IWavesDrawingObject> objects, WavesColor background);
 
     // /// <summary>
     // /// Draws pixel.

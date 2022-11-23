@@ -1,11 +1,13 @@
+using System.Collections.Generic;
 using System.Drawing;
+using Waves.UI.Charts.Drawing.Primitives;
 
 namespace Waves.UI.Charts.Drawing.Interfaces;
 
 /// <summary>
 ///     Interface for chart.
 /// </summary>
-public interface IWavesChart
+public interface IWavesChart : IWavesSurface
 {
     /// <summary>
     /// Gets or sets whether X axis primary ticks are visible.
@@ -181,4 +183,14 @@ public interface IWavesChart
     /// Gets or sets font size.
     /// </summary>
     public double FontSize { get; set; }
+
+    /// <summary>
+    /// Gets or sets Axis ticks collection.
+    /// </summary>
+    ICollection<WavesAxisTick> AxisTicks { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether chart has default ticks or not.
+    /// </summary>
+    bool HasDefaultTicks { get; }
 }

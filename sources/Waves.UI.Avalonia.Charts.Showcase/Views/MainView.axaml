@@ -4,8 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.ViewModels"
              xmlns:controls="clr-namespace:Waves.UI.Avalonia.Charts.Controls;assembly=Waves.UI.Avalonia.Charts"
-             xmlns:primitives="clr-namespace:Waves.UI.Charts.Drawing.Primitives;assembly=Waves.UI.Charts"
-             xmlns:primitives1="clr-namespace:Waves.UI.Avalonia.Charts.Primitives;assembly=Waves.UI.Avalonia.Charts"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Waves.UI.Avalonia.Charts.Showcase.Views.MainView"
              Foreground="White"
@@ -16,7 +14,7 @@
 
     <Grid>
         <controls:WavesChart x:Name="Surface"/>
-        <Border Width="100" Height="100" Background="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <!-- <Border Width="100" Height="100" Background="White" VerticalAlignment="Center" HorizontalAlignment="Center"/> -->
     </Grid>
   
 </UserControl>

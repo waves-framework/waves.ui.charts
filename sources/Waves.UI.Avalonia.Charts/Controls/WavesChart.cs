@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Avalonia;
 using Avalonia.Media;
 using Waves.UI.Charts.Drawing.Interfaces;
@@ -286,10 +287,24 @@ public class WavesChart : WavesSurface, IWavesChart
             nameof(YAxisZeroLineColor),
             Color.Gray);
 
-    private readonly List<IWavesDrawingObject> _axisTicksDrawingObjects = new ();
+    /// <summary>
+    /// Defines <see cref="AxisTicks"/> styled property.
+    /// </summary>
+    public static readonly StyledProperty<ICollection<WavesAxisTick>> AxisTicksProperty =
+        AvaloniaProperty.Register<WavesChart, ICollection<WavesAxisTick>>(
+            nameof(AxisTicks),
+            new List<WavesAxisTick>());
 
-    private bool _hasDefaultTicks = true;
-    private List<WavesAxisTick> _axisTicks = new ();
+    /// <summary>
+    /// Defines <see cref="HasDefaultTicks"/> styled property.
+    /// </summary>
+    public static readonly StyledProperty<bool> HasDefaultTicksProperty =
+        AvaloniaProperty.Register<WavesChart, bool>(
+            nameof(HasDefaultTicks),
+            true);
+
+    private readonly List<IWavesDrawingObject> _axisTicksDrawingObjects = new ();
+    private List<WavesAxisTick> _axisTicks;
 
     /// <summary>
     /// Creates new instance of <see cref="WavesChart"/>.
@@ -572,191 +587,34 @@ public class WavesChart : WavesSurface, IWavesChart
     }
 
     /// <inheritdoc />
+    public ICollection<WavesAxisTick> AxisTicks
+    {
+        get => GetValue(AxisTicksProperty);
+        set
+        {
+            _axisTicks = value.ToList();
+            SetValue(AxisTicksProperty, value);
+        }
+    }
+
+    /// <inheritdoc />
+    public bool HasDefaultTicks
+    {
+        get => GetValue(HasDefaultTicksProperty);
+        private set => SetValue(HasDefaultTicksProperty, value);
+    }
+
+    /// <inheritdoc />
     protected override void Refresh(DrawingContext context)
     {
-        if (_hasDefaultTicks)
+        if (HasDefaultTicks)
         {
-            SetDefaultTicks();
+            HasDefaultTicks = this.GenerateDefaultTicks();
         }
 
-        GenerateAxisTicksDrawingObjects();
-
+        this.GenerateAxisTicksDrawingObjects(_axisTicksDrawingObjects, Bounds.Width, Bounds.Height);
         //// GenerateAxisTicksSignaturesDrawingObjects();
 
         base.Refresh(context);
-    }
-
-    private void SetDefaultTicks()
-    {
-        _hasDefaultTicks = true;
-
-        _axisTicks?.Clear();
-        _axisTicks ??= new List<WavesAxisTick>();
-
-        _axisTicks.GenerateAxisTicks(
-            XMin,
-            XMax,
-            XAxisPrimaryTicksNumber,
-            XAxisAdditionalTicksNumber,
-            WavesAxisTickOrientation.Horizontal);
-
-        _axisTicks.GenerateAxisTicks(
-            YMin,
-            YMax,
-            YAxisPrimaryTicksNumber,
-            YAxisAdditionalTicksNumber,
-            WavesAxisTickOrientation.Vertical);
-    }
-
-    private void GenerateAxisTicksDrawingObjects()
-    {
-        foreach (var obj in _axisTicksDrawingObjects)
-        {
-            DrawingObjects.Remove(obj);
-        }
-
-        _axisTicksDrawingObjects.Clear();
-
-        foreach (var tick in _axisTicks.ToList())
-        {
-            if (tick.Orientation == WavesAxisTickOrientation.Horizontal)
-            {
-                if (tick.Type == WavesAxisTickType.Primary)
-                {
-                    if (!IsXAxisPrimaryTicksVisible)
-                    {
-                        continue;
-                    }
-
-                    var obj = Ticks.GetXAxisTickLine(
-                        tick.Value,
-                        XAxisPrimaryTickThickness,
-                        XAxisPrimaryTicksColor,
-                        XAxisPrimaryTicksDashArray,
-                        0.5f,
-                        XMin,
-                        XMax,
-                        Bounds.Width,
-                        Bounds.Height);
-
-                    DrawingObjects.Add(obj);
-
-                    _axisTicksDrawingObjects.Add(obj);
-                }
-                else if (tick.Type == WavesAxisTickType.Additional)
-                {
-                    if (!IsXAxisAdditionalTicksVisible)
-                    {
-                        continue;
-                    }
-
-                    var obj = Ticks.GetXAxisTickLine(
-                        tick.Value,
-                        XAxisAdditionalTickThickness,
-                        XAxisAdditionalTicksColor,
-                        XAxisAdditionalTicksDashArray,
-                        0.25f,
-                        XMin,
-                        XMax,
-                        Bounds.Width,
-                        Bounds.Height);
-
-                    DrawingObjects.Add(obj);
-
-                    _axisTicksDrawingObjects.Add(obj);
-                }
-                else if (tick.Type == WavesAxisTickType.Zero)
-                {
-                    if (!IsXAxisZeroLineVisible)
-                    {
-                        continue;
-                    }
-
-                    var obj = Ticks.GetXAxisTickLine(
-                        tick.Value,
-                        XAxisZeroLineThickness,
-                        XAxisZeroLineColor,
-                        XAxisZeroLineDashArray,
-                        1f,
-                        XMin,
-                        XMax,
-                        Bounds.Width,
-                        Bounds.Height);
-
-                    DrawingObjects.Add(obj);
-
-                    _axisTicksDrawingObjects.Add(obj);
-                }
-            }
-            else if (tick.Orientation == WavesAxisTickOrientation.Vertical)
-            {
-                if (tick.Type == WavesAxisTickType.Primary)
-                {
-                    if (!IsYAxisPrimaryTicksVisible)
-                    {
-                        continue;
-                    }
-
-                    var obj = Ticks.GetYAxisTickLine(
-                        tick.Value,
-                        YAxisPrimaryTickThickness,
-                        YAxisPrimaryTicksColor,
-                        YAxisPrimaryTicksDashArray,
-                        0.5f,
-                        YMin,
-                        YMax,
-                        Bounds.Width,
-                        Bounds.Height);
-
-                    DrawingObjects.Add(obj);
-
-                    _axisTicksDrawingObjects.Add(obj);
-                }
-                else if (tick.Type == WavesAxisTickType.Additional)
-                {
-                    if (!IsYAxisAdditionalTicksVisible)
-                    {
-                        continue;
-                    }
-
-                    var obj = Ticks.GetYAxisTickLine(
-                        tick.Value,
-                        YAxisAdditionalTickThickness,
-                        YAxisAdditionalTicksColor,
-                        YAxisAdditionalTicksDashArray,
-                        0.25f,
-                        YMin,
-                        YMax,
-                        Bounds.Width,
-                        Bounds.Height);
-
-                    DrawingObjects.Add(obj);
-
-                    _axisTicksDrawingObjects.Add(obj);
-                }
-                else if (tick.Type == WavesAxisTickType.Zero)
-                {
-                    if (!IsYAxisZeroLineVisible)
-                    {
-                        continue;
-                    }
-
-                    var obj = Ticks.GetYAxisTickLine(
-                        tick.Value,
-                        YAxisZeroLineThickness,
-                        YAxisZeroLineColor,
-                        YAxisZeroLineDashArray,
-                        1f,
-                        YMin,
-                        YMax,
-                        Bounds.Width,
-                        Bounds.Height);
-
-                    DrawingObjects.Add(obj);
-
-                    _axisTicksDrawingObjects.Add(obj);
-                }
-            }
-        }
     }
 }

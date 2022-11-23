@@ -8,6 +8,18 @@ namespace Waves.UI.Charts.Drawing.Primitives;
 public struct WavesPoint
 {
     /// <summary>
+    ///     Creates new instance of <see cref="WavesPoint"/>.
+    /// </summary>
+    /// <param name="xValue">The x value of the vector. </param>
+    /// <param name="yValue">The y value of the vector. </param>
+    public WavesPoint(double xValue, double yValue)
+        : this()
+    {
+        X = xValue;
+        Y = yValue;
+    }
+
+    /// <summary>
     ///     X coordinate.
     /// </summary>
     public double X { get; set; }
@@ -31,18 +43,6 @@ public struct WavesPoint
     ///     The absolute angle of the vector.
     /// </summary>
     public double Angle => Math.Atan2(Y, X);
-
-    /// <summary>
-    ///     Main Constructor.
-    /// </summary>
-    /// <param name="xValue">The x value of the vector. </param>
-    /// <param name="yValue">The y value of the vector. </param>
-    public WavesPoint(double xValue, double yValue)
-        : this()
-    {
-        X = xValue;
-        Y = yValue;
-    }
 
     /// <summary>
     ///     Overrides the Equals method to provice better equality for vectors.

@@ -301,7 +301,7 @@ public static class Ticks
     public static WavesLine GetXAxisTickLine(
         double value,
         double strokeThickness,
-        Color stroke,
+        WavesColor stroke,
         double[] dashArray,
         double opacity,
         double xMin,
@@ -339,7 +339,7 @@ public static class Ticks
     public static WavesLine GetYAxisTickLine(
         double value,
         double strokeThickness,
-        Color stroke,
+        WavesColor stroke,
         double[] dashArray,
         double opacity,
         double yMin,

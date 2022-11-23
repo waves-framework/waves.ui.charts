@@ -15,9 +15,9 @@ public static class DrawingExtensions
     /// </summary>
     /// <param name="color">Color.</param>
     /// <returns>Return <see cref="SolidColorBrush"/>.</returns>
-    public static SolidColorBrush ToAvaloniaSolidColorBrush(this Color color)
+    public static SolidColorBrush ToAvaloniaSolidColorBrush(this WavesColor color)
     {
-        return new SolidColorBrush((uint)color.ToArgb());
+        return new SolidColorBrush(color.ToUint());
     }
 
     /// <summary>

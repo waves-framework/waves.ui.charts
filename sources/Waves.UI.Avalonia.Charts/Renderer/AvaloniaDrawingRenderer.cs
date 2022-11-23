@@ -78,18 +78,20 @@ public class AvaloniaDrawingRenderer : IWavesDrawingRenderer
     }
 
     /// <inheritdoc />
-    public WavesSize MeasureText(string text, IWavesTextStyle style)
+    public WavesSize MeasureText(WavesText text)
     {
         var formattedText = new FormattedText(
-            text,
+            text.Value,
             CultureInfo.CurrentCulture,
             FlowDirection.LeftToRight,
             new Typeface(
-                new FontFamily(style.FontFamily),
+                new FontFamily(text.Style.FontFamily),
                 FontStyle.Normal,
-                (FontWeight)((int)style.FontWeight),
+                (FontWeight)((int)text.Style.FontWeight),
                 FontStretch.Normal),
-            style.FontSize,
+            text.Style.FontSize,
             text.Fill.ToAvaloniaSolidColorBrush());
+
+        return new WavesSize(formattedText.Width, formattedText.Height);
     }
 }

@@ -82,9 +82,14 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
     }
 
     /// <inheritdoc />
-    public WavesSize MeasureText(string text, IWavesTextStyle style)
+    public WavesSize MeasureText(WavesText text)
     {
-        throw new NotImplementedException();
+        using var skPaint = GetSkiaTextPaint(text);
+
+        var bounds = new SKRect();
+        skPaint.MeasureText(text.Value, ref bounds);
+
+        return new WavesSize(bounds.Width, bounds.Height);
     }
 
     /// <summary>
@@ -97,21 +102,6 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
         {
             _canvas.Dispose();
         }
-    }
-
-    /// <summary>
-    /// Measures text.
-    /// </summary>
-    /// <param name="text">Text.</param>
-    /// <returns>Returns size.</returns>
-    private (float, float) MeasureText(WavesText text)
-    {
-        using var skPaint = GetSkiaTextPaint(text);
-
-        var bounds = new SKRect();
-        skPaint.MeasureText(text.Value, ref bounds);
-
-        return new ValueTuple<float, float>(bounds.Width, bounds.Height);
     }
 
     /// <summary>

@@ -16,7 +16,7 @@ public static class SkiaExtensions
     /// </summary>
     /// <param name="color">Color.</param>
     /// <returns>Returns Skia color.</returns>
-    public static SKColor ToSkColor(this Color color)
+    public static SKColor ToSkColor(this WavesColor color)
     {
         return new SKColor(color.R, color.G, color.B, color.A);
     }
@@ -27,7 +27,7 @@ public static class SkiaExtensions
     /// <param name="color">Color.</param>
     /// <param name="opacity">Opacity.</param>
     /// <returns>Returns Skia color.</returns>
-    public static SKColor ToSkColor(this Color color, float opacity)
+    public static SKColor ToSkColor(this WavesColor color, float opacity)
     {
         var a = Convert.ToByte(opacity * color.A);
         return new SKColor(color.R, color.G, color.B, a);

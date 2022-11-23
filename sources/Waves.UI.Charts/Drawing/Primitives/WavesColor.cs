@@ -294,7 +294,7 @@ public struct WavesColor
     }
 
     /// <summary>
-    /// Returns HEX string.
+    /// Converts to HEX string.
     /// </summary>
     /// <param name="isUseAlphaIsSet">Use alpha.</param>
     /// <param name="isHexPrefix">Use HEX prefix.</param>
@@ -312,5 +312,14 @@ public struct WavesColor
         }
 
         return isHexPrefix ? $"#{R:X2}{G:X2}{B:X2}" : $"{R:X2}{G:X2}{B:X2}";
+    }
+
+    /// <summary>
+    /// Converts to Uint.
+    /// </summary>
+    /// <returns>Uint.</returns>
+    public uint ToUint()
+    {
+        return (uint)(((A << 24) | (R << 16) | (G << 8) | B) & 0xffffffffL);
     }
 }

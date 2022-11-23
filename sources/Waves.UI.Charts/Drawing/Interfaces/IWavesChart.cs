@@ -152,32 +152,32 @@ public interface IWavesChart : IWavesSurface
     /// <summary>
     /// Gets or sets X axis primary ticks color.
     /// </summary>
-    public Color XAxisPrimaryTicksColor { get; set; }
+    public WavesColor XAxisPrimaryTicksColor { get; set; }
 
     /// <summary>
     /// Gets or sets X axis additional ticks color.
     /// </summary>
-    public Color XAxisAdditionalTicksColor { get; set; }
+    public WavesColor XAxisAdditionalTicksColor { get; set; }
 
     /// <summary>
     /// Gets or sets X axis zero line color.
     /// </summary>
-    public Color XAxisZeroLineColor { get; set; }
+    public WavesColor XAxisZeroLineColor { get; set; }
 
     /// <summary>
     /// Gets or sets Y axis primary ticks color.
     /// </summary>
-    public Color YAxisPrimaryTicksColor { get; set; }
+    public WavesColor YAxisPrimaryTicksColor { get; set; }
 
     /// <summary>
     /// Gets or sets Y axis additional ticks color.
     /// </summary>
-    public Color YAxisAdditionalTicksColor { get; set; }
+    public WavesColor YAxisAdditionalTicksColor { get; set; }
 
     /// <summary>
     /// Gets or sets Y axis zero line color.
     /// </summary>
-    public Color YAxisZeroLineColor { get; set; }
+    public WavesColor YAxisZeroLineColor { get; set; }
 
     /// <summary>
     /// Gets or sets font size.

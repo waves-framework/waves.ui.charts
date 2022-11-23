@@ -58,7 +58,7 @@ public static class Signatures
                     signature = GetXAxisSignature(
                         tick.Value,
                         tick.Description,
-                        Color.White,
+                        WavesColor.White,
                         horizontalTextStyle,
                         1.0f,
                         chart.XMin,
@@ -100,7 +100,7 @@ public static class Signatures
     public static WavesText GetXAxisSignature(
         double value,
         string description,
-        Color fill,
+        WavesColor fill,
         WavesTextStyle style,
         double opacity,
         double xMin,

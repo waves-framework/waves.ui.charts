@@ -25,10 +25,10 @@ public abstract class WavesDrawingObject : IWavesDrawingObject
     public double StrokeThickness { get; set; } = 1;
 
     /// <inheritdoc />
-    public Color Fill { get; set; } = Color.Black;
+    public WavesColor Fill { get; set; } = WavesColor.Black;
 
     /// <inheritdoc />
-    public Color Stroke { get; set; } = Color.Gray;
+    public WavesColor Stroke { get; set; } = WavesColor.Gray;
 
     /// <inheritdoc />
     public abstract void Draw(IWavesDrawingRenderer e);

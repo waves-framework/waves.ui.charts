@@ -242,58 +242,50 @@ public class WavesChart : WavesSurface, IWavesChart
     /// <summary>
     /// Defines <see cref="XAxisPrimaryTicksColor"/> styled property.
     /// </summary>
-    public static readonly StyledProperty<Color> XAxisPrimaryTicksColorProperty =
-        AvaloniaProperty.Register<WavesChart, Color>(
+    public static readonly StyledProperty<WavesColor> XAxisPrimaryTicksColorProperty =
+        AvaloniaProperty.Register<WavesChart, WavesColor>(
             nameof(XAxisPrimaryTicksColor),
-            Color.Gray);
+            WavesColor.Gray);
 
     /// <summary>
     /// Defines <see cref="XAxisAdditionalTicksColor"/> styled property.
     /// </summary>
-    public static readonly StyledProperty<Color> XAxisAdditionalTicksColorProperty =
-        AvaloniaProperty.Register<WavesChart, Color>(
+    public static readonly StyledProperty<WavesColor> XAxisAdditionalTicksColorProperty =
+        AvaloniaProperty.Register<WavesChart, WavesColor>(
             nameof(XAxisAdditionalTicksColor),
-            Color.Gray);
+            WavesColor.Gray);
 
     /// <summary>
     /// Defines <see cref="XAxisZeroLineColor"/> styled property.
     /// </summary>
-    public static readonly StyledProperty<Color> XAxisZeroLineColorProperty =
-        AvaloniaProperty.Register<WavesChart, Color>(
+    public static readonly StyledProperty<WavesColor> XAxisZeroLineColorProperty =
+        AvaloniaProperty.Register<WavesChart, WavesColor>(
             nameof(XAxisZeroLineColor),
-            Color.Gray);
+            WavesColor.Gray);
 
     /// <summary>
     /// Defines <see cref="YAxisPrimaryTicksColor"/> styled property.
     /// </summary>
-    public static readonly StyledProperty<Color> YAxisPrimaryTicksColorProperty =
-        AvaloniaProperty.Register<WavesChart, Color>(
+    public static readonly StyledProperty<WavesColor> YAxisPrimaryTicksColorProperty =
+        AvaloniaProperty.Register<WavesChart, WavesColor>(
             nameof(YAxisPrimaryTicksColor),
-            Color.Gray);
+            WavesColor.Gray);
 
     /// <summary>
     /// Defines <see cref="YAxisAdditionalTicksColor"/> styled property.
     /// </summary>
-    public static readonly StyledProperty<Color> YAxisAdditionalTicksColorProperty =
-        AvaloniaProperty.Register<WavesChart, Color>(
+    public static readonly StyledProperty<WavesColor> YAxisAdditionalTicksColorProperty =
+        AvaloniaProperty.Register<WavesChart, WavesColor>(
             nameof(YAxisAdditionalTicksColor),
-            Color.Gray);
+            WavesColor.Gray);
 
     /// <summary>
     /// Defines <see cref="YAxisZeroLineColor"/> styled property.
     /// </summary>
-    public static readonly StyledProperty<Color> YAxisZeroLineColorProperty =
-        AvaloniaProperty.Register<WavesChart, Color>(
+    public static readonly StyledProperty<WavesColor> YAxisZeroLineColorProperty =
+        AvaloniaProperty.Register<WavesChart, WavesColor>(
             nameof(YAxisZeroLineColor),
-            Color.Gray);
-
-    // /// <summary>
-    // /// Defines <see cref="AxisTicks"/> styled property.
-    // /// </summary>
-    // public static readonly StyledProperty<ICollection<WavesAxisTick>> AxisTicksProperty =
-    //     AvaloniaProperty.Register<WavesChart, ICollection<WavesAxisTick>>(
-    //         nameof(AxisTicks),
-    //         new List<WavesAxisTick>());
+            WavesColor.Gray);
 
     /// <summary>
     /// Defines <see cref="HasDefaultTicks"/> styled property.
@@ -546,53 +538,46 @@ public class WavesChart : WavesSurface, IWavesChart
     }
 
     /// <inheritdoc />
-    public Color XAxisPrimaryTicksColor
+    public WavesColor XAxisPrimaryTicksColor
     {
         get => GetValue(XAxisPrimaryTicksColorProperty);
         set => SetValue(XAxisPrimaryTicksColorProperty, value);
     }
 
     /// <inheritdoc />
-    public Color XAxisAdditionalTicksColor
+    public WavesColor XAxisAdditionalTicksColor
     {
         get => GetValue(XAxisAdditionalTicksColorProperty);
         set => SetValue(XAxisAdditionalTicksColorProperty, value);
     }
 
     /// <inheritdoc />
-    public Color XAxisZeroLineColor
+    public WavesColor XAxisZeroLineColor
     {
         get => GetValue(XAxisZeroLineColorProperty);
         set => SetValue(XAxisZeroLineColorProperty, value);
     }
 
     /// <inheritdoc />
-    public Color YAxisPrimaryTicksColor
+    public WavesColor YAxisPrimaryTicksColor
     {
         get => GetValue(YAxisPrimaryTicksColorProperty);
         set => SetValue(YAxisPrimaryTicksColorProperty, value);
     }
 
     /// <inheritdoc />
-    public Color YAxisAdditionalTicksColor
+    public WavesColor YAxisAdditionalTicksColor
     {
         get => GetValue(YAxisAdditionalTicksColorProperty);
         set => SetValue(YAxisAdditionalTicksColorProperty, value);
     }
 
     /// <inheritdoc />
-    public Color YAxisZeroLineColor
+    public WavesColor YAxisZeroLineColor
     {
         get => GetValue(YAxisZeroLineColorProperty);
         set => SetValue(YAxisZeroLineColorProperty, value);
     }
-
-    // /// <inheritdoc />
-    // public ICollection<WavesAxisTick> AxisTicks
-    // {
-    //     get => GetValue(AxisTicksProperty);
-    //     set => SetValue(AxisTicksProperty, value);
-    // }
 
     /// <inheritdoc />
     public bool HasDefaultTicks

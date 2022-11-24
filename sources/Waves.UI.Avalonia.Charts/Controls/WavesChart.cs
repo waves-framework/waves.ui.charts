@@ -1,7 +1,9 @@
 using Avalonia;
 using Avalonia.Input;
+using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Immutable;
+using Avalonia.Styling;
 using Waves.UI.Avalonia.Charts.Extensions;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
@@ -14,7 +16,7 @@ namespace Waves.UI.Avalonia.Charts.Controls;
 /// <summary>
 /// Waves chart.
 /// </summary>
-public class WavesChart : WavesSurface, IWavesChart
+public class WavesChart : WavesSurface, IWavesChart, IStyleable
 {
     /// <summary>
     /// Defines <see cref="IsXAxisPrimaryTicksVisible"/> styled property.
@@ -359,6 +361,9 @@ public class WavesChart : WavesSurface, IWavesChart
     public WavesChart()
         : base()
     {
+        var styles = (Styles)AvaloniaXamlLoader.Load(new Uri($"avares://Waves.UI.Avalonia.Charts/Styles/WavesChart.axaml"));
+        Styles.AddRange(styles);
+
         AffectsRender<WavesChart>(IsXAxisPrimaryTicksVisibleProperty);
         AffectsRender<WavesChart>(IsXAxisAdditionalTicksVisibleProperty);
         AffectsRender<WavesChart>(IsXAxisSignaturesVisibleProperty);
@@ -714,6 +719,9 @@ public class WavesChart : WavesSurface, IWavesChart
     /// Gets or sets whether if mouse over control.
     /// </summary>
     public bool IsMouseOver { get; private set; }
+
+    /// <inheritdoc />
+    Type IStyleable.StyleKey => typeof(WavesChart);
 
     /// <inheritdoc />
     protected override void OnPointerEntered(PointerEventArgs e)

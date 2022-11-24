@@ -1,0 +1,27 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Waves.UI.Avalonia.Charts.Controls">
+    
+    <Style Selector="controls|WavesChart">
+
+        <Setter Property="Template">
+
+            <ControlTemplate TargetType="{x:Type controls:WavesChart}">
+
+                <Grid>
+                    
+                    <Border Height="10" Width="10" Background="Red"/>
+                    
+                    <TemplatedControl x:Name="TemplatedControl"
+                                      Template="{TemplateBinding Template}"
+                                      TemplatedParent="{TemplateBinding TemplatedParent}"/>
+                    
+                </Grid>
+
+            </ControlTemplate>
+
+        </Setter>
+
+    </Style>
+    
+</Styles>

@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using Waves.UI.Charts.Drawing.Primitives;
 
@@ -8,6 +9,11 @@ namespace Waves.UI.Charts.Series.Interfaces;
 /// </summary>
 public interface IWavesSeries
 {
+    /// <summary>
+    /// Series updated event.
+    /// </summary>
+    event EventHandler Updated;
+
     /// <summary>
     /// Gets or sets whether series is visible.
     /// </summary>

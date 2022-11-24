@@ -1,9 +1,12 @@
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.Net.Mime;
 using Avalonia;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using Avalonia.Styling;
+using DynamicData.Binding;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 using Waves.UI.Charts.Series.Enums;
@@ -20,10 +23,11 @@ public class WavesPointSeriesChart : WavesChart, IStyleable
     /// <summary>
     ///     Defines <see cref="Series" /> property.
     /// </summary>
-    public static readonly StyledProperty<IList<IWavesPointSeries>> SeriesProperty =
-        AvaloniaProperty.Register<WavesPointSeriesChart, IList<IWavesPointSeries>>(
+    public static readonly AttachedProperty<ObservableCollection<IWavesPointSeries>> SeriesProperty =
+        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, ObservableCollection<IWavesPointSeries>>(
             nameof(Series),
-            new List<IWavesPointSeries>());
+            new ObservableCollection<IWavesPointSeries>(),
+            true);
 
     private readonly object _seriesLocker = new ();
     private readonly List<IWavesDrawingObject> _drawingObjectsCache = new ();
@@ -34,12 +38,13 @@ public class WavesPointSeriesChart : WavesChart, IStyleable
     public WavesPointSeriesChart()
     {
         AffectsRender<WavesPointSeriesChart>(SeriesProperty);
+        Series.CollectionChanged += OnCollectionChanged;
     }
 
     /// <summary>
     ///     Gets or sets waves point series.
     /// </summary>
-    public IList<IWavesPointSeries> Series
+    public ObservableCollection<IWavesPointSeries> Series
     {
         get => GetValue(SeriesProperty);
         set => SetValue(SeriesProperty, value);
@@ -56,6 +61,7 @@ public class WavesPointSeriesChart : WavesChart, IStyleable
     {
         lock (_seriesLocker)
         {
+            series.Updated += OnSeriesUpdated;
             Series.Add(series);
         }
 
@@ -112,7 +118,9 @@ public class WavesPointSeriesChart : WavesChart, IStyleable
 
         lock (_seriesLocker)
         {
-            Series.RemoveAt(index);
+            var series = Series[index];
+            series.Updated -= OnSeriesUpdated;
+            Series.Remove(series);
         }
 
         InvalidateVisual();
@@ -299,5 +307,31 @@ public class WavesPointSeriesChart : WavesChart, IStyleable
         }
 
         _drawingObjectsCache.Clear();
+    }
+
+    /// <summary>
+    /// On series updated callback.
+    /// </summary>
+    /// <param name="sender">Sender.</param>
+    /// <param name="e">Arguments.</param>
+    private void OnSeriesUpdated(object? sender, EventArgs e)
+    {
+        InvalidateVisual();
+    }
+
+    private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        foreach (var item in e.OldItems)
+        {
+            // throw new NotImplementedException();
+        }
+
+        foreach (var item in e.NewItems)
+        {
+            if (item is IWavesPointSeries series)
+            {
+                series.Updated += OnSeriesUpdated;
+            }
+        }
     }
 }

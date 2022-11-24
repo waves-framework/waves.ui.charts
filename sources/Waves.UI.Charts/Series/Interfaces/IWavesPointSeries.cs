@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Series.Enums;

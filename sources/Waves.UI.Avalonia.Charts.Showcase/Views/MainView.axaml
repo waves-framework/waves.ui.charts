@@ -31,6 +31,7 @@
         </Grid>
         
         <controls:WavesPointSeriesChart x:Name="Surface"
+                                        Series="{Binding Series}"
                                         Grid.Row="1"
                                         Background="#0E111B"
                                         CornerRadius="12,12,12,24"

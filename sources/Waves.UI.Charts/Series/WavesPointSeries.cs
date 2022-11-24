@@ -77,6 +77,9 @@ public class WavesPointSeries : IWavesPointSeries
     }
 
     /// <inheritdoc />
+    public event EventHandler Updated;
+
+    /// <inheritdoc />
     public bool IsVisible { get; set; } = true;
 
     /// <inheritdoc />
@@ -135,6 +138,8 @@ public class WavesPointSeries : IWavesPointSeries
                 Description[i] = description[i];
             }
         }
+
+        OnSeriesUpdated();
     }
 
     /// <inheritdoc />
@@ -179,5 +184,15 @@ public class WavesPointSeries : IWavesPointSeries
                 Description[i] = description[i];
             }
         }
+
+        OnSeriesUpdated();
+    }
+
+    /// <summary>
+    /// Series updated invocator.
+    /// </summary>
+    protected virtual void OnSeriesUpdated()
+    {
+        Updated?.Invoke(this, EventArgs.Empty);
     }
 }

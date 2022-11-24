@@ -809,6 +809,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// <inheritdoc />
     protected override void Refresh(DrawingContext context)
     {
+        DrawingObjects.Clear();
         DrawingObjects.Add(new WavesRectangle()
         {
             CornerRadius = CornerRadius.TopLeft,
@@ -922,7 +923,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         ////     return;
         //// }
 
-        var deltaF = delta.Y / 100;
+        var deltaF = delta.Y;
 
         var x = Valuation.DenormalizePointX2D(position.X, Bounds.Width, CurrentXMin, CurrentXMax);
         var y = Valuation.DenormalizePointY2D(position.Y, Bounds.Height, CurrentYMin, CurrentYMax);

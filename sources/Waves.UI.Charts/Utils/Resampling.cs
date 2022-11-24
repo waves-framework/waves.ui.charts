@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Threading.Tasks;
+using Waves.UI.Charts.Drawing.Primitives;
 
 namespace Waves.UI.Charts.Utils;
 
@@ -15,26 +16,26 @@ public class Resampling
     /// <param name="input">Input.</param>
     /// <param name="threshold">Threshold.</param>
     /// <returns>Returns decimated point array.</returns>
-    public static Task<Point[]> LargestTriangleThreeBucketsDecimation(Point[] input, int threshold)
+    public static WavesPoint[] LargestTriangleThreeBucketsDecimation(WavesPoint[] input, int threshold)
     {
         if (threshold == 0)
         {
-            return Task.FromResult(Array.Empty<Point>());
+            return Array.Empty<WavesPoint>();
         }
 
-        var output = new Point[threshold];
+        var output = new WavesPoint[threshold];
 
         var dataLength = input.Length;
 
         if (threshold >= dataLength || threshold <= 0)
         {
-            return Task.FromResult(input);
+            return input;
         }
 
         var every = (double)(dataLength - 2) / (threshold - 2);
 
         var index = 0;
-        var maxAreaPoint = new Point(0, 0);
+        var maxAreaPoint = new WavesPoint(0, 0);
         var nextIndex = 0;
 
         output[0] = input[index];
@@ -89,6 +90,18 @@ public class Resampling
 
         output[threshold - 1] = input[dataLength - 1];
 
-        return Task.FromResult(output);
+        return output;
+    }
+
+    /// <summary>
+    ///     Spline interpolation.
+    /// </summary>
+    /// <param name="input">Input data.</param>
+    /// <param name="threshold">Number of points.</param>
+    /// <returns>Interpolated data.</returns>
+    public static WavesPoint[] SplineInterpolation(WavesPoint[] input, int threshold)
+    {
+        // TODO:
+        return input;
     }
 }

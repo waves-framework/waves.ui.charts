@@ -809,17 +809,18 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// <inheritdoc />
     protected override void Refresh(DrawingContext context)
     {
-        DrawingObjects?.Clear();
-        PrepareChart();
+        PrepareBackground();
+        PrepareGrid();
+
         base.Refresh(context);
     }
 
     /// <summary>
-    /// Prepares chart (background, ticks).
+    /// Refreshes background.
     /// </summary>
-    protected void PrepareChart()
+    protected void PrepareBackground()
     {
-        DrawingObjects.Add(new WavesRectangle()
+        DrawingObjects?.Add(new WavesRectangle()
         {
             CornerRadius = CornerRadius.TopLeft,
             Fill = BackgroundColor,
@@ -827,7 +828,13 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             Width = Bounds.Width,
             Height = Bounds.Height,
         });
+    }
 
+    /// <summary>
+    /// Prepares chart (background, ticks).
+    /// </summary>
+    protected void PrepareGrid()
+    {
         if (HasDefaultTicks)
         {
             HasDefaultTicks = this.GenerateDefaultTicks(_ticks);

@@ -113,6 +113,15 @@ public class WavesSurface :
             return;
         }
 
+        RenderUpdate(context);
+    }
+
+    /// <summary>
+    /// Renders objects.
+    /// </summary>
+    /// <param name="context">Drawing context.</param>
+    protected virtual void RenderUpdate(DrawingContext context)
+    {
         if (Renderer is SkiaDrawingRenderer)
         {
             RenderSkia(context);

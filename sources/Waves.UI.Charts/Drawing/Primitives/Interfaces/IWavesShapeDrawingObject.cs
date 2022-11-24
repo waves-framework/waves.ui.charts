@@ -16,6 +16,21 @@ public interface IWavesShapeDrawingObject : IWavesDrawingObject
     double Width { get; set; }
 
     /// <summary>
+    ///     Gets or sets stroke thickness.
+    /// </summary>
+    double StrokeThickness { get; set; }
+
+    /// <summary>
+    ///     Gets or sets fill.
+    /// </summary>
+    WavesColor Fill { get; set; }
+
+    /// <summary>
+    ///     Gets or sets stroke.
+    /// </summary>
+    WavesColor Stroke { get; set; }
+
+    /// <summary>
     ///     Gets or sets location.
     /// </summary>
     WavesPoint Location { get; set; }

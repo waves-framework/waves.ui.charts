@@ -157,7 +157,7 @@ public static class Signatures
             IsVisible = true,
             IsAntialiased = true,
             Opacity = opacity,
-            Fill = fill,
+            Color = fill,
         };
         var size = renderer.MeasureText(obj);
         double x, y;
@@ -214,7 +214,7 @@ public static class Signatures
             IsVisible = true,
             IsAntialiased = true,
             Opacity = opacity,
-            Fill = fill,
+            Color = fill,
         };
 
         var size = renderer.MeasureText(obj);

@@ -36,6 +36,12 @@ public interface IWavesDrawingRenderer : IDisposable
     /// <param name="line">Line.</param>
     void Draw(WavesLine line);
 
+    /// <summary>
+    /// Draws polyline.
+    /// </summary>
+    /// <param name="polyline">Polyline.</param>
+    void Draw(WavesPolyline polyline);
+
     // /// <summary>
     // /// Draws lines.
     // /// </summary>

@@ -311,13 +311,12 @@ public static class Ticks
     {
         return new WavesLine
         {
-            Stroke = stroke,
-            Fill = stroke,
+            Color = stroke,
             DashPattern = dashArray,
             IsAntialiased = true,
             IsVisible = true,
             Opacity = opacity,
-            StrokeThickness = strokeThickness,
+            Thickness = strokeThickness,
             Point1 = new WavesPoint(Valuation.NormalizePointX2D(value, width, xMin, xMax), 0),
             Point2 = new WavesPoint(Valuation.NormalizePointX2D(value, width, xMin, xMax), height),
         };
@@ -349,13 +348,12 @@ public static class Ticks
     {
         return new WavesLine
         {
-            Stroke = stroke,
-            Fill = stroke,
+            Color = stroke,
             DashPattern = dashArray,
             IsAntialiased = true,
             IsVisible = true,
             Opacity = opacity,
-            StrokeThickness = strokeThickness,
+            Thickness = strokeThickness,
             Point1 = new WavesPoint(0, Valuation.NormalizePointY2D(value, height, yMin, yMax)),
             Point2 = new WavesPoint(width, Valuation.NormalizePointY2D(value, height, yMin, yMax)),
         };

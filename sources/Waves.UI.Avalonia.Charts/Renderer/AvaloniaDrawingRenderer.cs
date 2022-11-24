@@ -52,12 +52,29 @@ public class AvaloniaDrawingRenderer : IWavesDrawingRenderer
     {
         var pen = new Pen()
         {
-            Brush = line.Fill.ToAvaloniaSolidColorBrush(),
-            Thickness = line.StrokeThickness,
+            Brush = line.Color.ToAvaloniaSolidColorBrush(),
+            Thickness = line.Thickness,
             DashStyle = new DashStyle(line.DashPattern, 0),
         };
 
         _context.DrawLine(pen, line.Point1.ToAvaloniaPoint(), line.Point2.ToAvaloniaPoint());
+    }
+
+    /// <inheritdoc />
+    public void Draw(WavesPolyline polyline)
+    {
+        var pen = new Pen()
+        {
+            Brush = polyline.Color.ToAvaloniaSolidColorBrush(),
+            Thickness = polyline.Thickness,
+            DashStyle = new DashStyle(polyline.DashPattern, 0),
+        };
+
+        var length = polyline.Points.Length;
+        for (var i = 0; i < length - 1; i++)
+        {
+            _context.DrawLine(pen, polyline.Points[i].ToAvaloniaPoint(), polyline.Points[i + 1].ToAvaloniaPoint());
+        }
     }
 
     /// <inheritdoc />
@@ -87,7 +104,7 @@ public class AvaloniaDrawingRenderer : IWavesDrawingRenderer
                 (FontWeight)((int)text.Style.FontWeight),
                 FontStretch.Normal),
             text.Style.FontSize,
-            text.Fill.ToAvaloniaSolidColorBrush());
+            text.Color.ToAvaloniaSolidColorBrush());
 
         _context.DrawText(formattedText, text.Location.ToAvaloniaPoint());
     }
@@ -105,7 +122,7 @@ public class AvaloniaDrawingRenderer : IWavesDrawingRenderer
                 (FontWeight)((int)text.Style.FontWeight),
                 FontStretch.Normal),
             text.Style.FontSize,
-            text.Fill.ToAvaloniaSolidColorBrush());
+            text.Color.ToAvaloniaSolidColorBrush());
 
         return new WavesSize(formattedText.Width, formattedText.Height);
     }

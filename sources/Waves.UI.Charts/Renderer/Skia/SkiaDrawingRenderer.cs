@@ -55,10 +55,10 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
     {
         using var skPaint = new SKPaint
         {
-            Color = line.Fill.ToSkColor((float)line.Opacity),
-            StrokeWidth = (float)line.StrokeThickness,
+            Color = line.Color.ToSkColor((float)line.Opacity),
+            StrokeWidth = (float)line.Thickness,
             IsAntialias = line.IsAntialiased,
-            IsStroke = Math.Abs(line.StrokeThickness) > float.Epsilon,
+            IsStroke = Math.Abs(line.Thickness) > float.Epsilon,
         };
 
         if (line.DashPattern != null)
@@ -70,6 +70,32 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
         }
 
         _canvas.DrawLine(line.Point1.ToSkPoint(), line.Point2.ToSkPoint(), skPaint);
+    }
+
+    /// <inheritdoc />
+    public void Draw(WavesPolyline polyline)
+    {
+        using var skPaint = new SKPaint
+        {
+            Color = polyline.Color.ToSkColor((float)polyline.Opacity),
+            StrokeWidth = (float)polyline.Thickness,
+            IsAntialias = polyline.IsAntialiased,
+            IsStroke = Math.Abs(polyline.Thickness) > float.Epsilon,
+        };
+
+        if (polyline.DashPattern != null)
+        {
+            var dashEffect = SKPathEffect.CreateDash(polyline.DashPattern.ToFloat(), 0);
+            skPaint.PathEffect = skPaint.PathEffect != null
+                ? SKPathEffect.CreateCompose(dashEffect, skPaint.PathEffect)
+                : dashEffect;
+        }
+
+        var length = polyline.Points.Length;
+        for (var i = 0; i < length - 1; i++)
+        {
+            _canvas.DrawLine(polyline.Points[i].ToSkPoint(), polyline.Points[i + 1].ToSkPoint(), skPaint);
+        }
     }
 
     /// <inheritdoc />
@@ -155,7 +181,7 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
         return new SKPaint
         {
             TextSize = text.Style.FontSize,
-            Color = text.Fill.ToSkColor(),
+            Color = text.Color.ToSkColor(),
             IsStroke = false,
             SubpixelText = true,
             IsAntialias = true,

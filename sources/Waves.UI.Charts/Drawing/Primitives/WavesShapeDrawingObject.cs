@@ -15,6 +15,15 @@ namespace Waves.UI.Charts.Drawing.Primitives
         public double Width { get; set; } = 0;
 
         /// <inheritdoc />
+        public double StrokeThickness { get; set; } = 1;
+
+        /// <inheritdoc />
+        public WavesColor Fill { get; set; } = WavesColor.Black;
+
+        /// <inheritdoc />
+        public WavesColor Stroke { get; set; } = WavesColor.Gray;
+
+        /// <inheritdoc />
         public WavesPoint Location { get; set; } = new WavesPoint(0, 0);
 
         /// <inheritdoc />

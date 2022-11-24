@@ -923,7 +923,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         ////     return;
         //// }
 
-        var deltaF = delta.Y;
+        var deltaF = -delta.Y;
 
         var x = Valuation.DenormalizePointX2D(position.X, Bounds.Width, CurrentXMin, CurrentXMax);
         var y = Valuation.DenormalizePointY2D(position.Y, Bounds.Height, CurrentYMin, CurrentYMax);

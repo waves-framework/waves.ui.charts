@@ -20,6 +20,16 @@ public class WavesLine : WavesDrawingObject
     public WavesPoint Point2 { get; set; }
 
     /// <summary>
+    /// Gets or sets stroke thickness.
+    /// </summary>
+    public double Thickness { get; set; } = 1;
+
+    /// <summary>
+    /// Gets or sets fill.
+    /// </summary>
+    public WavesColor Color { get; set; } = WavesColor.Black;
+
+    /// <summary>
     ///     Gets or sets dash pattern.
     /// </summary>
     public double[] DashPattern { get; set; } = { 0, 0, 0, 0 };

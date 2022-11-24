@@ -1,37 +1,38 @@
-using System.Drawing;
+﻿using System.Drawing;
 using Waves.UI.Charts.Drawing.Interfaces;
+using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 
 namespace Waves.UI.Charts.Drawing.Primitives;
 
 /// <summary>
-/// Waves text.
+///     Line.
 /// </summary>
-public class WavesText : WavesDrawingObject
+public class WavesPolyline : WavesDrawingObject
 {
     /// <summary>
-    /// Gets or sets text style.
+    ///     Gets or sets first point.
     /// </summary>
-    public WavesTextStyle Style { get; set; }
+    public WavesPoint[] Points { get; set; }
 
     /// <summary>
-    /// Gets or sets value.
+    ///     Gets or sets dash pattern.
     /// </summary>
-    public string Value { get; set; }
+    public double[] DashPattern { get; set; } = { 0, 0, 0, 0 };
 
     /// <summary>
-    /// Gets or sets location.
+    /// Gets or sets stroke thickness.
     /// </summary>
-    public WavesPoint Location { get; set; } = new (0, 0);
+    public double Thickness { get; set; } = 1;
 
     /// <summary>
     /// Gets or sets fill.
     /// </summary>
     public WavesColor Color { get; set; } = WavesColor.Black;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Draw(IWavesDrawingRenderer e)
     {
-        if (Style == null || !IsVisible)
+        if (!IsVisible)
         {
             return;
         }

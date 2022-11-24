@@ -29,21 +29,6 @@ public interface IWavesDrawingObject
     double Opacity { get; set; }
 
     /// <summary>
-    ///     Gets or sets stroke thickness.
-    /// </summary>
-    double StrokeThickness { get; set; }
-
-    /// <summary>
-    ///     Gets or sets fill.
-    /// </summary>
-    WavesColor Fill { get; set; }
-
-    /// <summary>
-    ///     Gets or sets stroke.
-    /// </summary>
-    WavesColor Stroke { get; set; }
-
-    /// <summary>
     ///     Draw object in current canvas.
     /// </summary>
     /// <param name="e">Renderer.</param>

@@ -809,7 +809,16 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// <inheritdoc />
     protected override void Refresh(DrawingContext context)
     {
-        DrawingObjects.Clear();
+        DrawingObjects?.Clear();
+        PrepareChart();
+        base.Refresh(context);
+    }
+
+    /// <summary>
+    /// Prepares chart (background, ticks).
+    /// </summary>
+    protected void PrepareChart()
+    {
         DrawingObjects.Add(new WavesRectangle()
         {
             CornerRadius = CornerRadius.TopLeft,
@@ -838,8 +847,6 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             _signaturesCache,
             Bounds.Width,
             Bounds.Height);
-
-        base.Refresh(context);
     }
 
     /// <summary>

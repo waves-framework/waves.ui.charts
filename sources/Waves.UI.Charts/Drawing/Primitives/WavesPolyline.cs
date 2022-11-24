@@ -10,7 +10,7 @@ namespace Waves.UI.Charts.Drawing.Primitives;
 public class WavesPolyline : WavesDrawingObject
 {
     /// <summary>
-    ///     Gets or sets first point.
+    ///     Gets or sets points.
     /// </summary>
     public WavesPoint[] Points { get; set; }
 

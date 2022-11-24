@@ -30,13 +30,13 @@
             
         </Grid>
         
-        <controls:WavesChart x:Name="Surface"
-                             Grid.Row="1"
-                             Background="#0E111B"
-                             CornerRadius="12,12,12,24"
-                             Margin="12"
-                             VerticalSignatureAlignment="Right"
-                             HorizontalSignatureAlignment="Bottom"/>
+        <controls:WavesPointSeriesChart x:Name="Surface"
+                                        Grid.Row="1"
+                                        Background="#0E111B"
+                                        CornerRadius="12,12,12,24"
+                                        Margin="12"
+                                        VerticalSignatureAlignment="Right"
+                                        HorizontalSignatureAlignment="Bottom"/>
     </Grid>
   
 </UserControl>

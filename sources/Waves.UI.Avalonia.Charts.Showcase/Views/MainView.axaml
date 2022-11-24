@@ -6,15 +6,35 @@
              xmlns:controls="clr-namespace:Waves.UI.Avalonia.Charts.Controls;assembly=Waves.UI.Avalonia.Charts"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Waves.UI.Avalonia.Charts.Showcase.Views.MainView"
-             Foreground="White">
+             Foreground="White"
+             Background="#171C2C">
 
     <Design.DataContext>
     <viewModels:MainViewModel />
   </Design.DataContext>
 
     <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0">
+            
+            <TextBlock Classes="H1"
+                       FontWeight="Bold"
+                       Margin="24,24, 24, 24">
+                Chart Example
+            </TextBlock>
+            
+        </Grid>
+        
         <controls:WavesChart x:Name="Surface"
-                             Background="Red"
+                             Grid.Row="1"
+                             Background="#0E111B"
+                             CornerRadius="12,12,12,24"
+                             Margin="12"
                              VerticalSignatureAlignment="Right"
                              HorizontalSignatureAlignment="Bottom"/>
     </Grid>

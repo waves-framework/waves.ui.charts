@@ -201,16 +201,6 @@ public interface IWavesChart : IWavesSurface
     public WavesColor YAxisZeroLineColor { get; set; }
 
     /// <summary>
-    /// Gets or sets text color.
-    /// </summary>
-    public WavesColor TextColor { get; set; }
-
-    /// <summary>
-    /// Gets or sets background color.
-    /// </summary>
-    public WavesColor BackgroundColor { get; set; }
-
-    /// <summary>
     /// Gets or sets font size.
     /// </summary>
     public double FontSize { get; set; }

@@ -346,6 +346,30 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             nameof(VerticalSignatureAlignment),
             WavesAxisVerticalSignatureAlignment.Left);
 
+    /// <summary>
+    /// Defines <see cref="IsCtrlPressed"/> styled property.
+    /// </summary>
+    public static readonly StyledProperty<bool> IsCtrlPressedProperty =
+        AvaloniaProperty.Register<WavesChart, bool>(
+            nameof(IsCtrlPressed),
+            false);
+
+    /// <summary>
+    /// Defines <see cref="IsShiftPressed"/> styled property.
+    /// </summary>
+    public static readonly StyledProperty<bool> IsShiftPressedProperty =
+        AvaloniaProperty.Register<WavesChart, bool>(
+            nameof(IsShiftPressed),
+            false);
+
+    /// <summary>
+    /// Defines <see cref="IsMouseOver"/> styled property.
+    /// </summary>
+    public static readonly StyledProperty<bool> IsMouseOverProperty =
+        AvaloniaProperty.Register<WavesChart, bool>(
+            nameof(IsMouseOver),
+            false);
+
     private readonly List<WavesAxisTick> _ticks = new ();
     private readonly List<IWavesDrawingObject> _ticksCache = new ();
     private readonly List<IWavesDrawingObject> _signaturesCache = new ();
@@ -400,11 +424,6 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         AffectsRender<WavesChart>(YAxisZeroLineColorProperty);
         AffectsRender<WavesChart>(HorizontalSignatureAlignmentProperty);
         AffectsRender<WavesChart>(VerticalSignatureAlignmentProperty);
-        AffectsRender<WavesChart>(BackgroundProperty);
-        AffectsRender<WavesChart>(ForegroundProperty);
-
-        ForegroundProperty.Changed.Subscribe(OnForegroundChanged);
-        BackgroundProperty.Changed.Subscribe(OnBackgroundChanged);
 
         XMinProperty.Changed.Subscribe(OnXMinChanged);
         XMaxProperty.Changed.Subscribe(OnXMaxChanged);
@@ -679,12 +698,6 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     }
 
     /// <inheritdoc />
-    public WavesColor TextColor { get; set; }
-
-    /// <inheritdoc />
-    public WavesColor BackgroundColor { get; set; }
-
-    /// <inheritdoc />
     public WavesAxisHorizontalSignatureAlignment HorizontalSignatureAlignment
     {
         get => GetValue(HorizontalSignatureAlignmentProperty);
@@ -708,17 +721,29 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// <summary>
     /// Gets or sets whether if Shift key pressed or not.
     /// </summary>
-    public bool IsShiftPressed { get; private set; }
+    public bool IsShiftPressed
+    {
+        get => GetValue(IsShiftPressedProperty);
+        private set => SetValue(IsShiftPressedProperty, value);
+    }
 
     /// <summary>
     /// Gets or sets whether if Ctrl key pressed or not.
     /// </summary>
-    public bool IsCtrlPressed { get; private set; }
+    public bool IsCtrlPressed
+    {
+        get => GetValue(IsCtrlPressedProperty);
+        private set => SetValue(IsCtrlPressedProperty, value);
+    }
 
     /// <summary>
     /// Gets or sets whether if mouse over control.
     /// </summary>
-    public bool IsMouseOver { get; private set; }
+    public bool IsMouseOver
+    {
+        get => GetValue(IsMouseOverProperty);
+        private set => SetValue(IsMouseOverProperty, value);
+    }
 
     /// <inheritdoc />
     Type IStyleable.StyleKey => typeof(WavesChart);
@@ -727,6 +752,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     protected override void OnPointerEntered(PointerEventArgs e)
     {
         base.OnPointerEntered(e);
+        Focus();
         IsMouseOver = true;
     }
 
@@ -783,6 +809,15 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// <inheritdoc />
     protected override void Refresh(DrawingContext context)
     {
+        DrawingObjects.Add(new WavesRectangle()
+        {
+            CornerRadius = CornerRadius.TopLeft,
+            Fill = BackgroundColor,
+            Location = new WavesPoint(0, 0),
+            Width = Bounds.Width,
+            Height = Bounds.Height,
+        });
+
         if (HasDefaultTicks)
         {
             HasDefaultTicks = this.GenerateDefaultTicks(_ticks);
@@ -804,54 +839,6 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             Bounds.Height);
 
         base.Refresh(context);
-    }
-
-    /// <summary>
-    /// Gets color.
-    /// </summary>
-    /// <param name="brush">Brush.</param>
-    /// <returns>Waves color.</returns>
-    private static WavesColor GetWavesColor(IBrush brush)
-    {
-        if (brush is SolidColorBrush solidColorBrush)
-        {
-            var color = solidColorBrush.Color;
-            return color.ToWavesColor();
-        }
-
-        if (brush is ImmutableSolidColorBrush immutableSolidColorBrush)
-        {
-            var color = immutableSolidColorBrush.Color;
-            return color.ToWavesColor();
-        }
-
-        return WavesColor.Transparent;
-    }
-
-    /// <summary>
-    /// On foreground changed.
-    /// </summary>
-    /// <param name="obj">Obj.</param>
-    private void OnForegroundChanged(AvaloniaPropertyChangedEventArgs<IBrush?> obj)
-    {
-        var newValue = obj.NewValue.Value;
-        if (newValue != null)
-        {
-            TextColor = GetWavesColor(newValue);
-        }
-    }
-
-    /// <summary>
-    /// On background changed.
-    /// </summary>
-    /// <param name="obj">Obj.</param>
-    private void OnBackgroundChanged(AvaloniaPropertyChangedEventArgs<IBrush?> obj)
-    {
-        var newValue = obj.NewValue.Value;
-        if (newValue != null)
-        {
-            BackgroundColor = GetWavesColor(newValue);
-        }
     }
 
     /// <summary>
@@ -935,10 +922,10 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         ////     return;
         //// }
 
-        var deltaF = delta.X / 1000.0d;
+        var deltaF = delta.Y / 100;
 
-        var x = Valuation.DenormalizePointX2D(position.X, Width, CurrentXMin, CurrentXMax);
-        var y = Valuation.DenormalizePointY2D(position.Y, Height, CurrentYMin, CurrentYMax);
+        var x = Valuation.DenormalizePointX2D(position.X, Bounds.Width, CurrentXMin, CurrentXMax);
+        var y = Valuation.DenormalizePointY2D(position.Y, Bounds.Height, CurrentYMin, CurrentYMax);
 
         if (double.IsInfinity(x))
         {

@@ -2,7 +2,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
+using Avalonia.Media.Immutable;
 using Avalonia.Metadata;
+using Waves.UI.Avalonia.Charts.Extensions;
 using Waves.UI.Avalonia.Charts.Primitives;
 using Waves.UI.Avalonia.Charts.Renderer;
 using Waves.UI.Avalonia.Charts.Renderer.Operations;
@@ -40,6 +42,14 @@ public class WavesSurface :
 
         AffectsRender<WavesSurface>(DesiredSizeProperty);
         AffectsRender<WavesSurface>(DrawingObjectsProperty);
+        AffectsRender<WavesChart>(BackgroundProperty);
+        AffectsRender<WavesChart>(ForegroundProperty);
+
+        ForegroundProperty.Changed.Subscribe(OnForegroundChanged);
+        BackgroundProperty.Changed.Subscribe(OnBackgroundChanged);
+
+        TextColor = GetWavesColor(Foreground);
+        BackgroundColor = GetWavesColor(Background);
     }
 
     /// <summary>
@@ -52,6 +62,12 @@ public class WavesSurface :
         set => SetValue(DrawingObjectsProperty !, value);
     }
 
+    /// <inheritdoc />
+    public WavesColor TextColor { get; set; }
+
+    /// <inheritdoc />
+    public WavesColor BackgroundColor { get; set; }
+
     /// <summary>
     /// Gets renderer.
     /// </summary>
@@ -62,6 +78,28 @@ public class WavesSurface :
     {
         Refresh(context);
         base.Render(context);
+    }
+
+    /// <summary>
+    /// Gets color.
+    /// </summary>
+    /// <param name="brush">Brush.</param>
+    /// <returns>Waves color.</returns>
+    protected static WavesColor GetWavesColor(IBrush brush)
+    {
+        if (brush is SolidColorBrush solidColorBrush)
+        {
+            var color = solidColorBrush.Color;
+            return color.ToWavesColor();
+        }
+
+        if (brush is ImmutableSolidColorBrush immutableSolidColorBrush)
+        {
+            var color = immutableSolidColorBrush.Color;
+            return color.ToWavesColor();
+        }
+
+        return WavesColor.Transparent;
     }
 
     /// <summary>
@@ -82,7 +120,7 @@ public class WavesSurface :
         else
         {
             // avalonia renderer
-            Renderer.Update(context, DrawingObjects, WavesColor.Transparent);
+            Renderer.Update(context, DrawingObjects, BackgroundColor);
         }
     }
 
@@ -111,7 +149,33 @@ public class WavesSurface :
     /// <returns>Not used.</returns>
     private object OnSkiaRendering(object canvas)
     {
-        Renderer.Update(canvas, DrawingObjects, WavesColor.Transparent);
+        Renderer.Update(canvas, DrawingObjects, BackgroundColor);
         return true;
+    }
+
+    /// <summary>
+    /// On foreground changed.
+    /// </summary>
+    /// <param name="obj">Obj.</param>
+    private void OnForegroundChanged(AvaloniaPropertyChangedEventArgs<IBrush?> obj)
+    {
+        var newValue = obj.NewValue.Value;
+        if (newValue != null)
+        {
+            TextColor = GetWavesColor(newValue);
+        }
+    }
+
+    /// <summary>
+    /// On background changed.
+    /// </summary>
+    /// <param name="obj">Obj.</param>
+    private void OnBackgroundChanged(AvaloniaPropertyChangedEventArgs<IBrush?> obj)
+    {
+        var newValue = obj.NewValue.Value;
+        if (newValue != null)
+        {
+            BackgroundColor = GetWavesColor(newValue);
+        }
     }
 }

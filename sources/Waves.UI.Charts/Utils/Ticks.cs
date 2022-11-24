@@ -59,8 +59,8 @@ public static class Ticks
                         chart.XAxisPrimaryTicksColor,
                         chart.XAxisPrimaryTicksDashArray,
                         0.5f,
-                        chart.XMin,
-                        chart.XMax,
+                        chart.CurrentXMin,
+                        chart.CurrentXMax,
                         width,
                         height);
 
@@ -80,8 +80,8 @@ public static class Ticks
                         chart.XAxisAdditionalTicksColor,
                         chart.XAxisAdditionalTicksDashArray,
                         0.25f,
-                        chart.XMin,
-                        chart.XMax,
+                        chart.CurrentXMin,
+                        chart.CurrentXMax,
                         width,
                         height);
 
@@ -101,8 +101,8 @@ public static class Ticks
                         chart.XAxisZeroLineColor,
                         chart.XAxisZeroLineDashArray,
                         1f,
-                        chart.XMin,
-                        chart.XMax,
+                        chart.CurrentXMin,
+                        chart.CurrentXMax,
                         width,
                         height);
 
@@ -125,8 +125,8 @@ public static class Ticks
                         chart.YAxisPrimaryTicksColor,
                         chart.YAxisPrimaryTicksDashArray,
                         0.5f,
-                        chart.YMin,
-                        chart.YMax,
+                        chart.CurrentYMin,
+                        chart.CurrentYMax,
                         width,
                         height);
 
@@ -146,8 +146,8 @@ public static class Ticks
                         chart.YAxisAdditionalTicksColor,
                         chart.YAxisAdditionalTicksDashArray,
                         0.25f,
-                        chart.YMin,
-                        chart.YMax,
+                        chart.CurrentYMin,
+                        chart.CurrentYMax,
                         width,
                         height);
 
@@ -167,8 +167,8 @@ public static class Ticks
                         chart.YAxisZeroLineColor,
                         chart.YAxisZeroLineDashArray,
                         1f,
-                        chart.YMin,
-                        chart.YMax,
+                        chart.CurrentYMin,
+                        chart.CurrentYMax,
                         width,
                         height);
 
@@ -237,7 +237,7 @@ public static class Ticks
                     Value = Convert.ToSingle(j),
                     IsVisible = true,
                     Orientation = orientation,
-                    Type = WavesAxisTickType.Additional
+                    Type = WavesAxisTickType.Additional,
                 });
             }
 
@@ -265,7 +265,7 @@ public static class Ticks
                     Value = Convert.ToSingle(i),
                     IsVisible = true,
                     Orientation = orientation,
-                    Type = WavesAxisTickType.Primary
+                    Type = WavesAxisTickType.Primary,
                 });
             }
         }

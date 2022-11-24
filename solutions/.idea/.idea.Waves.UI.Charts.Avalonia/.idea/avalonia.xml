@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="../sources/Waves.UI.Avalonia.Charts.Showcase/Views/MainView.axaml" value="../sources/Waves.UI.Avalonia.Charts.Showcase.Desktop/Waves.UI.Avalonia.Charts.Showcase.Desktop.csproj" />
+        <entry key="../sources/Waves.UI.Avalonia.Charts/Styles/WavesChart.axaml" value="../sources/Waves.UI.Avalonia.Charts.Showcase.Desktop/Waves.UI.Avalonia.Charts.Showcase.Desktop.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

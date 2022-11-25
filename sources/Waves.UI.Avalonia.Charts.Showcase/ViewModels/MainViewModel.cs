@@ -54,6 +54,8 @@ public class MainViewModel : ViewModelBase
         var phase = 0d;
         var task = new Task(async () =>
         {
+            await Task.Delay(1000);
+
             do
             {
                 var random = new Random();
@@ -72,7 +74,7 @@ public class MainViewModel : ViewModelBase
                     phase = 0;
                 }
 
-                series?.Update(x, y);
+                await Dispatcher.UIThread.InvokeAsync(() => { series?.Update(x, y); });
                 await Task.Delay(33);
             }
             while (true);

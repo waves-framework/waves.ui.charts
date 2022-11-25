@@ -1,12 +1,8 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Globalization;
-using System.Net.Mime;
 using Avalonia;
-using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using Avalonia.Styling;
-using DynamicData.Binding;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 using Waves.UI.Charts.Series.Enums;
@@ -38,7 +34,7 @@ public class WavesPointSeriesChart : WavesChart, IStyleable
     public WavesPointSeriesChart()
     {
         AffectsRender<WavesPointSeriesChart>(SeriesProperty);
-        Series.CollectionChanged += OnCollectionChanged;
+        SeriesProperty.Changed.Subscribe(OnSeriesChanged);
     }
 
     /// <summary>
@@ -319,18 +315,69 @@ public class WavesPointSeriesChart : WavesChart, IStyleable
         InvalidateVisual();
     }
 
-    private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    /// <summary>
+    /// Callback when series changed.
+    /// </summary>
+    /// <param name="obj">Obj.</param>
+    private void OnSeriesChanged(AvaloniaPropertyChangedEventArgs<ObservableCollection<IWavesPointSeries>> obj)
     {
-        foreach (var item in e.OldItems)
+        var series = obj.NewValue.Value;
+
+        if (Series != null)
         {
-            // throw new NotImplementedException();
+            foreach (var item in Series)
+            {
+                item.Updated -= OnSeriesUpdated;
+            }
+
+            Series.CollectionChanged -= OnCollectionChanged;
         }
 
-        foreach (var item in e.NewItems)
+        Series = series;
+
+        if (Series != null)
         {
-            if (item is IWavesPointSeries series)
+            foreach (var item in Series)
             {
-                series.Updated += OnSeriesUpdated;
+                item.Updated += OnSeriesUpdated;
+            }
+
+            Series.CollectionChanged += OnCollectionChanged;
+        }
+    }
+
+    /// <summary>
+    /// Callback when collection changed.
+    /// </summary>
+    /// <param name="sender">Sender.</param>
+    /// <param name="e">Args.</param>
+    private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Remove)
+        {
+            if (e.OldItems != null)
+            {
+                foreach (var item in e.OldItems)
+                {
+                    if (item is IWavesPointSeries series)
+                    {
+                        series.Updated -= OnSeriesUpdated;
+                    }
+                }
+            }
+        }
+
+        if (e.Action == NotifyCollectionChangedAction.Add)
+        {
+            if (e.NewItems != null)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    if (item is IWavesPointSeries series)
+                    {
+                        series.Updated += OnSeriesUpdated;
+                    }
+                }
             }
         }
     }

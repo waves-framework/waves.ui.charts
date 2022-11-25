@@ -83,11 +83,6 @@ public class MainViewModel : ViewModelBase
             y[i] = Convert.ToDouble(candles[i].ClosePrice);
         }
 
-        XMin = x.Min();
-        XMax = x.Max();
-        YMin = y.Min();
-        YMax = y.Max();
-
         var series = new WavesPointSeries(x, y)
         {
             Color = WavesColor.Red
@@ -95,7 +90,12 @@ public class MainViewModel : ViewModelBase
 
         Series.Add(series);
 
-        var phase = 0d;
+        XMin = x.Min();
+        XMax = x.Max();
+        YMin = y.Min();
+        YMax = y.Max();
+
+        //// var phase = 0d;
         //// var task = new Task(async () =>
         //// {
         ////     await Task.Delay(1000);

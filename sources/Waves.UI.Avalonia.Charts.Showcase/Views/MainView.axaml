@@ -24,9 +24,8 @@
             
             <TextBlock Classes="H1"
                        FontWeight="Bold"
-                       Margin="24,24, 24, 24">
-                Chart Example
-            </TextBlock>
+                       Text="{Binding SelectedSymbol}"
+                       Margin="24,24, 24, 24"/>
             
         </Grid>
         

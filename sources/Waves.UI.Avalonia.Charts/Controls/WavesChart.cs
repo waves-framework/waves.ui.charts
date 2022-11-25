@@ -91,10 +91,11 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// <summary>
     /// Defines <see cref="XMax"/> styled property.
     /// </summary>
-    public static readonly StyledProperty<double> XMaxProperty =
-        AvaloniaProperty.Register<WavesChart, double>(
+    public static readonly AttachedProperty<double> XMaxProperty =
+        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, double>(
             nameof(XMax),
-            1);
+            1,
+            true);
 
     /// <summary>
     /// Defines <see cref="YMin"/> styled property.

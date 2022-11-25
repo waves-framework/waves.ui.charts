@@ -5,7 +5,7 @@
     <Style Selector="controls|WavesChart">
         
         <Setter Property="Focusable" Value="True"/>
-        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="BorderBrush" Value="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType={x:Type StyledElement}}}"/>
         <Setter Property="Foreground" Value="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType={x:Type StyledElement}}}"/>
@@ -24,66 +24,17 @@
                                       Background="{TemplateBinding Background}"
                                       Template="{TemplateBinding Template}"
                                       TemplatedParent="{TemplateBinding TemplatedParent}">
-                        <!-- <TemplatedControl.OpacityMask> -->
-                        <!--     <VisualBrush> -->
-                        <!--         <VisualBrush.Visual> -->
-                        <!--             <Border x:Name="MaskBorder" -->
-                        <!--                     Background="{TemplateBinding Background}" -->
-                        <!--                     CornerRadius="{TemplateBinding CornerRadius}"/> -->
-                        <!--         </VisualBrush.Visual> -->
-                        <!--     </VisualBrush> -->
-                        <!-- </TemplatedControl.OpacityMask> -->
+                        
+                        <TemplatedControl.OpacityMask>
+                            <VisualBrush>
+                                <VisualBrush.Visual>
+                                    <Border x:Name="MaskBorder"
+                                            Background="Black"
+                                            CornerRadius="{TemplateBinding CornerRadius}"/>
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </TemplatedControl.OpacityMask>
                     </TemplatedControl>
-                    
-                    <Border BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding CornerRadius}"/>
-                    
-                    <Grid VerticalAlignment="Top"
-                          HorizontalAlignment="Right">
-                        
-                        <StackPanel Margin="24">
-                            
-                            <StackPanel Orientation="Horizontal">
-                            
-                                <Border BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        CornerRadius="{TemplateBinding CornerRadius}"
-                                        IsVisible="{TemplateBinding IsCtrlPressed}"
-                                        Margin="6,0,0,0">
-                                
-                                    <TextBlock Text="CTRL"
-                                               Margin="6,3"/>
-                                
-                                </Border>
-                            
-                                <Border BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        CornerRadius="{TemplateBinding CornerRadius}"
-                                        IsVisible="{TemplateBinding IsShiftPressed}"
-                                        Margin="6,0,0,0">
-                                
-                                    <TextBlock Text="SHIFT"
-                                               Margin="6,3"/>
-                                
-                                </Border>
-                            
-                                <Border BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        CornerRadius="{TemplateBinding CornerRadius}"
-                                        IsVisible="{TemplateBinding IsMouseOver}"
-                                        Margin="6,0,0,0">
-                                
-                                    <TextBlock Text="Mouse"
-                                               Margin="6,3"/>
-                                
-                                </Border>
-                            
-                            </StackPanel>
-                            
-                        </StackPanel>
-                        
-                    </Grid>
                     
                 </Grid>
 

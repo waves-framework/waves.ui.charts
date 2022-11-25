@@ -7,6 +7,7 @@ using Avalonia.Threading;
 using Binance.Net.Clients;
 using Binance.Net.Enums;
 using Binance.Net.Interfaces;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Series;
@@ -85,7 +86,7 @@ public class MainViewModel : ViewModelBase
 
         var series = new WavesPointSeries(x, y)
         {
-            Color = WavesColor.Red
+            Color = WavesColor.Red,
         };
 
         Series.Add(series);
@@ -94,6 +95,11 @@ public class MainViewModel : ViewModelBase
         XMax = x.Max();
         YMin = y.Min();
         YMax = y.Max();
+
+        //// this.RaisePropertyChanged(nameof(XMin));
+        //// this.RaisePropertyChanged(nameof(XMax));
+        //// this.RaisePropertyChanged(nameof(YMin));
+        //// this.RaisePropertyChanged(nameof(YMax));
 
         //// var phase = 0d;
         //// var task = new Task(async () =>
@@ -128,22 +134,18 @@ public class MainViewModel : ViewModelBase
 
     private async Task<IEnumerable<IBinanceKline>> GetCandles()
     {
-        using (var client = new BinanceClient())
-        {
-            var result = await client.SpotApi.ExchangeData.GetKlinesAsync(
-                SelectedSymbol,
-                KlineInterval.FiveMinutes,
-                DateTime.Now.AddDays(-1),
-                DateTime.Now);
+        using var client = new BinanceClient();
+        var result = await client.SpotApi.ExchangeData.GetKlinesAsync(
+            SelectedSymbol,
+            KlineInterval.FiveMinutes,
+            DateTime.Now.AddDays(-1),
+            DateTime.Now);
 
-            if (result.Success)
-            {
-                return result.Data;
-            }
-            else
-            {
-                throw new Exception($"Error requesting data: {result.Error.Message}");
-            }
+        if (result.Success)
+        {
+            return result.Data;
         }
+
+        throw new Exception($"Error requesting data: {result.Error.Message}");
     }
 }

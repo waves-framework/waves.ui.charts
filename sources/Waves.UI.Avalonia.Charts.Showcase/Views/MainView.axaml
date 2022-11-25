@@ -10,25 +10,25 @@
              Background="#171C2C">
 
     <Design.DataContext>
-    <viewModels:MainViewModel />
-  </Design.DataContext>
+        <viewModels:MainViewModel />
+    </Design.DataContext>
 
     <Grid>
-        
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <Grid Grid.Row="0">
-            
+
             <TextBlock Classes="H1"
                        FontWeight="Bold"
                        Text="{Binding SelectedSymbol}"
-                       Margin="24,24, 24, 24"/>
-            
+                       Margin="24,24, 24, 24" />
+
         </Grid>
-        
+
         <controls:WavesPointSeriesChart x:Name="Surface"
                                         Series="{Binding Series}"
                                         Grid.Row="1"
@@ -37,10 +37,10 @@
                                         XMax="{Binding XMax}"
                                         YMin="{Binding YMin}"
                                         YMax="{Binding YMax}"
-                                        CornerRadius="12,12,12,24"
-                                        Margin="12"
+                                        Margin="12,12,12,12"
+                                        BorderThickness="1"
                                         VerticalSignatureAlignment="Right"
-                                        HorizontalSignatureAlignment="Bottom"/>
+                                        HorizontalSignatureAlignment="Bottom" />
     </Grid>
-  
+
 </UserControl>

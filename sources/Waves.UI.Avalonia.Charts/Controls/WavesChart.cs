@@ -84,9 +84,10 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// Defines <see cref="XMin"/> styled property.
     /// </summary>
     public static readonly StyledProperty<double> XMinProperty =
-        AvaloniaProperty.Register<WavesChart, double>(
+        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, double>(
             nameof(XMin),
-            0);
+            0,
+            true);
 
     /// <summary>
     /// Defines <see cref="XMax"/> styled property.
@@ -101,41 +102,46 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// Defines <see cref="YMin"/> styled property.
     /// </summary>
     public static readonly StyledProperty<double> YMinProperty =
-        AvaloniaProperty.Register<WavesChart, double>(
+        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, double>(
             nameof(YMin),
-            -1);
+            -1,
+            true);
 
     /// <summary>
     /// Defines <see cref="YMax"/> styled property.
     /// </summary>
     public static readonly StyledProperty<double> YMaxProperty =
-        AvaloniaProperty.Register<WavesChart, double>(
+        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, double>(
             nameof(YMax),
-            1);
+            1,
+            true);
 
     /// <summary>
     /// Defines <see cref="CurrentXMin"/> styled property.
     /// </summary>
     public static readonly StyledProperty<double> CurrentXMinProperty =
-        AvaloniaProperty.Register<WavesChart, double>(
+        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, double>(
             nameof(CurrentXMin),
-            0);
+            0,
+            true);
 
     /// <summary>
     /// Defines <see cref="CurrentXMax"/> styled property.
     /// </summary>
     public static readonly StyledProperty<double> CurrentXMaxProperty =
-        AvaloniaProperty.Register<WavesChart, double>(
+        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, double>(
             nameof(CurrentXMax),
-            1);
+            1,
+            true);
 
     /// <summary>
     /// Defines <see cref="CurrentYMin"/> styled property.
     /// </summary>
     public static readonly StyledProperty<double> CurrentYMinProperty =
-        AvaloniaProperty.Register<WavesChart, double>(
+        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, double>(
             nameof(CurrentYMin),
-            -1);
+            -1,
+            true);
 
     /// <summary>
     /// Defines <see cref="CurrentYMax"/> styled property.
@@ -373,6 +379,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     private readonly List<IWavesDrawingObject> _ticksCache = new ();
     private readonly List<IWavesDrawingObject> _signaturesCache = new ();
 
+    private IWavesDrawingObject _background;
     private double _xMin = 0;
     private double _xMax = 1;
     private double _yMin = -1;
@@ -819,14 +826,21 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// </summary>
     protected void PrepareBackground()
     {
-        DrawingObjects?.Add(new WavesRectangle()
+        if (_background != null)
+        {
+            DrawingObjects?.Remove(_background);
+        }
+
+        _background = new WavesRectangle()
         {
             CornerRadius = CornerRadius.TopLeft,
             Fill = BackgroundColor,
             Location = new WavesPoint(0, 0),
             Width = Bounds.Width,
             Height = Bounds.Height,
-        });
+        };
+
+        DrawingObjects?.Add(_background);
     }
 
     /// <summary>

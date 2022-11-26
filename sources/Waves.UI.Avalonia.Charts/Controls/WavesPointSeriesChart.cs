@@ -1,5 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Globalization;
+using System.Net.Mime;
 using Avalonia;
 using Avalonia.Media;
 using Avalonia.Styling;
@@ -134,6 +136,9 @@ public class WavesPointSeriesChart : WavesChart, IStyleable
             {
                 case WavesPointSeriesType.Line:
                     GenerateLineSeries(series);
+                    break;
+                case WavesPointSeriesType.Bar:
+                    GenerateBarSeries(series);
                     break;
             }
         }
@@ -280,6 +285,179 @@ public class WavesPointSeriesChart : WavesChart, IStyleable
         //
         //     AddTempObject(text);
         // }
+    }
+
+    /// <summary>
+    ///     Generates bar series.
+    /// </summary>
+    /// <param name="series">Series.</param>
+    private void GenerateBarSeries(IWavesPointSeries series)
+    {
+        if (series.Points == null)
+        {
+            return;
+        }
+
+        if (series.Points.Length == 0)
+        {
+            return;
+        }
+
+        var visiblePoints = new List<WavesPoint>();
+        {
+            foreach (var point in series.Points)
+            {
+                if (point.X < CurrentXMin)
+                {
+                    if (visiblePoints.Count == 0)
+                    {
+                        visiblePoints.Add(new WavesPoint());
+                    }
+
+                    visiblePoints[0] = point;
+                    continue;
+                }
+
+                if (point.X >= CurrentXMin && point.X <= CurrentXMax)
+                {
+                    visiblePoints.Add(point);
+                }
+                else if (point.X > CurrentXMax)
+                {
+                    visiblePoints.Add(point);
+                    break;
+                }
+            }
+        }
+
+        var length = (int)Bounds.Width;
+        var points = visiblePoints.Count > length
+                ? Resampling.LargestTriangleThreeBucketsDecimation(visiblePoints.ToArray(), length)
+                : Resampling.SplineInterpolation(visiblePoints.ToArray(), length);
+
+        for (var i = 0; i < points.Length; i++)
+        {
+            points[i] = Valuation.NormalizePoint(
+                points[i],
+                Bounds.Width,
+                Bounds.Height,
+                CurrentXMin,
+                CurrentYMin,
+                CurrentXMax,
+                CurrentYMax);
+        }
+
+        for (var i = 0; i < points.Length - 1; i++)
+        {
+            var width = points[i + 1].X - points[i].X;
+            var height = Bounds.Height - points[i].Y;
+
+            var rectangle = new WavesRectangle
+            {
+                Fill = series.Color,
+                IsAntialiased = false,
+                IsVisible = true,
+                StrokeThickness = 2,
+                Stroke = GetWavesColor(Background),
+                Location = points[i],
+                Width = width,
+                Height = height,
+                Opacity = 0.8f,
+            };
+
+            if (visiblePoints.Count > length / 4)
+            {
+                rectangle.StrokeThickness = 0;
+                rectangle.IsAntialiased = false;
+            }
+
+            if (visiblePoints.Count <= length / 32)
+            {
+                // Добавляем подписи на столбцы
+                var ep = new Point(points[i].X + (points[i + 1].X - points[i].X) / 2, points[i].Y);
+                var value = Valuation.DenormalizePointY2D(points[i].Y, Bounds.Height, CurrentYMin, CurrentYMax);
+
+                var v = Math.Round(value, 2).ToString(CultureInfo.CurrentCulture);
+
+                var text = new WavesText()
+                {
+                    Color = GetWavesColor(Foreground),
+                    Location = new WavesPoint(ep.X, ep.Y),
+                    Style = new WavesTextStyle(),
+                    Value = v,
+                    IsVisible = true,
+                    IsAntialiased = true
+                };
+
+                var size = Renderer.MeasureText(text);
+
+                text.Location = new WavesPoint(text.Location.X - size.Width / 2, text.Location.Y - 6);
+
+                AddDrawingObject(text);
+            }
+
+            AddDrawingObject(rectangle);
+        }
+
+        if (points.Length == 0)
+        {
+            return;
+        }
+
+        var lastIndex = points.Length - 1;
+        var lastWidth = Width - points[lastIndex].X;
+        var lastHeight = Height - points[lastIndex].Y;
+
+        var lastRectangle = new WavesRectangle
+        {
+            Fill = series.Color,
+            IsAntialiased = false,
+            IsVisible = true,
+            StrokeThickness = 2,
+            Stroke = GetWavesColor(Background),
+            Location = points[lastIndex],
+            Width = lastWidth,
+            Height = lastHeight,
+            Opacity = 0.8f,
+        };
+
+        if (visiblePoints.Count > length / 4)
+        {
+            lastRectangle.StrokeThickness = 0;
+            lastRectangle.IsAntialiased = false;
+        }
+
+        if (visiblePoints.Count <= length / 32)
+        {
+            var ep = new Point(
+                points[lastIndex].X + (points[lastIndex].X - points[lastIndex].X) / 2,
+                points[lastIndex].Y);
+            var value = Valuation.DenormalizePointY2D(
+                points[lastIndex].Y,
+                Bounds.Height,
+                CurrentYMin,
+                CurrentYMax);
+
+            var v = Math.Round(value, 2).ToString(CultureInfo.InvariantCulture);
+
+            var text = new WavesText
+            {
+                Color = GetWavesColor(Foreground),
+                Location = new WavesPoint(ep.X, ep.Y),
+                Style = new WavesTextStyle(),
+                Value = v,
+                IsVisible = true,
+                IsAntialiased = true,
+            };
+
+            var size = Renderer.MeasureText(text);
+
+            text.Location = new WavesPoint(text.Location.X - size.Width / 2 + lastWidth / 2, text.Location.Y - 6);
+
+            AddDrawingObject(text);
+        }
+
+        AddDrawingObject(lastRectangle);
     }
 
     /// <summary>

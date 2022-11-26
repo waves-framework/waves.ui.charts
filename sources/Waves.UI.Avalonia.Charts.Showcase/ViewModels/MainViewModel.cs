@@ -11,6 +11,7 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Series;
+using Waves.UI.Charts.Series.Enums;
 using Waves.UI.Charts.Series.Interfaces;
 
 namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels;
@@ -87,6 +88,7 @@ public class MainViewModel : ViewModelBase
         var series = new WavesPointSeries(x, y)
         {
             Color = WavesColor.Red,
+            Type = WavesPointSeriesType.Bar,
         };
 
         Series.Add(series);

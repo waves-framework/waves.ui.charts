@@ -16,6 +16,16 @@ public interface IWavesPointSeries : IWavesSeries
     public WavesPointSeriesType Type { get; set; }
 
     /// <summary>
+    /// Gets or sets dot type.
+    /// </summary>
+    public WavesDotType DotType { get; set; }
+
+    /// <summary>
+    /// Gets or sets dot type.
+    /// </summary>
+    public double DotSize { get; set; }
+
+    /// <summary>
     ///     Gets or sets point.
     /// </summary>
     public WavesPoint[] Points { get; }

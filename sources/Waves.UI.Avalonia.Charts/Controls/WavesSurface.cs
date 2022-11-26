@@ -71,7 +71,7 @@ public class WavesSurface :
     /// <summary>
     /// Gets renderer.
     /// </summary>
-    protected IWavesDrawingRenderer Renderer { get; }
+    public IWavesDrawingRenderer Renderer { get; }
 
     /// <inheritdoc />
     public override void Render(DrawingContext context)

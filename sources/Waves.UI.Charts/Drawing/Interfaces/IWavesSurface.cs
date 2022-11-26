@@ -9,6 +9,11 @@ namespace Waves.UI.Charts.Drawing.Interfaces;
 public interface IWavesSurface
 {
     /// <summary>
+    /// Gets renderer.
+    /// </summary>
+    public IWavesDrawingRenderer Renderer { get; }
+
+    /// <summary>
     /// Gets or sets text color.
     /// </summary>
     public WavesColor TextColor { get; set; }

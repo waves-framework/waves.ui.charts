@@ -48,13 +48,13 @@ public static class PointSeriesExtensions
         var visiblePoints = new List<WavesPoint> { new () };
         foreach (var point in series.Points)
         {
-            if (point.X < chart.CurrentXMin)
+            if (point.X <= chart.CurrentXMin)
             {
                 visiblePoints[0] = point;
                 continue;
             }
 
-            if (point.X >= chart.CurrentXMin && point.X <= chart.CurrentXMax)
+            if (point.X > chart.CurrentXMin && point.X <= chart.CurrentXMax)
             {
                 visiblePoints.Add(point);
             }
@@ -107,14 +107,33 @@ public static class PointSeriesExtensions
         if (series.DotType != WavesDotType.None)
         {
             List<IWavesDrawingObject> dotsObjects = null;
+            var dotPoints = new WavesPoint[visiblePoints.Count];
+            if (visiblePoints.Count <= length)
+            {
+                for (var i = 0; i < visiblePoints.Count; i++)
+                {
+                    dotPoints[i] = Valuation.NormalizePoint(
+                        visiblePoints[i],
+                        width,
+                        height,
+                        chart.CurrentXMin,
+                        chart.CurrentYMin,
+                        chart.CurrentXMax,
+                        chart.CurrentYMax);
+                }
+            }
+            else
+            {
+                dotPoints = points;
+            }
 
             switch (series.DotType)
             {
                 case WavesDotType.Circle:
-                    dotsObjects = GenerateCircleDots(points, background, series.Color, series.DotSize);
+                    dotsObjects = GenerateCircleDots(dotPoints, background, series.Color, series.DotSize);
                     break;
                 case WavesDotType.FilledCircle:
-                    dotsObjects = GenerateCircleDots(points, series.Color, background, series.DotSize);
+                    dotsObjects = GenerateCircleDots(dotPoints, series.Color, background, series.DotSize);
                     break;
             }
 

@@ -391,7 +391,7 @@ public class WavesPointSeriesChart : WavesChart, IStyleable
 
                 var size = Renderer.MeasureText(text);
 
-                text.Location = new WavesPoint(text.Location.X - size.Width / 2, text.Location.Y - 6);
+                text.Location = new WavesPoint(text.Location.X - size.Width / 2, text.Location.Y - size.Height - 6);
 
                 AddDrawingObject(text);
             }
@@ -429,7 +429,7 @@ public class WavesPointSeriesChart : WavesChart, IStyleable
 
         if (visiblePoints.Count <= length / 32)
         {
-            var ep = new Point(
+            var ep = new WavesPoint(
                 points[lastIndex].X + (points[lastIndex].X - points[lastIndex].X) / 2,
                 points[lastIndex].Y);
             var value = Valuation.DenormalizePointY2D(
@@ -452,7 +452,7 @@ public class WavesPointSeriesChart : WavesChart, IStyleable
 
             var size = Renderer.MeasureText(text);
 
-            text.Location = new WavesPoint(text.Location.X - size.Width / 2 + lastWidth / 2, text.Location.Y - 6);
+            text.Location = new WavesPoint(text.Location.X - size.Width / 2 + lastWidth / 2, text.Location.Y - size.Height - 6);
 
             AddDrawingObject(text);
         }

@@ -139,7 +139,7 @@ public class MainViewModel : ViewModelBase
         using var client = new BinanceClient();
         var result = await client.SpotApi.ExchangeData.GetKlinesAsync(
             SelectedSymbol,
-            KlineInterval.FiveMinutes,
+            KlineInterval.OneMinute,
             DateTime.Now.AddDays(-1),
             DateTime.Now);
 

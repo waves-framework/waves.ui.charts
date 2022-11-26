@@ -1039,8 +1039,8 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// <param name="y">Scroll value along the Y axis.</param>
     private void ScrollChart(double delta, double x, double y)
     {
-        var xMin = delta * 10f;
-        var xMax = delta * 10f;
+        var xMin = delta / 100d;
+        var xMax = delta / 100d;
 
         if (CurrentXMax + xMax > XMax)
         {

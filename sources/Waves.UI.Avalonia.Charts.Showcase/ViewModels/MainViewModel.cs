@@ -98,6 +98,18 @@ public class MainViewModel : ViewModelBase
     public double YMax { get; set; }
 
     /// <summary>
+    /// Gets or sets Signature X min.
+    /// </summary>
+    [Reactive]
+    public object SignatureXMin { get; set; }
+
+    /// <summary>
+    /// Gets or sets Signature X max.
+    /// </summary>
+    [Reactive]
+    public object SignatureXMax { get; set; }
+
+    /// <summary>
     /// Gets or sets series.
     /// </summary>
     [Reactive]
@@ -138,10 +150,13 @@ public class MainViewModel : ViewModelBase
 
         var x = new double[length];
         var y = new double[length];
+        var signatureXMin = _candles.Min(x => x.CloseTime);
+        var signatureXMax = _candles.Max(x => x.CloseTime);
+        var step = (signatureXMax.ToOADate() - signatureXMin.ToOADate()) / length;
 
         for (var i = 0; i < length; i++)
         {
-            x[i] = i / (double)length;
+            x[i] = signatureXMin.ToOADate() + step * i;
             y[i] = Convert.ToDouble(_candles[i].ClosePrice);
         }
 
@@ -154,10 +169,12 @@ public class MainViewModel : ViewModelBase
 
         Series.Add(_series);
 
-        XMin = x.Min();
-        XMax = x.Max();
         YMin = y.Min();
         YMax = y.Max();
+        XMin = signatureXMin.ToOADate();
+        XMax = signatureXMax.ToOADate();
+        SignatureXMin = signatureXMin;
+        SignatureXMax = signatureXMax;
 
         this.WhenPropertyChanged(x => x.SelectedSeriesType).Subscribe(_ => Update());
         this.WhenPropertyChanged(x => x.SelectedDotType).Subscribe(_ => Update());
@@ -170,16 +187,20 @@ public class MainViewModel : ViewModelBase
 
         var x = new double[length];
         var y = new double[length];
+        var signatureXMin = _candles.Min(x => x.CloseTime);
+        var signatureXMax = _candles.Max(x => x.CloseTime);
+        var step = (signatureXMax.ToOADate() - signatureXMin.ToOADate()) / length;
 
         for (var i = 0; i < length; i++)
         {
-            x[i] = i / (double)length;
+            x[i] = signatureXMin.ToOADate() + step * i;
             y[i] = Convert.ToDouble(_candles[i].ClosePrice);
         }
 
         _series.Color = SelectedSeriesColor;
         _series.Type = SelectedSeriesType;
         _series.DotType = SelectedDotType;
+
         _series.Update(x, y);
     }
 

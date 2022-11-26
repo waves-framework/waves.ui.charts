@@ -286,6 +286,113 @@ public static class Ticks
     }
 
     /// <summary>
+    /// Generates axis ticks.
+    /// </summary>
+    /// <param name="ticks">Input ticks.</param>
+    /// <param name="dateMin">Date time min.</param>
+    /// <param name="dateMax">Date time max.</param>
+    /// <param name="primaryTicksCount">Primary ticks count.</param>
+    /// <param name="additionalTicksCount">Additional ticks count.</param>
+    /// <param name="orientation">Orientation.</param>
+    public static void GenerateAxisTicks(
+        this List<WavesAxisTick> ticks,
+        DateTime dateMin,
+        DateTime dateMax,
+        int primaryTicksCount,
+        int additionalTicksCount,
+        WavesAxisTickOrientation orientation)
+    {
+        var min = dateMin.ToOADate();
+        var max = dateMax.ToOADate();
+
+        var rank = (int)Math.Round(Math.Log10(max - min));
+
+        if (rank == int.MinValue)
+        {
+            return;
+        }
+
+        var highestRange = Math.Pow(10, rank);
+        var roundFactor = Math.Abs(rank) + 1;
+        var tickStep = highestRange / primaryTicksCount;
+        var additionalTickStep = tickStep / additionalTicksCount;
+
+        if (!(Math.Abs(tickStep) > 0))
+        {
+            return;
+        }
+
+        var start = Math.Round(min / tickStep) * tickStep;
+
+        for (var i = start; i <= max; i += tickStep)
+        {
+            for (var j = i + additionalTickStep; j <= i + tickStep - additionalTickStep; j += additionalTickStep)
+            {
+                if (j > max)
+                {
+                    continue;
+                }
+
+                if (Math.Abs(j - min) < double.Epsilon || Math.Abs(j - max) < double.Epsilon)
+                {
+                    continue;
+                }
+
+                ticks.Add(new WavesAxisTick
+                {
+                    Description = DateTime.FromOADate(j).ToString(CultureInfo.InvariantCulture),
+                    Value = Convert.ToSingle(j),
+                    IsVisible = true,
+                    Orientation = orientation,
+                    Type = WavesAxisTickType.Additional,
+                });
+            }
+
+            if (i > max)
+            {
+                continue;
+            }
+
+            if (Math.Abs(i) > 0)
+            {
+                if (Math.Abs(i - min) < double.Epsilon || Math.Abs(i - max) < double.Epsilon)
+                {
+                    continue;
+                }
+
+                var description = i.ToString(CultureInfo.InvariantCulture);
+                if (roundFactor < 15)
+                {
+                    description = DateTime.FromOADate(i).ToString(CultureInfo.InvariantCulture);
+                }
+
+                ticks.Add(new WavesAxisTick
+                {
+                    Description = description,
+                    Value = Convert.ToSingle(i),
+                    IsVisible = true,
+                    Orientation = orientation,
+                    Type = WavesAxisTickType.Primary,
+                });
+            }
+        }
+
+        ticks.Reverse();
+
+        if (min < 0 && max > 0)
+        {
+            ticks.Add(new WavesAxisTick
+            {
+                Description = 0.ToString(CultureInfo.InvariantCulture),
+                Value = 0,
+                IsVisible = true,
+                Orientation = orientation,
+                Type = WavesAxisTickType.Zero,
+            });
+        }
+    }
+
+    /// <summary>
     /// Gets X axis tick line.
     /// </summary>
     /// <param name="value">Value.</param>
@@ -369,12 +476,27 @@ public static class Ticks
         ticks?.Clear();
         ticks ??= new List<WavesAxisTick>();
 
-        ticks.GenerateAxisTicks(
-            chart.CurrentXMin,
-            chart.CurrentXMax,
-            chart.XAxisPrimaryTicksNumber,
-            chart.XAxisAdditionalTicksNumber,
-            WavesAxisTickOrientation.Horizontal);
+        if (chart.SignatureXMin is null || chart.SignatureXMax is null)
+        {
+            ticks.GenerateAxisTicks(
+                chart.CurrentXMin,
+                chart.CurrentXMax,
+                chart.XAxisPrimaryTicksNumber,
+                chart.XAxisAdditionalTicksNumber,
+                WavesAxisTickOrientation.Horizontal);
+        }
+        else
+        {
+            if (chart.SignatureXMin is DateTime dateTimeMin && chart.SignatureXMax is DateTime dateTimeMax)
+            {
+                ticks.GenerateAxisTicks(
+                    dateTimeMin,
+                    dateTimeMax,
+                    chart.XAxisPrimaryTicksNumber,
+                    chart.XAxisAdditionalTicksNumber,
+                    WavesAxisTickOrientation.Horizontal);
+            }
+        }
 
         ticks.GenerateAxisTicks(
             chart.CurrentYMin,

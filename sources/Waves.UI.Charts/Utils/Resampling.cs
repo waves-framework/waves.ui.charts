@@ -132,6 +132,11 @@ public class Resampling
     /// <returns>Interpolated array.</returns>
     private static double[] Interpolate(double[] xOrig, double[] yOrig, double[] xInterp)
     {
+        if (xOrig.Length < 2 && yOrig.Length < 2)
+        {
+            return Array.Empty<double>();
+        }
+
         var (a, b) = FitMatrix(xOrig, yOrig);
 
         var yInterp = new double[xInterp.Length];

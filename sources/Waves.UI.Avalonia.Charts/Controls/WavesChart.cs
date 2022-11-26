@@ -152,6 +152,22 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             1);
 
     /// <summary>
+    /// Defines <see cref="SignatureXMin"/> styled property.
+    /// </summary>
+    public static readonly StyledProperty<object> SignatureXMinProperty =
+        AvaloniaProperty.Register<WavesChart, object>(
+            nameof(SignatureXMin),
+            null);
+
+    /// <summary>
+    /// Defines <see cref="SignatureXMax"/> styled property.
+    /// </summary>
+    public static readonly StyledProperty<object> SignatureXMaxProperty =
+        AvaloniaProperty.Register<WavesChart, object>(
+            nameof(SignatureXMax),
+            null);
+
+    /// <summary>
     /// Defines <see cref="XAxisPrimaryTicksNumber"/> styled property.
     /// </summary>
     public static readonly StyledProperty<int> XAxisPrimaryTicksNumberProperty =
@@ -546,6 +562,20 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     {
         get => GetValue(CurrentYMaxProperty);
         set => SetValue(CurrentYMaxProperty, value);
+    }
+
+    /// <inheritdoc />
+    public object SignatureXMin
+    {
+        get => GetValue(SignatureXMinProperty);
+        set => SetValue(SignatureXMinProperty, value);
+    }
+
+    /// <inheritdoc />
+    public object SignatureXMax
+    {
+        get => GetValue(SignatureXMaxProperty);
+        set => SetValue(SignatureXMaxProperty, value);
     }
 
     /// <inheritdoc />

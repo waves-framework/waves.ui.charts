@@ -68,16 +68,15 @@ public class WavesPointSeriesChart : WavesChart, IStyleable
     ///     Update series.
     /// </summary>
     /// <param name="index">Series index.</param>
-    /// <param name="point">New points.</param>
-    /// <param name="description">New description.</param>
-    public void UpdateSeries(int index, WavesPoint[] point, string[] description = null)
+    /// <param name="points">New points.</param>
+    public void UpdateSeries(int index, WavesPoint[] points)
     {
         if (index >= Series.Count)
         {
             throw new Exception("Series index is not correct");
         }
 
-        Series[index].Update(point, description);
+        Series[index].Update(points);
 
         InvalidateVisual();
     }
@@ -88,15 +87,14 @@ public class WavesPointSeriesChart : WavesChart, IStyleable
     /// <param name="index">Series index.</param>
     /// <param name="x">New X values.</param>
     /// <param name="y">New Y values.</param>
-    /// <param name="description">New description.</param>
-    public void UpdateSeries(int index, double[] x, double[] y, string[] description = null)
+    public void UpdateSeries(int index, double[] x, double[] y)
     {
         if (index >= Series.Count)
         {
             throw new Exception("Series index is not correct");
         }
 
-        Series[index].Update(x, y, description);
+        Series[index].Update(x, y);
 
         InvalidateVisual();
     }

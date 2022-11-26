@@ -62,7 +62,7 @@
         <Style Selector="Grid.settingsSmall">
             <Setter Property="Row" Value="1" />
             <Setter Property="Column" Value="0" />
-            <Setter Property="Margin" Value="24,24,24,36" />
+            <Setter Property="Margin" Value="24,24,24,0" />
             <Setter Property="Height" Value="240" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
         </Style>
@@ -71,7 +71,7 @@
         <Style Selector="Grid.settingsWide">
             <Setter Property="Row" Value="0" />
             <Setter Property="Column" Value="1" />
-            <Setter Property="Margin" Value="24,24,24,24" />
+            <Setter Property="Margin" Value="24,24,24,0" />
             <Setter Property="Width" Value="240" />
             <Setter Property="VerticalAlignment" Value="Stretch" />
         </Style>

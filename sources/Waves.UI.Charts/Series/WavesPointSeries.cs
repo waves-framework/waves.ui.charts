@@ -22,20 +22,9 @@ public class WavesPointSeries : IWavesPointSeries
     /// </summary>
     /// <param name="points">Data.</param>
     /// <param name="description">Descriptions.</param>
-    public WavesPointSeries(WavesPoint[] points, string[] description = null)
+    public WavesPointSeries(WavesPoint[] points)
     {
-        if (points == null)
-        {
-            throw new ArgumentNullException(nameof(points), "Points were not set.");
-        }
-
-        if (description != null && points.Length != description.Length)
-        {
-            throw new Exception("Array lengths do not match.");
-        }
-
-        Points = points;
-        Description = description;
+        Points = points ?? throw new ArgumentNullException(nameof(points), "Points were not set.");
     }
 
     /// <summary>
@@ -72,8 +61,6 @@ public class WavesPointSeries : IWavesPointSeries
         {
             Points[i] = new WavesPoint(x[i], y[i]);
         }
-
-        Description = description;
     }
 
     /// <inheritdoc />
@@ -107,10 +94,7 @@ public class WavesPointSeries : IWavesPointSeries
     public WavesPoint[] Points { get; private set; }
 
     /// <inheritdoc />
-    public string[] Description { get; private set; }
-
-    /// <inheritdoc />
-    public void Update(WavesPoint[] points, string[] description = null)
+    public void Update(WavesPoint[] points)
     {
         if (points == null)
         {
@@ -127,29 +111,11 @@ public class WavesPointSeries : IWavesPointSeries
             Points[i] = points[i];
         }
 
-        if (description != null && points.Length != description.Length)
-        {
-            throw new Exception("Array lengths do not match.");
-        }
-
-        if (description != null)
-        {
-            if (description.Length != Description.Length)
-            {
-                Description = new string[description.Length];
-            }
-
-            for (var i = 0; i < Description.Length; i++)
-            {
-                Description[i] = description[i];
-            }
-        }
-
         OnSeriesUpdated();
     }
 
     /// <inheritdoc />
-    public void Update(double[] x, double[] y, string[] description = null)
+    public void Update(double[] x, double[] y)
     {
         if (x == null)
         {
@@ -171,24 +137,6 @@ public class WavesPointSeries : IWavesPointSeries
         for (var i = 0; i < length; i++)
         {
             Points[i] = new WavesPoint(x[i], y[i]);
-        }
-
-        if (description != null && x.Length != description.Length)
-        {
-            throw new Exception("Array lengths do not match.");
-        }
-
-        if (description != null)
-        {
-            if (description.Length != Description.Length)
-            {
-                Description = new string[description.Length];
-            }
-
-            for (var i = 0; i < Description.Length; i++)
-            {
-                Description[i] = description[i];
-            }
         }
 
         OnSeriesUpdated();

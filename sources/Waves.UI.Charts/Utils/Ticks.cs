@@ -205,7 +205,7 @@ public static class Ticks
             return;
         }
 
-        var highestRange = (double)Math.Pow(10, rank);
+        var highestRange = Math.Pow(10, rank);
         var roundFactor = Math.Abs(rank) + 1;
         var tickStep = highestRange / primaryTicksCount;
         var additionalTickStep = tickStep / additionalTicksCount;
@@ -364,26 +364,23 @@ public static class Ticks
     /// </summary>
     /// <param name="chart">Chart.</param>
     /// <param name="ticks">Ticks.</param>
-    /// <returns>Returns true.</returns>
-    public static bool GenerateDefaultTicks(this IWavesChart chart, List<WavesAxisTick> ticks)
+    public static void GenerateDefaultTicks(this IWavesChart chart, List<WavesAxisTick> ticks)
     {
         ticks?.Clear();
         ticks ??= new List<WavesAxisTick>();
 
         ticks.GenerateAxisTicks(
-            chart.XMin,
-            chart.XMax,
+            chart.CurrentXMin,
+            chart.CurrentXMax,
             chart.XAxisPrimaryTicksNumber,
             chart.XAxisAdditionalTicksNumber,
             WavesAxisTickOrientation.Horizontal);
 
         ticks.GenerateAxisTicks(
-            chart.YMin,
-            chart.YMax,
+            chart.CurrentYMin,
+            chart.CurrentYMax,
             chart.YAxisPrimaryTicksNumber,
             chart.YAxisAdditionalTicksNumber,
             WavesAxisTickOrientation.Vertical);
-
-        return true;
     }
 }

@@ -18,7 +18,7 @@ public static class Signatures
     /// </summary>
     /// <param name="chart">Chart.</param>
     /// <param name="renderer">Renderer.</param>
-    /// <param name="axisTicks">Axis ticks.</param>
+    /// <param name="ticks">Axis ticks.</param>
     /// <param name="cache">Axis signatures drawing objects cache.</param>
     /// <param name="width">Width.</param>
     /// <param name="height">Height.</param>
@@ -26,7 +26,7 @@ public static class Signatures
     public static ICollection<IWavesDrawingObject> GenerateAxisSignaturesDrawingObjects(
         this IWavesChart chart,
         IWavesDrawingRenderer renderer,
-        List<WavesAxisTick> axisTicks,
+        List<WavesAxisTick> ticks,
         List<IWavesDrawingObject> cache,
         double width,
         double height)
@@ -46,7 +46,7 @@ public static class Signatures
         var horizontalTextStyle = new WavesTextStyle { TextAlignment = WavesTextAlignment.Center };
         var verticalTextStyle = new WavesTextStyle { TextAlignment = WavesTextAlignment.Center };
 
-        foreach (var tick in axisTicks)
+        foreach (var tick in ticks)
         {
             if (tick.Type is WavesAxisTickType.Additional)
             {

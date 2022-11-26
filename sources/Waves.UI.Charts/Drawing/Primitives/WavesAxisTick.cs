@@ -15,7 +15,7 @@ public class WavesAxisTick
     /// <summary>
     /// Gets or sets value.
     /// </summary>
-    public float Value { get; set; }
+    public double Value { get; set; }
 
     /// <summary>
     /// Gets or sets description.

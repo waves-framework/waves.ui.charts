@@ -27,7 +27,7 @@
                             <VisualBrush>
                                 <VisualBrush.Visual>
                                     <Border x:Name="MaskBorder"
-                                            Background="Black"
+                                            Background="{TemplateBinding Background}"
                                             CornerRadius="{TemplateBinding CornerRadius}"/>
                                 </VisualBrush.Visual>
                             </VisualBrush>

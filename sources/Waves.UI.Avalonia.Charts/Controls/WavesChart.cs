@@ -375,7 +375,6 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             nameof(IsMouseOver),
             false);
 
-    private readonly List<WavesAxisTick> _ticks = new ();
     private readonly List<IWavesDrawingObject> _ticksCache = new ();
     private readonly List<IWavesDrawingObject> _signaturesCache = new ();
 
@@ -721,7 +720,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public bool HasDefaultTicks
     {
         get => GetValue(HasDefaultTicksProperty);
-        private set => SetValue(HasDefaultTicksProperty, value);
+        protected set => SetValue(HasDefaultTicksProperty, value);
     }
 
     /// <summary>
@@ -753,6 +752,11 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
 
     /// <inheritdoc />
     Type IStyleable.StyleKey => typeof(WavesChart);
+
+    /// <summary>
+    /// Gets or sets ticks.
+    /// </summary>
+    protected List<WavesAxisTick> Ticks { get; set; } = new List<WavesAxisTick>();
 
     /// <inheritdoc />
     protected override void OnPointerEntered(PointerEventArgs e)
@@ -850,12 +854,12 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     {
         if (HasDefaultTicks)
         {
-            HasDefaultTicks = this.GenerateDefaultTicks(_ticks);
+            this.GenerateDefaultTicks(Ticks);
         }
 
         // generate axis ticks
         this.GenerateAxisTicksDrawingObjects(
-            _ticks,
+            Ticks,
             _ticksCache,
             Bounds.Width,
             Bounds.Height);
@@ -863,7 +867,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         // generate signatures
         this.GenerateAxisSignaturesDrawingObjects(
             Renderer,
-            _ticks,
+            Ticks,
             _signaturesCache,
             Bounds.Width,
             Bounds.Height);

@@ -6,6 +6,11 @@ namespace Waves.UI.Charts.Series.Enums;
 public enum WavesDotType
 {
     /// <summary>
+    /// None.
+    /// </summary>
+    None,
+
+    /// <summary>
     /// Circle.
     /// </summary>
     Circle,

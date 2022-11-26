@@ -56,6 +56,12 @@ public interface IWavesDrawingRenderer : IDisposable
     void Draw(WavesRectangle rectangle);
 
     /// <summary>
+    /// Draws ellipse.
+    /// </summary>
+    /// <param name="rectangle">Ellipse.</param>
+    void Draw(WavesEllipse rectangle);
+
+    /// <summary>
     /// Draws text.
     /// </summary>
     /// <param name="text">Text.</param>

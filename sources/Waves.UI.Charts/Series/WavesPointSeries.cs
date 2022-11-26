@@ -98,10 +98,10 @@ public class WavesPointSeries : IWavesPointSeries
     public WavesPointSeriesType Type { get; set; } = WavesPointSeriesType.Line;
 
     /// <inheritdoc />
-    public WavesDotType DotType { get; set; }
+    public WavesDotType DotType { get; set; } = WavesDotType.None;
 
     /// <inheritdoc />
-    public double DotSize { get; set; }
+    public double DotSize { get; set; } = 8;
 
     /// <inheritdoc />
     public WavesPoint[] Points { get; private set; }

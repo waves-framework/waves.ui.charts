@@ -137,7 +137,9 @@ public class WavesPointSeriesChart : WavesChart, IStyleable
                         series,
                         _drawingObjectsCache,
                         Bounds.Width,
-                        Bounds.Height);
+                        Bounds.Height,
+                        GetWavesColor(Background),
+                        GetWavesColor(Foreground));
                     break;
                 case WavesPointSeriesType.Bar:
                     this.GenerateBarSeries(

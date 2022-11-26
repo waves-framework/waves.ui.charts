@@ -142,6 +142,45 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
     }
 
     /// <inheritdoc />
+    public void Draw(WavesEllipse ellipse)
+    {
+        using (var skPaint = new SKPaint
+               {
+                   Color = ellipse.Fill.ToSkColor((float)ellipse.Opacity),
+                   IsAntialias = ellipse.IsAntialiased,
+               })
+        {
+            _canvas.DrawOval(
+                (float)ellipse.Location.X,
+                (float)ellipse.Location.Y,
+                (float)ellipse.Width / 2,
+                (float)ellipse.Height / 2,
+                skPaint);
+        }
+
+        if (!(ellipse.StrokeThickness > 0))
+        {
+            return;
+        }
+
+        using (var skPaint = new SKPaint
+               {
+                   Color = ellipse.Stroke.ToSkColor((float)ellipse.Opacity),
+                   IsAntialias = ellipse.IsAntialiased,
+                   StrokeWidth = (float)ellipse.StrokeThickness,
+                   IsStroke = true,
+               })
+        {
+            _canvas.DrawOval(
+                (float)ellipse.Location.X,
+                (float)ellipse.Location.Y,
+                (float)ellipse.Width / 2,
+                (float)ellipse.Height / 2,
+                skPaint);
+        }
+    }
+
+    /// <inheritdoc />
     public void Draw(WavesText text)
     {
         using var skPaint = GetSkiaTextPaint(text);

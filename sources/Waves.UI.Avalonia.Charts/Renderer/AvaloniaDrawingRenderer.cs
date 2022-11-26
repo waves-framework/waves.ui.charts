@@ -92,6 +92,23 @@ public class AvaloniaDrawingRenderer : IWavesDrawingRenderer
     }
 
     /// <inheritdoc />
+    public void Draw(WavesEllipse ellipse)
+    {
+        var pen = new Pen
+        {
+            Brush = ellipse.Stroke.ToAvaloniaSolidColorBrush(),
+            Thickness = ellipse.StrokeThickness,
+        };
+
+        _context.DrawEllipse(
+            ellipse.Fill.ToAvaloniaSolidColorBrush(),
+            pen,
+            ellipse.Location.ToAvaloniaPoint(),
+            ellipse.Width / 2,
+            ellipse.Height / 2);
+    }
+
+    /// <inheritdoc />
     public void Draw(WavesText text)
     {
         var formattedText = new FormattedText(

@@ -166,6 +166,17 @@ public struct WavesColor
     }
 
     /// <summary>
+    /// Gets color from ARGB values.
+    /// </summary>
+    /// <param name="a">Alpha.</param>
+    /// <param name="color">Color.</param>
+    /// <returns>Returns color.</returns>
+    public static WavesColor WithOpacity(double a, WavesColor color)
+    {
+        return new WavesColor((byte)(a * color.A), color.R, color.G, color.B);
+    }
+
+    /// <summary>
     ///     Converts HEX string to Color.
     /// </summary>
     /// <param name="hexColor">HEX string.</param>

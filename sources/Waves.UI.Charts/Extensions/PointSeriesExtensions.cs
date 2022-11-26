@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
+using Waves.UI.Charts.Series.Enums;
 using Waves.UI.Charts.Series.Interfaces;
 using Waves.UI.Charts.Utils;
 
@@ -22,12 +24,16 @@ public static class PointSeriesExtensions
     /// <param name="cache">Cache.</param>
     /// <param name="width">Width.</param>
     /// <param name="height">Height.</param>
+    /// <param name="background">Background.</param>
+    /// <param name="foreground">Foreground.</param>
     public static void GenerateLineSeries(
         this IWavesChart chart,
         IWavesPointSeries series,
         ICollection<IWavesDrawingObject> cache,
         double width,
-        double height)
+        double height,
+        WavesColor background,
+        WavesColor foreground)
     {
         if (series.Points == null)
         {
@@ -96,6 +102,30 @@ public static class PointSeriesExtensions
 
             chart.DrawingObjects?.Add(line);
             cache.Add(line);
+        }
+
+        if (series.DotType != WavesDotType.None)
+        {
+            List<IWavesDrawingObject> dotsObjects = null;
+
+            switch (series.DotType)
+            {
+                case WavesDotType.Circle:
+                    dotsObjects = GenerateCircleDots(points, background, series.Color, series.DotSize);
+                    break;
+                case WavesDotType.FilledCircle:
+                    dotsObjects = GenerateCircleDots(points, series.Color, background, series.DotSize);
+                    break;
+            }
+
+            if (dotsObjects != null)
+            {
+                foreach (var obj in dotsObjects)
+                {
+                    chart.DrawingObjects?.Add(obj);
+                    cache.Add(obj);
+                }
+            }
         }
     }
 
@@ -198,7 +228,7 @@ public static class PointSeriesExtensions
 
             if (visiblePoints.Count <= length / 32)
             {
-                // Добавляем подписи на столбцы
+                // add signatures
                 var ep = new WavesPoint(points[i].X + (points[i + 1].X - points[i].X) / 2, points[i].Y);
                 var value = Valuation.DenormalizePointY2D(points[i].Y, height, chart.CurrentYMin, chart.CurrentYMax);
 
@@ -287,5 +317,27 @@ public static class PointSeriesExtensions
 
         chart.DrawingObjects?.Add(lastRectangle);
         cache.Add(lastRectangle);
+    }
+
+    /// <summary>
+    /// Generates circle dots.
+    /// </summary>
+    /// <param name="points">Points.</param>
+    /// <param name="background">Background.</param>
+    /// <param name="foreground">Foreground.</param>
+    /// <param name="dotSize">DotSize.</param>
+    private static List<IWavesDrawingObject> GenerateCircleDots(WavesPoint[] points, WavesColor background, WavesColor foreground, double dotSize)
+    {
+        return points.Select(point => new WavesEllipse()
+            {
+                Location = point,
+                Fill = background,
+                Stroke = foreground,
+                StrokeThickness = 1.5,
+                Width = dotSize,
+                Height = dotSize,
+            })
+            .Cast<IWavesDrawingObject>()
+            .ToList();
     }
 }

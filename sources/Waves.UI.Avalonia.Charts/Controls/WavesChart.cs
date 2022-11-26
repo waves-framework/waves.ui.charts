@@ -165,7 +165,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public static readonly StyledProperty<int> XAxisAdditionalTicksNumberProperty =
         AvaloniaProperty.Register<WavesChart, int>(
             nameof(XAxisAdditionalTicksNumber),
-            4);
+            8);
 
     /// <summary>
     /// Defines <see cref="YAxisPrimaryTicksNumber"/> styled property.
@@ -173,7 +173,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public static readonly StyledProperty<int> YAxisPrimaryTicksNumberProperty =
         AvaloniaProperty.Register<WavesChart, int>(
             nameof(YAxisPrimaryTicksNumber),
-            4);
+            2);
 
     /// <summary>
     /// Defines <see cref="YAxisAdditionalTicksNumber"/> styled property.

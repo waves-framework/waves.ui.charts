@@ -226,7 +226,7 @@ public static class Signatures
                 y = Valuation.NormalizePointY2D(value, height, yMin, yMax) - size.Height / 2;
                 break;
             case WavesAxisVerticalSignatureAlignment.Right:
-                x = width - size.Width * 2;
+                x = width - 1.5 * size.Width;
                 y = Valuation.NormalizePointY2D(value, height, yMin, yMax) - size.Height / 2;
                 break;
             default:
@@ -338,7 +338,7 @@ public static class Signatures
                 y = Valuation.NormalizePointY2D(value, height, yMin, yMax) - textSize.Height / 2;
                 break;
             case WavesAxisVerticalSignatureAlignment.Right:
-                x = width - textSize.Width * 2;
+                x = width - 1.5 * textSize.Width;
                 y = Valuation.NormalizePointY2D(value, height, yMin, yMax) - textSize.Height / 2;
                 break;
             default:

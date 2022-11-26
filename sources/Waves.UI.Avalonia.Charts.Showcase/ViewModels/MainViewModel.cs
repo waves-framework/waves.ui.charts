@@ -29,7 +29,7 @@ public class MainViewModel : ViewModelBase
     public MainViewModel()
     {
         SelectedSymbol = "BTCUSDT";
-        InitializeChart();
+        Initialize();
     }
 
     /// <summary>
@@ -49,6 +49,29 @@ public class MainViewModel : ViewModelBase
     /// </summary>
     [Reactive]
     public ObservableCollection<WavesPointSeriesType> SeriesTypes { get; set; }
+
+    /// <summary>
+    /// Gets or sets selected dot type.
+    /// </summary>
+    [Reactive]
+    public WavesDotType SelectedDotType { get; set; }
+
+    /// <summary>
+    /// Gets or sets dots type.
+    /// </summary>
+    [Reactive]
+    public ObservableCollection<WavesDotType> DotsTypes { get; set; }
+
+    /// <summary>
+    /// Selected series color.
+    /// </summary>
+    [Reactive]
+    public WavesColor SelectedSeriesColor { get; set; }
+
+    /// <summary>
+    /// Gets or sets available series colors.
+    /// </summary>
+    public ObservableCollection<WavesColor> AvailableSeriesColors { get; set; }
 
     /// <summary>
     /// Gets or sets X Min.
@@ -83,7 +106,7 @@ public class MainViewModel : ViewModelBase
     /// <summary>
     /// Initializes chart.
     /// </summary>
-    private async void InitializeChart()
+    private async void Initialize()
     {
         Series = new ObservableCollection<IWavesPointSeries>();
         SeriesTypes = new ObservableCollection<WavesPointSeriesType>()
@@ -91,6 +114,23 @@ public class MainViewModel : ViewModelBase
             WavesPointSeriesType.Line,
             WavesPointSeriesType.Bar,
         };
+        DotsTypes = new ObservableCollection<WavesDotType>()
+        {
+            WavesDotType.None,
+            WavesDotType.Circle,
+            WavesDotType.FilledCircle,
+        };
+        AvailableSeriesColors = new ObservableCollection<WavesColor>()
+        {
+            WavesColor.Blue,
+            WavesColor.Green,
+            WavesColor.Red,
+            WavesColor.LightGray,
+        };
+
+        SelectedSeriesType = WavesPointSeriesType.Line;
+        SelectedDotType = WavesDotType.FilledCircle;
+        SelectedSeriesColor = WavesColor.Red;
 
         _candles = (await GetCandles()).ToList();
 
@@ -120,6 +160,8 @@ public class MainViewModel : ViewModelBase
         YMax = y.Max();
 
         this.WhenPropertyChanged(x => x.SelectedSeriesType).Subscribe(_ => Update());
+        this.WhenPropertyChanged(x => x.SelectedDotType).Subscribe(_ => Update());
+        this.WhenPropertyChanged(x => x.SelectedSeriesColor).Subscribe(_ => Update());
     }
 
     private void Update()
@@ -135,9 +177,9 @@ public class MainViewModel : ViewModelBase
             y[i] = Convert.ToDouble(_candles[i].ClosePrice);
         }
 
-        _series.Color = WavesColor.Green;
+        _series.Color = SelectedSeriesColor;
         _series.Type = SelectedSeriesType;
-        _series.DotType = WavesDotType.FilledCircle;
+        _series.DotType = SelectedDotType;
         _series.Update(x, y);
     }
 

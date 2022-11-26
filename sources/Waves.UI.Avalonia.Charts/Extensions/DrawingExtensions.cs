@@ -17,7 +17,7 @@ public static class DrawingExtensions
     /// <returns>Return <see cref="SolidColorBrush"/>.</returns>
     public static SolidColorBrush ToAvaloniaSolidColorBrush(this WavesColor color)
     {
-        return new SolidColorBrush(color.ToUint());
+        return new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
     }
 
     /// <summary>

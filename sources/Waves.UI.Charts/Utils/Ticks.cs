@@ -291,6 +291,7 @@ public static class Ticks
     /// <param name="ticks">Input ticks.</param>
     /// <param name="dateMin">Date time min.</param>
     /// <param name="dateMax">Date time max.</param>
+    /// <param name="format">Format.</param>
     /// <param name="primaryTicksCount">Primary ticks count.</param>
     /// <param name="additionalTicksCount">Additional ticks count.</param>
     /// <param name="orientation">Orientation.</param>
@@ -298,6 +299,7 @@ public static class Ticks
         this List<WavesAxisTick> ticks,
         DateTime dateMin,
         DateTime dateMax,
+        string format,
         int primaryTicksCount,
         int additionalTicksCount,
         WavesAxisTickOrientation orientation)
@@ -340,7 +342,7 @@ public static class Ticks
 
                 ticks.Add(new WavesAxisTick
                 {
-                    Description = DateTime.FromOADate(j).ToString(CultureInfo.InvariantCulture),
+                    Description = DateTime.FromOADate(j).ToString(format),
                     Value = Convert.ToSingle(j),
                     IsVisible = true,
                     Orientation = orientation,
@@ -360,10 +362,10 @@ public static class Ticks
                     continue;
                 }
 
-                var description = i.ToString(CultureInfo.InvariantCulture);
+                var description = DateTime.FromOADate(i).ToString(format);
                 if (roundFactor < 15)
                 {
-                    description = DateTime.FromOADate(i).ToString(CultureInfo.InvariantCulture);
+                    description = DateTime.FromOADate(i).ToString(format);
                 }
 
                 ticks.Add(new WavesAxisTick
@@ -471,7 +473,11 @@ public static class Ticks
     /// </summary>
     /// <param name="chart">Chart.</param>
     /// <param name="ticks">Ticks.</param>
-    public static void GenerateDefaultTicks(this IWavesChart chart, List<WavesAxisTick> ticks)
+    /// <param name="signaturesFormat">Signatures format.</param>
+    public static void GenerateDefaultTicks(
+        this IWavesChart chart,
+        List<WavesAxisTick> ticks,
+        string signaturesFormat)
     {
         ticks?.Clear();
         ticks ??= new List<WavesAxisTick>();
@@ -492,6 +498,7 @@ public static class Ticks
                 ticks.GenerateAxisTicks(
                     dateTimeMin,
                     dateTimeMax,
+                    signaturesFormat,
                     chart.XAxisPrimaryTicksNumber,
                     chart.XAxisAdditionalTicksNumber,
                     WavesAxisTickOrientation.Horizontal);

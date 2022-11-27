@@ -33,6 +33,11 @@ public interface IWavesPointSeries : IWavesSeries
     /// <summary>
     /// Updates point series.
     /// </summary>
+    void Update();
+
+    /// <summary>
+    /// Updates point series.
+    /// </summary>
     /// <param name="points">Points.</param>
     void Update(WavesPoint[] points);
 

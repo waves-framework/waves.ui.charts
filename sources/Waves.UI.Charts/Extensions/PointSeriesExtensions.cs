@@ -124,7 +124,7 @@ public static class PointSeriesExtensions
             }
             else
             {
-                dotPoints = points;
+                return;
             }
 
             switch (series.DotType)

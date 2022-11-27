@@ -168,12 +168,20 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             null);
 
     /// <summary>
+    /// Defines <see cref="SignaturesXFormat"/> styled property.
+    /// </summary>
+    public static readonly StyledProperty<string> SignaturesXFormatProperty =
+        AvaloniaProperty.Register<WavesChart, string>(
+            nameof(SignaturesXFormat),
+            null);
+
+    /// <summary>
     /// Defines <see cref="XAxisPrimaryTicksNumber"/> styled property.
     /// </summary>
     public static readonly StyledProperty<int> XAxisPrimaryTicksNumberProperty =
         AvaloniaProperty.Register<WavesChart, int>(
             nameof(XAxisPrimaryTicksNumber),
-            4);
+            2);
 
     /// <summary>
     /// Defines <see cref="XAxisAdditionalTicksNumber"/> styled property.
@@ -181,7 +189,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public static readonly StyledProperty<int> XAxisAdditionalTicksNumberProperty =
         AvaloniaProperty.Register<WavesChart, int>(
             nameof(XAxisAdditionalTicksNumber),
-            8);
+            4);
 
     /// <summary>
     /// Defines <see cref="YAxisPrimaryTicksNumber"/> styled property.
@@ -572,6 +580,13 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     }
 
     /// <inheritdoc />
+    public string SignaturesXFormat
+    {
+        get => GetValue(SignaturesXFormatProperty);
+        set => SetValue(SignaturesXFormatProperty, value);
+    }
+
+    /// <inheritdoc />
     public object SignatureXMax
     {
         get => GetValue(SignatureXMaxProperty);
@@ -884,7 +899,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     {
         if (HasDefaultTicks)
         {
-            this.GenerateDefaultTicks(Ticks);
+            this.GenerateDefaultTicks(Ticks, SignaturesXFormat);
         }
 
         // generate axis ticks

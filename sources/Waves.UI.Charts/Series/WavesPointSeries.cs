@@ -94,6 +94,12 @@ public class WavesPointSeries : IWavesPointSeries
     public WavesPoint[] Points { get; private set; }
 
     /// <inheritdoc />
+    public void Update()
+    {
+        OnSeriesUpdated();
+    }
+
+    /// <inheritdoc />
     public void Update(WavesPoint[] points)
     {
         if (points == null)

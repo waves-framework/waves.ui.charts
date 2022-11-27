@@ -96,6 +96,11 @@ public interface IWavesChart : IWavesSurface
     public object SignatureXMin { get; set; }
 
     /// <summary>
+    /// Gets or sets X-axis signatures format.
+    /// </summary>
+    public string SignaturesXFormat { get; set; }
+
+    /// <summary>
     /// Gets or sets XMax for signatures.
     /// </summary>
     public object SignatureXMax { get; set; }

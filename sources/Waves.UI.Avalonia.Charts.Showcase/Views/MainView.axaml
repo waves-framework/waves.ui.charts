@@ -130,6 +130,7 @@
                                                 XMax="{Binding XMax}"
                                                 YMin="{Binding YMin}"
                                                 YMax="{Binding YMax}"
+                                                SignaturesXFormat="hh:mm:ss"
                                                 SignatureXMin="{Binding SignatureXMin}"
                                                 SignatureXMax="{Binding SignatureXMax}"
                                                 BorderThickness="1"
@@ -146,7 +147,7 @@
                     
                         <TextBlock FontWeight="Bold"
                                    FontSize="14"
-                                   Text="Style"
+                                   Text="Series"
                                    TextWrapping="Wrap"
                                    Margin="0,0,0,24"/>
                 
@@ -240,7 +241,7 @@
                                    Text="Series color"
                                    Margin="0,0,0,12"/>
                         
-                        <Grid Margin="0,0,0,18">
+                        <Grid Margin="0,0,0,36">
                             
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="34"/>
@@ -265,6 +266,12 @@
                             </Grid>
                             
                         </Grid>
+                        
+                        <TextBlock FontWeight="Bold"
+                                   FontSize="14"
+                                   Text="Ticks Number"
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,0,24"/>
                         
                         <TextBlock FontSize="12"
                                    Opacity="0.75"

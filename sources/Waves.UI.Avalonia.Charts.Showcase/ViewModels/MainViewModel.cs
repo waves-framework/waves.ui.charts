@@ -20,7 +20,6 @@ namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels;
 /// </summary>
 public class MainViewModel : ViewModelBase
 {
-    private List<IBinanceKline> _candles;
     private WavesPointSeries _series;
 
     /// <summary>
@@ -144,20 +143,31 @@ public class MainViewModel : ViewModelBase
         SelectedDotType = WavesDotType.FilledCircle;
         SelectedSeriesColor = WavesColor.Red;
 
-        _candles = (await GetCandles()).ToList();
+        InitializeChartData();
 
-        var length = _candles.Count;
+        this.WhenPropertyChanged(x => x.SelectedSeriesType).Subscribe(_ => Update());
+        this.WhenPropertyChanged(x => x.SelectedDotType).Subscribe(_ => Update());
+        this.WhenPropertyChanged(x => x.SelectedSeriesColor).Subscribe(_ => Update());
+    }
+
+    private void InitializeChartData()
+    {
+        var length = 50;
+        var startX = 1000d;
+        var endX = 4000d;
+        var step = (endX - startX) / length;
 
         var x = new double[length];
         var y = new double[length];
-        var signatureXMin = _candles.Min(x => x.CloseTime);
-        var signatureXMax = _candles.Max(x => x.CloseTime);
-        var step = (signatureXMax.ToOADate() - signatureXMin.ToOADate()) / length;
+        var random = new Random();
 
-        for (var i = 0; i < length; i++)
+        x[0] = startX;
+        y[0] = 1;
+
+        for (var i = 1; i < length; i++)
         {
-            x[i] = signatureXMin.ToOADate() + step * i;
-            y[i] = Convert.ToDouble(_candles[i].ClosePrice);
+            x[i] = startX + i * step;
+            y[i] = Math.Sin(0.5 * i) / (0.5 * i);
         }
 
         _series = new WavesPointSeries(x, y)
@@ -169,55 +179,26 @@ public class MainViewModel : ViewModelBase
 
         Series.Add(_series);
 
-        YMin = y.Min();
-        YMax = y.Max();
-        XMin = signatureXMin.ToOADate();
-        XMax = signatureXMax.ToOADate();
-        SignatureXMin = signatureXMin;
-        SignatureXMax = signatureXMax;
+        var xmin = x.Min();
+        var xmax = x.Max();
+        var ymin = y.Min();
+        var ymax = y.Max();
 
-        this.WhenPropertyChanged(x => x.SelectedSeriesType).Subscribe(_ => Update());
-        this.WhenPropertyChanged(x => x.SelectedDotType).Subscribe(_ => Update());
-        this.WhenPropertyChanged(x => x.SelectedSeriesColor).Subscribe(_ => Update());
+        ymin -= 10 * (ymax - ymin) / 100;
+        ymax += 10 * (ymax - ymin) / 100;
+
+        XMin = xmin;
+        XMax = xmax;
+        YMin = ymin;
+        YMax = ymax;
     }
 
     private void Update()
     {
-        var length = _candles.Count;
-
-        var x = new double[length];
-        var y = new double[length];
-        var signatureXMin = _candles.Min(x => x.CloseTime);
-        var signatureXMax = _candles.Max(x => x.CloseTime);
-        var step = (signatureXMax.ToOADate() - signatureXMin.ToOADate()) / length;
-
-        for (var i = 0; i < length; i++)
-        {
-            x[i] = signatureXMin.ToOADate() + step * i;
-            y[i] = Convert.ToDouble(_candles[i].ClosePrice);
-        }
-
         _series.Color = SelectedSeriesColor;
         _series.Type = SelectedSeriesType;
         _series.DotType = SelectedDotType;
 
-        _series.Update(x, y);
-    }
-
-    private async Task<IEnumerable<IBinanceKline>> GetCandles()
-    {
-        using var client = new BinanceClient();
-        var result = await client.SpotApi.ExchangeData.GetKlinesAsync(
-            SelectedSymbol,
-            KlineInterval.OneMinute,
-            DateTime.Now.AddDays(-1),
-            DateTime.Now);
-
-        if (result.Success)
-        {
-            return result.Data;
-        }
-
-        throw new Exception($"Error requesting data: {result.Error.Message}");
+        _series.Update();
     }
 }

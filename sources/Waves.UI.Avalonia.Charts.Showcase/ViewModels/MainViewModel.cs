@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
-using Binance.Net.Clients;
-using Binance.Net.Enums;
-using Binance.Net.Interfaces;
 using DynamicData.Binding;
 using ReactiveUI.Fody.Helpers;
 using Waves.UI.Charts.Drawing.Primitives;

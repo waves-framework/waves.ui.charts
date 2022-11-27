@@ -5,6 +5,13 @@
     <PropertyGroup>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <Title>Waves.UI.Avalonia.Charts</Title>
+        <Authors>Egor Khindikaynen</Authors>
+        <Description>**Waves.UI.Charts** is a package for developing cross-platform charts/graphs-viewing applications. It provides a simple and fast cross-platform charting tool.</Description>
+        <Copyright>Copyright (c) 2020-2022 Egor Khindikaynen</Copyright>
+        <PackageProjectUrl>https://github.com/waves-framework/waves.ui.charts</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/waves-framework/waves.ui.charts</RepositoryUrl>
+        <PackageTags>waves ui charts avalonia framework</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>

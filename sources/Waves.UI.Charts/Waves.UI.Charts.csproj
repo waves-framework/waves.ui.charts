@@ -5,7 +5,7 @@
     <PropertyGroup>
         <Title>Waves.UI.Charts</Title>
         <Authors>Egor Khindikaynen</Authors>
-        <Description>TBD</Description>
+        <Description>**Waves.UI.Charts** is a package for developing cross-platform charts/graphs-viewing applications. It provides a simple and fast cross-platform charting tool.</Description>
         <Copyright>Copyright (c) 2020-2022 Egor Khindikaynen</Copyright>
         <PackageProjectUrl>https://github.com/waves-framework/waves.ui.charts</PackageProjectUrl>
         <RepositoryUrl>https://github.com/waves-framework/waves.ui.charts</RepositoryUrl>

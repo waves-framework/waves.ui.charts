@@ -26,6 +26,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FAC1368C-7922-4031-955B-408B1E94F275}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
+		..\readme.md = ..\readme.md
+		..\license.md = ..\license.md
+		..\notice.md = ..\notice.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waves.UI.Avalonia.Charts.Showcase.Web", "..\sources\Waves.UI.Avalonia.Charts.Showcase.Web\Waves.UI.Avalonia.Charts.Showcase.Web.csproj", "{327F2A1D-B681-4354-AD73-CDBC0A2A60F1}"

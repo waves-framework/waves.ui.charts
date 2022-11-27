@@ -1,0 +1,46 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Waves.UI.Avalonia.Charts.Controls">
+    
+    <Style Selector="controls|WavesChart">
+        
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="BorderThickness" Value="1"/>
+
+        <Setter Property="Template">
+
+            <ControlTemplate TargetType="{x:Type controls:WavesChart}">
+
+                <Grid>
+                    
+                    <!-- Stub for focus -->
+                    <Canvas Background="Black"
+                            Opacity="0"/>
+                    
+                    <TemplatedControl x:Name="TemplatedControl"
+                                      Background="{TemplateBinding Background}"
+                                      Template="{TemplateBinding Template}"
+                                      TemplatedParent="{TemplateBinding TemplatedParent}">
+                        
+                        <TemplatedControl.OpacityMask>
+                            <VisualBrush>
+                                <VisualBrush.Visual>
+                                    <Border x:Name="MaskBorder"
+                                            Background="{TemplateBinding Background}"
+                                            CornerRadius="{TemplateBinding CornerRadius}"/>
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </TemplatedControl.OpacityMask>
+                        
+                    </TemplatedControl>
+                    
+                </Grid>
+
+            </ControlTemplate>
+
+        </Setter>
+
+    </Style>
+    
+</Styles>

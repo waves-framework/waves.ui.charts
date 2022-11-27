@@ -1,0 +1,25 @@
+<Project>
+
+    <Import Project="../../build/props/common.props" />
+
+    <PropertyGroup>
+        <TargetFrameworks>net6.0;net7.0;</TargetFrameworks>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <AvaloniaVersion>11.0.0-preview4</AvaloniaVersion>
+        <FluentAvaloniaVersion>2.0.0-preview4</FluentAvaloniaVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <OutputPath>..\..\bin\avalonia\anyCPU\debug\</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <OutputPath>..\..\bin\avalonia\anyCPU\release\</OutputPath>
+        <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+        <DebugType>none</DebugType>
+        <DebugSymbols>false</DebugSymbols>
+    </PropertyGroup>
+
+</Project>

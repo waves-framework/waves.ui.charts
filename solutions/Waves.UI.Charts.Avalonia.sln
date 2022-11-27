@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B1407E8D-3675-4CFD-A93D-5FCD9270D624}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Props", "Props", "{2E536556-8186-4EED-90DE-8B91419DB670}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\props\common.props = ..\build\props\common.props
+		..\build\props\avalonia.props = ..\build\props\avalonia.props
+		..\build\props\avalonia.showcase.props = ..\build\props\avalonia.showcase.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waves.UI.Charts", "..\sources\Waves.UI.Charts\Waves.UI.Charts.csproj", "{6606C004-1645-49A5-8546-81904D2E9CB1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{F8D8A032-6096-400E-BBFD-F3B7B66C42AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waves.UI", "..\submodules\ui\sources\Waves.UI\Waves.UI.csproj", "{57C61B67-99CB-4271-AFA3-87528EFDEEB7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{00E5C223-1A66-4D6B-896E-7DB84E94FD70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waves.Core", "..\submodules\ui\submodules\core\sources\Waves.Core\Waves.Core.csproj", "{DD030CA6-B7AC-42A2-A371-0DE58EFBFCB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waves.UI.Avalonia.Charts", "..\sources\Waves.UI.Avalonia.Charts\Waves.UI.Avalonia.Charts.csproj", "{2314E9F6-657F-4C54-8B9C-BA39D85D98E0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FAC1368C-7922-4031-955B-408B1E94F275}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+		..\readme.md = ..\readme.md
+		..\license.md = ..\license.md
+		..\notice.md = ..\notice.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2E536556-8186-4EED-90DE-8B91419DB670} = {B1407E8D-3675-4CFD-A93D-5FCD9270D624}
+		{57C61B67-99CB-4271-AFA3-87528EFDEEB7} = {F8D8A032-6096-400E-BBFD-F3B7B66C42AA}
+		{DD030CA6-B7AC-42A2-A371-0DE58EFBFCB0} = {00E5C223-1A66-4D6B-896E-7DB84E94FD70}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6606C004-1645-49A5-8546-81904D2E9CB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6606C004-1645-49A5-8546-81904D2E9CB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6606C004-1645-49A5-8546-81904D2E9CB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6606C004-1645-49A5-8546-81904D2E9CB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57C61B67-99CB-4271-AFA3-87528EFDEEB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57C61B67-99CB-4271-AFA3-87528EFDEEB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57C61B67-99CB-4271-AFA3-87528EFDEEB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57C61B67-99CB-4271-AFA3-87528EFDEEB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD030CA6-B7AC-42A2-A371-0DE58EFBFCB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD030CA6-B7AC-42A2-A371-0DE58EFBFCB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD030CA6-B7AC-42A2-A371-0DE58EFBFCB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD030CA6-B7AC-42A2-A371-0DE58EFBFCB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2314E9F6-657F-4C54-8B9C-BA39D85D98E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2314E9F6-657F-4C54-8B9C-BA39D85D98E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2314E9F6-657F-4C54-8B9C-BA39D85D98E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2314E9F6-657F-4C54-8B9C-BA39D85D98E0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

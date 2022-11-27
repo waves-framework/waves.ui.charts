@@ -1,0 +1,17 @@
+<Project>
+
+    <PropertyGroup>
+        <AvaloniaVersion>11.0.0-preview4</AvaloniaVersion>
+        <FluentAvaloniaVersion>2.0.0-preview4</FluentAvaloniaVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <Import Project="..\..\submodules\stylecop\stylecop.targets"/>
+
+</Project>

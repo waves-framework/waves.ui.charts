@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="../../build/props/common.props" />
+
+    <PropertyGroup>
+        <Title>Waves.UI.Charts</Title>
+        <Authors>Egor Khindikaynen</Authors>
+        <Description>**Waves.UI.Charts** is a package for developing cross-platform charts/graphs-viewing applications. It provides a simple and fast cross-platform charting tool.</Description>
+        <Copyright>Copyright (c) 2020-2022 Egor Khindikaynen</Copyright>
+        <PackageProjectUrl>https://github.com/waves-framework/waves.ui.charts</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/waves-framework/waves.ui.charts</RepositoryUrl>
+        <PackageTags>waves ui charts framework</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(Configuration)'=='Debug'">
+        <ProjectReference Include="..\..\submodules\ui\sources\Waves.UI\Waves.UI.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)'!='Debug'">
+        <PackageReference Include="Waves.UI" Version="2022.3.3-prerelease.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="SkiaSharp" Version="2.88.3" />
+    </ItemGroup>
+
+</Project>

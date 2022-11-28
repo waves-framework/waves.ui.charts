@@ -24,6 +24,14 @@
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
     </ItemGroup>
 
+    <ItemGroup Condition="'$(Configuration)'=='Debug'">
+        <ProjectReference Include="..\..\submodules\ui.avalonia\sources\Waves.UI.Avalonia\Waves.UI.Avalonia.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)'!='Debug'">
+        <PackageReference Include="Waves.UI.Avalonia" Version="2022.3.3-prerelease.3" />
+    </ItemGroup>
+
     <ItemGroup>
       <ProjectReference Include="..\Waves.UI.Avalonia.Charts\Waves.UI.Avalonia.Charts.csproj" />
     </ItemGroup>
@@ -31,6 +39,14 @@
     <ItemGroup>
       <Compile Update="Views\PointSeriesChartView.axaml.cs">
         <DependentUpon>PointSeriesChartView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Windows\MainWindow.axaml.cs">
+        <DependentUpon>MainWindow.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\MainView.axaml.cs">
+        <DependentUpon>MainView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>

@@ -5,6 +5,7 @@
              xmlns:viewModels="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.ViewModels"
              xmlns:controls="clr-namespace:Waves.UI.Avalonia.Charts.Controls;assembly=Waves.UI.Avalonia.Charts"
              xmlns:converters="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.Views.Converters"
+             xmlns:pages="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Waves.UI.Avalonia.Charts.Showcase.Views.PointSeriesChartView"
              Foreground="White"
@@ -79,7 +80,7 @@
     </UserControl.Styles>
 
     <Design.DataContext>
-        <viewModels:MainViewModel />
+        <pages:MainViewModel />
     </Design.DataContext>
 
     <Grid>

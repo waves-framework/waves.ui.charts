@@ -7,13 +7,14 @@ using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Series;
 using Waves.UI.Charts.Series.Enums;
 using Waves.UI.Charts.Series.Interfaces;
+using Waves.UI.Presentation;
 
 namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels;
 
 /// <summary>
 /// Point series chart view model.
 /// </summary>
-public class PointSeriesChartViewModel : ViewModelBase
+public class PointSeriesChartViewModel : WavesViewModelBase
 {
     private WavesPointSeries _series;
 

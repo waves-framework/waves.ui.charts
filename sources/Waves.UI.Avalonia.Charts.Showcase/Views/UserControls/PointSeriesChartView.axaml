@@ -1,15 +1,16 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:viewModels="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.ViewModels"
-             xmlns:controls="clr-namespace:Waves.UI.Avalonia.Charts.Controls;assembly=Waves.UI.Avalonia.Charts"
-             xmlns:converters="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.Views.Converters"
-             xmlns:pages="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Waves.UI.Avalonia.Charts.Showcase.Views.Pages.PointSeriesChartView"
-             Foreground="White"
-             Background="#0E111B">
+<controls1:WavesPage xmlns="https://github.com/avaloniaui"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:viewModels="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.ViewModels"
+           xmlns:controls="clr-namespace:Waves.UI.Avalonia.Charts.Controls;assembly=Waves.UI.Avalonia.Charts"
+           xmlns:converters="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.Views.Converters"
+           xmlns:pages="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages"
+           xmlns:controls1="https://github.com/waves-framework/waves.ui.avalonia"
+           mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+           x:Class="Waves.UI.Avalonia.Charts.Showcase.Views.UserControls.PointSeriesChartView"
+           Foreground="White"
+           Background="#0E111B">
     
     <UserControl.Resources>
         <converters:WavesColorToSolidColorBrushConverter x:Key="WavesColorToSolidColorBrushConverter" />
@@ -92,7 +93,7 @@
 
         <Grid Grid.Row="0">
             
-            <StackPanel Margin="24,48, 24, 24" >
+            <StackPanel Margin="24,0, 24, 24" >
                 
                 <TextBlock Classes="H1"
                            FontWeight="Bold"
@@ -144,7 +145,7 @@
                 
                 <ScrollViewer Margin="0,-24,-24,0">
                     
-                    <StackPanel Margin="0,24,24,0">
+                    <StackPanel Margin="0,0,24,0">
                     
                         <TextBlock FontWeight="Bold"
                                    FontSize="14"
@@ -332,4 +333,4 @@
         
     </Grid>
 
-</UserControl>
+</controls1:WavesPage>

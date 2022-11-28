@@ -3,16 +3,25 @@
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
            xmlns:controls="https://github.com/waves-framework/waves.ui.avalonia"
+           xmlns:showcase="clr-namespace:Waves.UI.Avalonia.Charts.Showcase"
+           xmlns:pages="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages"
            mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
            x:Class="Waves.UI.Avalonia.Charts.Showcase.Views.Pages.MainView">
     
+    <Design.DataContext>
+        <pages:MainViewModel/>
+    </Design.DataContext>
+    
     <Grid>
         
-        <Grid RowDefinitions="Auto, 24, *">
+        <Grid RowDefinitions="Auto, *">
             
-            <Button Content="Back"/>
+            <Button Content="Back"
+                    Margin="24, 24, 24, 24"
+                    Command="{Binding GoBackCommand}"/>
             
-            <controls:WavesContentControl Grid.Row="2" Region="Charts"/>
+            <controls:WavesContentControl Grid.Row="1"
+                                          Region="{x:Static showcase:Constants.ExampleRegionKey}"/>
             
         </Grid>
         

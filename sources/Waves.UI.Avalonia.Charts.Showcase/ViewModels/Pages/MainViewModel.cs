@@ -26,10 +26,23 @@ public class MainViewModel : WavesViewModelBase
         _navigationService = navigationService;
     }
 
+    /// <summary>
+    /// Gets go back command.
+    /// </summary>
+    public ICommand GoBackCommand { get; private set; }
+
     /// <inheritdoc/>
     public override async Task InitializeAsync()
     {
         await base.InitializeAsync();
+
+        GoBackCommand = ReactiveCommand.CreateFromTask(OnGoBack);
+
         await _navigationService.NavigateAsync<ExampleSelectionControlViewModel>();
+    }
+
+    private async Task OnGoBack()
+    {
+        await _navigationService.GoBackAsync(Constants.ExampleRegionKey);
     }
 }

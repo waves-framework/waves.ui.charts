@@ -8,7 +8,7 @@ namespace Waves.UI.Avalonia.Charts.Showcase.Views.UserControls;
 /// <summary>
 /// Main view.
 /// </summary>
-[WavesView(typeof(ExampleSelectionControlViewModel), "Charts")]
+[WavesView(typeof(ExampleSelectionControlViewModel), Constants.ExampleRegionKey)]
 public partial class ExampleSelectionControl : WavesPage
 {
     /// <summary>

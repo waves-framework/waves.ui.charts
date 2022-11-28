@@ -1,8 +1,10 @@
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ReactiveUI;
 using Waves.UI.Base.Attributes;
 using Waves.UI.Presentation;
+using Waves.UI.Services.Interfaces;
 
 namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels.UserControls;
 
@@ -12,6 +14,17 @@ namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels.UserControls;
 [WavesViewModel(typeof(ExampleSelectionControlViewModel))]
 public class ExampleSelectionControlViewModel : WavesViewModelBase
 {
+    private readonly IWavesNavigationService _navigationService;
+
+    /// <summary>
+    /// Creates new instance of <see cref="ExampleSelectionControlViewModel"/>.
+    /// </summary>
+    /// <param name="navigationService">Navigation service.</param>
+    public ExampleSelectionControlViewModel(IWavesNavigationService navigationService)
+    {
+        _navigationService = navigationService;
+    }
+
     /// <summary>
     /// Gets command to open PointSeriesChart.
     /// </summary>
@@ -25,8 +38,8 @@ public class ExampleSelectionControlViewModel : WavesViewModelBase
         OpenPointSeriesChartCommand = ReactiveCommand.CreateFromTask(OnOpenPointSeriesChart);
     }
 
-    private Task OnOpenPointSeriesChart()
+    private async Task OnOpenPointSeriesChart()
     {
-        throw new System.NotImplementedException();
+        await _navigationService.NavigateAsync<PointSeriesChartViewModel>();
     }
 }

@@ -3,14 +3,21 @@
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
            xmlns:controls="https://github.com/waves-framework/waves.ui.avalonia"
+           xmlns:userControls="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.ViewModels.UserControls"
            mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
            x:Class="Waves.UI.Avalonia.Charts.Showcase.Views.UserControls.ExampleSelectionControl">
     
+    <Design.DataContext>
+        <userControls:ExampleSelectionControlViewModel/>
+    </Design.DataContext>
+    
     <ScrollViewer>
         
-        <StackPanel>
+        <StackPanel
+            Margin="24">
             
             <Button Content="Point Series"
+                    Command="{Binding OpenPointSeriesChartCommand}"
                     Margin="0,0,0,12"/>
             
             <Button Content="Candle Series"

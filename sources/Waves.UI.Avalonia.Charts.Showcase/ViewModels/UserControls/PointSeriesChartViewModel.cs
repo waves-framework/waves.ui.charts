@@ -3,17 +3,19 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using DynamicData.Binding;
 using ReactiveUI.Fody.Helpers;
+using Waves.UI.Base.Attributes;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Series;
 using Waves.UI.Charts.Series.Enums;
 using Waves.UI.Charts.Series.Interfaces;
 using Waves.UI.Presentation;
 
-namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels;
+namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels.UserControls;
 
 /// <summary>
 /// Point series chart view model.
 /// </summary>
+[WavesViewModel(typeof(PointSeriesChartViewModel))]
 public class PointSeriesChartViewModel : WavesViewModelBase
 {
     private WavesPointSeries _series;

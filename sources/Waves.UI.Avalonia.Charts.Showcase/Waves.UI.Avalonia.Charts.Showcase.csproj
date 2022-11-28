@@ -27,4 +27,11 @@
     <ItemGroup>
       <ProjectReference Include="..\Waves.UI.Avalonia.Charts\Waves.UI.Avalonia.Charts.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\PointSeriesChartView.axaml.cs">
+        <DependentUpon>PointSeriesChartView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
 </Project>

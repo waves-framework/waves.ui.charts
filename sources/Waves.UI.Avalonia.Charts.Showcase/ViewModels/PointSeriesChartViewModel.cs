@@ -23,15 +23,8 @@ public class PointSeriesChartViewModel : WavesViewModelBase
     /// </summary>
     public PointSeriesChartViewModel()
     {
-        SelectedSymbol = "BTCUSDT";
         Initialize();
     }
-
-    /// <summary>
-    /// Get or sets symbol.
-    /// </summary>
-    [Reactive]
-    public string SelectedSymbol { get; set; }
 
     /// <summary>
     /// Gets or sets selected series type.

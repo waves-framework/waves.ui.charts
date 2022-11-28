@@ -4,18 +4,20 @@
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
            xmlns:controls="https://github.com/waves-framework/waves.ui.avalonia"
            mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-           x:Class="Waves.UI.Avalonia.Charts.Showcase.Views.Pages.MainView">
+           x:Class="Waves.UI.Avalonia.Charts.Showcase.Views.UserControls.ExampleSelectionControl">
     
-    <Grid>
+    <ScrollViewer>
         
-        <Grid RowDefinitions="Auto, 24, *">
+        <StackPanel>
             
-            <Button Content="Back"/>
+            <Button Content="Point Series"
+                    Margin="0,0,0,12"/>
             
-            <controls:WavesContentControl Grid.Row="2" Region="Charts"/>
+            <Button Content="Candle Series"
+                    Margin="0,0,0,12"/>
             
-        </Grid>
+        </StackPanel>
         
-    </Grid>
+    </ScrollViewer>
 
 </controls:WavesPage>

@@ -7,7 +7,7 @@
              xmlns:converters="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.Views.Converters"
              xmlns:pages="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Waves.UI.Avalonia.Charts.Showcase.Views.PointSeriesChartView"
+             x:Class="Waves.UI.Avalonia.Charts.Showcase.Views.Pages.PointSeriesChartView"
              Foreground="White"
              Background="#0E111B">
     

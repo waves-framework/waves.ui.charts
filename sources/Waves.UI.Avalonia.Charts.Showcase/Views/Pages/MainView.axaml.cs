@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.Logging;
 using Waves.UI.Avalonia.Charts.Showcase.ViewModels;
 using Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages;
@@ -33,5 +34,13 @@ public partial class MainView : WavesPage
         : base(logger, navigationService)
     {
         InitializeComponent();
+    }
+
+    /// <summary>
+    /// Initializes components.
+    /// </summary>
+    private void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
     }
 }

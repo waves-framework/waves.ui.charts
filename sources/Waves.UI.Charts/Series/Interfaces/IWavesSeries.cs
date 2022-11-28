@@ -5,9 +5,10 @@ using Waves.UI.Charts.Drawing.Primitives;
 namespace Waves.UI.Charts.Series.Interfaces;
 
 /// <summary>
-/// Series.
+/// Interface of series.
 /// </summary>
-public interface IWavesSeries
+/// <typeparam name="T">Type of series data.</typeparam>
+public interface IWavesSeries<T>
 {
     /// <summary>
     /// Series updated event.
@@ -25,17 +26,18 @@ public interface IWavesSeries
     public double Opacity { get; set; }
 
     /// <summary>
-    ///     Gets or sets dash pattern.
+    ///     Gets or sets point.
     /// </summary>
-    public double[] DashPattern { get; set; }
+    public T[] Data { get; }
 
     /// <summary>
-    /// Gets or sets stroke thickness.
+    /// Updates series.
     /// </summary>
-    public double Thickness { get; set; }
+    void Update();
 
     /// <summary>
-    /// Gets or sets fill.
+    /// Updates series.
     /// </summary>
-    public WavesColor Color { get; set; }
+    /// <param name="data">Series data.</param>
+    void Update(T[] data);
 }

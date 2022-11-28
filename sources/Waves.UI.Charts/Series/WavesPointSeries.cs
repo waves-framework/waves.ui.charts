@@ -8,32 +8,14 @@ namespace Waves.UI.Charts.Series;
 /// <summary>
 /// Waves point series.
 /// </summary>
-public class WavesPointSeries : IWavesPointSeries
+public class WavesPointSeries : WavesSeries<WavesPoint>, IWavesPointSeries
 {
-    /// <summary>
-    ///     Creates new instance of <see cref="WavesPointSeries" />.
-    /// </summary>
-    public WavesPointSeries()
-    {
-    }
-
-    /// <summary>
-    ///     Creates new instance of <see cref="WavesPointSeries" />.
-    /// </summary>
-    /// <param name="points">Data.</param>
-    /// <param name="description">Descriptions.</param>
-    public WavesPointSeries(WavesPoint[] points)
-    {
-        Points = points ?? throw new ArgumentNullException(nameof(points), "Points were not set.");
-    }
-
     /// <summary>
     ///     Creates new instance of <see cref="WavesPointSeries" />.
     /// </summary>
     /// <param name="x">X Data.</param>
     /// <param name="y">Y Data.</param>
-    /// <param name="description">Descriptions.</param>
-    public WavesPointSeries(double[] x, double[] y, string[] description = null)
+    public WavesPointSeries(double[] x, double[] y)
     {
         if (x == null)
         {
@@ -50,27 +32,13 @@ public class WavesPointSeries : IWavesPointSeries
             throw new Exception("Array lengths do not match.");
         }
 
-        if (description != null && x.Length != description.Length)
-        {
-            throw new Exception("Array lengths do not match.");
-        }
-
         var length = x.Length;
-        Points = new WavesPoint[length];
+        Data = new WavesPoint[length];
         for (var i = 0; i < length; i++)
         {
-            Points[i] = new WavesPoint(x[i], y[i]);
+            Data[i] = new WavesPoint(x[i], y[i]);
         }
     }
-
-    /// <inheritdoc />
-    public event EventHandler Updated;
-
-    /// <inheritdoc />
-    public bool IsVisible { get; set; } = true;
-
-    /// <inheritdoc />
-    public double Opacity { get; set; } = 1.0d;
 
     /// <inheritdoc />
     public double[] DashPattern { get; set; } = new double[] { 0, 0, 0, 0 };
@@ -91,36 +59,6 @@ public class WavesPointSeries : IWavesPointSeries
     public double DotSize { get; set; } = 8;
 
     /// <inheritdoc />
-    public WavesPoint[] Points { get; private set; }
-
-    /// <inheritdoc />
-    public void Update()
-    {
-        OnSeriesUpdated();
-    }
-
-    /// <inheritdoc />
-    public void Update(WavesPoint[] points)
-    {
-        if (points == null)
-        {
-            throw new ArgumentNullException(nameof(points), "Points were not set.");
-        }
-
-        if (points.Length != Points.Length)
-        {
-            Points = new WavesPoint[points.Length];
-        }
-
-        for (var i = 0; i < Points.Length; i++)
-        {
-            Points[i] = points[i];
-        }
-
-        OnSeriesUpdated();
-    }
-
-    /// <inheritdoc />
     public void Update(double[] x, double[] y)
     {
         if (x == null)
@@ -139,20 +77,12 @@ public class WavesPointSeries : IWavesPointSeries
         }
 
         var length = x.Length;
-        Points = new WavesPoint[length];
+        Data = new WavesPoint[length];
         for (var i = 0; i < length; i++)
         {
-            Points[i] = new WavesPoint(x[i], y[i]);
+            Data[i] = new WavesPoint(x[i], y[i]);
         }
 
         OnSeriesUpdated();
-    }
-
-    /// <summary>
-    /// Series updated invocator.
-    /// </summary>
-    protected virtual void OnSeriesUpdated()
-    {
-        Updated?.Invoke(this, EventArgs.Empty);
     }
 }

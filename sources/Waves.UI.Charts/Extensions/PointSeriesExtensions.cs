@@ -35,18 +35,18 @@ public static class PointSeriesExtensions
         WavesColor background,
         WavesColor foreground)
     {
-        if (series.Points == null)
+        if (series.Data == null)
         {
             return;
         }
 
-        if (series.Points.Length == 0)
+        if (series.Data.Length == 0)
         {
             return;
         }
 
         var visiblePoints = new List<WavesPoint> { new () };
-        foreach (var point in series.Points)
+        foreach (var point in series.Data)
         {
             if (point.X <= chart.CurrentXMin)
             {
@@ -167,19 +167,19 @@ public static class PointSeriesExtensions
         WavesColor background,
         WavesColor foreground)
     {
-        if (series.Points == null)
+        if (series.Data == null)
         {
             return;
         }
 
-        if (series.Points.Length == 0)
+        if (series.Data.Length == 0)
         {
             return;
         }
 
         var visiblePoints = new List<WavesPoint>();
         {
-            foreach (var point in series.Points)
+            foreach (var point in series.Data)
             {
                 if (point.X < chart.CurrentXMin)
                 {

@@ -5,6 +5,13 @@
 
 **Waves** is a cross-platform framework designed for flexible developing of desktop, mobile applications and web-services.
 
+> **Note**
+> This repository is open for contributing. If you want to learn how to develop data visualization software, then welcome! :)
+> Just email me: khek@ambertape.ru
+
+> **Note**
+> Also feel free to write issues. It will be a good motivation to develop project.
+
 ### 📒 About Waves.UI.Charts
 
 ![logo](files/images/screenshots/1.png)
@@ -98,4 +105,4 @@ Chart initialization looks like this:
 
 ### 📋 Licence
 
-Waves.Core is licenced under the [MIT licence](https://github.com/waves-framework/waves.ui.charts/blob/master/license.md).
+Waves.UI.Charts is licenced under the [MIT licence](https://github.com/waves-framework/waves.ui.charts/blob/master/license.md).

@@ -9,6 +9,9 @@
 > This repository is open for contributing. If you want to learn how to develop data visualization software, then welcome! :)
 > Just email me: khek@ambertape.ru
 
+> **Note**
+> Also feel free to write issues. It will be a good motivation to develop project.
+
 ### 📒 About Waves.UI.Charts
 
 ![logo](files/images/screenshots/1.png)

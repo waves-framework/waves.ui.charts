@@ -5,6 +5,10 @@
 
 **Waves** is a cross-platform framework designed for flexible developing of desktop, mobile applications and web-services.
 
+> **Note**
+> This repository is open for contributing. If you want to learn how to develop data visualization software, then welcome! :)
+> Just email me: khek@ambertape.ru
+
 ### 📒 About Waves.UI.Charts
 
 ![logo](files/images/screenshots/1.png)

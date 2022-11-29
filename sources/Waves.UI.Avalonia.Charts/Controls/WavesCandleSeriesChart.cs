@@ -62,7 +62,6 @@ public class WavesCandleSeriesChart : WavesSeriesChart<IWavesCandleSeries, Waves
         }
 
         var candles = series.Data;
-
         foreach (var candle in candles)
         {
             var color = candle.Close > candle.Open ? growingColor : fallingColor;

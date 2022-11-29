@@ -53,12 +53,12 @@ public interface IWavesChart : IWavesSurface
     /// <summary>
     /// Gets or sets X min.
     /// </summary>
-    public double XMin { get; set; }
+    public object XMin { get; set; }
 
     /// <summary>
     /// Gets or sets X max.
     /// </summary>
-    public double XMax { get; set; }
+    public object XMax { get; set; }
 
     /// <summary>
     /// Gets or sets Y min.
@@ -73,12 +73,12 @@ public interface IWavesChart : IWavesSurface
     /// <summary>
     /// Gets or sets current X min.
     /// </summary>
-    public double CurrentXMin { get; set; }
+    public object CurrentXMin { get; set; }
 
     /// <summary>
     /// Gets or sets current X max.
     /// </summary>
-    public double CurrentXMax { get; set; }
+    public object CurrentXMax { get; set; }
 
     /// <summary>
     /// Gets or sets current Y min.

@@ -21,6 +21,7 @@
                     Margin="0,0,0,12"/>
             
             <Button Content="Candle Series"
+                    Command="{Binding OpenCandleSeriesChartCommand}"
                     Margin="0,0,0,12"/>
             
         </StackPanel>

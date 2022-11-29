@@ -55,17 +55,4 @@ public class WavesPointSeriesChart : WavesSeriesChart<IWavesPointSeries, WavesPo
 
         RenderUpdate(context);
     }
-
-    /// <summary>
-    ///     Clears cache objects.
-    /// </summary>
-    private void ClearCacheObjects()
-    {
-        foreach (var obj in DrawingObjectsCache)
-        {
-            DrawingObjects?.Remove(obj);
-        }
-
-        DrawingObjectsCache.Clear();
-    }
 }

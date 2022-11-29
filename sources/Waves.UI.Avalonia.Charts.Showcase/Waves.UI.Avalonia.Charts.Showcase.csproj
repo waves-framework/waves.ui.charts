@@ -53,6 +53,10 @@
         <DependentUpon>PointSeriesChartView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Views\UserControls\CandleSeriesChartView.axaml.cs">
+        <DependentUpon>CandleSeriesChartView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>

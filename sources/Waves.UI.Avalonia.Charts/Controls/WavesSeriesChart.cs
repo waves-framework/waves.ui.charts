@@ -109,6 +109,19 @@ public abstract class WavesSeriesChart<T1, T2> :
     }
 
     /// <summary>
+    ///     Clears cache objects.
+    /// </summary>
+    protected void ClearCacheObjects()
+    {
+        foreach (var obj in DrawingObjectsCache)
+        {
+            DrawingObjects?.Remove(obj);
+        }
+
+        DrawingObjectsCache.Clear();
+    }
+
+    /// <summary>
     /// Callback when series changed.
     /// </summary>
     /// <param name="obj">Obj.</param>

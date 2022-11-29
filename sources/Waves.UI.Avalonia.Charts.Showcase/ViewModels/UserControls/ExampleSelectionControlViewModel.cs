@@ -30,16 +30,27 @@ public class ExampleSelectionControlViewModel : WavesViewModelBase
     /// </summary>
     public ICommand OpenPointSeriesChartCommand { get; private set; }
 
+    /// <summary>
+    /// Gets command to open CandleSeriesChart.
+    /// </summary>
+    public ICommand OpenCandleSeriesChartCommand { get; private set; }
+
     /// <inheritdoc/>
     public override async Task InitializeAsync()
     {
         await base.InitializeAsync();
 
         OpenPointSeriesChartCommand = ReactiveCommand.CreateFromTask(OnOpenPointSeriesChart);
+        OpenCandleSeriesChartCommand = ReactiveCommand.CreateFromTask(OnOpenCandleSeriesChart);
     }
 
     private async Task OnOpenPointSeriesChart()
     {
         await _navigationService.NavigateAsync<PointSeriesChartViewModel>();
+    }
+
+    private async Task OnOpenCandleSeriesChart()
+    {
+        await _navigationService.NavigateAsync<CandleSeriesChartViewModel>();
     }
 }

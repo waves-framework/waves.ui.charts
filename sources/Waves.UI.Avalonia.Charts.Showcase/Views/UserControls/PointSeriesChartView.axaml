@@ -133,8 +133,6 @@
                                                 YMin="{Binding YMin}"
                                                 YMax="{Binding YMax}"
                                                 SignaturesXFormat="hh:mm:ss"
-                                                SignatureXMin="{Binding SignatureXMin}"
-                                                SignatureXMax="{Binding SignatureXMax}"
                                                 BorderThickness="1"
                                                 VerticalSignatureAlignment="Right"
                                                 HorizontalSignatureAlignment="Bottom" />

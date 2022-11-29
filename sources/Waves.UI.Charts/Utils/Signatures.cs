@@ -36,6 +36,11 @@ public static class Signatures
             throw new Exception("Collection of drawing object has not been initialized.");
         }
 
+        var currentXMin = Values.GetValue(chart.CurrentXMin);
+        var currentXMax = Values.GetValue(chart.CurrentXMax);
+        var currentYMin = Values.GetValue(chart.CurrentYMin);
+        var currentYMax = Values.GetValue(chart.CurrentYMax);
+
         foreach (var obj in cache)
         {
             chart.DrawingObjects.Remove(obj);
@@ -65,8 +70,8 @@ public static class Signatures
                         tick.Description,
                         chart.TextColor,
                         horizontalTextStyle,
-                        chart.CurrentXMin,
-                        chart.CurrentXMax,
+                        currentXMin,
+                        currentXMax,
                         width,
                         height,
                         chart.HorizontalSignatureAlignment);
@@ -74,8 +79,8 @@ public static class Signatures
                         tick.Value,
                         chart.BackgroundColor,
                         chart.TextColor,
-                        chart.CurrentXMin,
-                        chart.CurrentXMax,
+                        currentXMin,
+                        currentXMax,
                         width,
                         height,
                         size,
@@ -88,8 +93,8 @@ public static class Signatures
                         tick.Description,
                         chart.TextColor,
                         verticalTextStyle,
-                        chart.CurrentYMin,
-                        chart.CurrentYMax,
+                        currentYMin,
+                        currentYMax,
                         width,
                         height,
                         chart.VerticalSignatureAlignment);

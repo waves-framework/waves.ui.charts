@@ -2,7 +2,6 @@
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-           xmlns:viewModels="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.ViewModels"
            xmlns:controls="clr-namespace:Waves.UI.Avalonia.Charts.Controls;assembly=Waves.UI.Avalonia.Charts"
            xmlns:converters="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.Views.Converters"
            xmlns:pages="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages"
@@ -133,8 +132,6 @@
                                                 YMin="{Binding YMin}"
                                                 YMax="{Binding YMax}"
                                                 SignaturesXFormat="hh:mm:ss"
-                                                SignatureXMin="{Binding SignatureXMin}"
-                                                SignatureXMax="{Binding SignatureXMax}"
                                                 BorderThickness="1"
                                                 VerticalSignatureAlignment="Right"
                                                 HorizontalSignatureAlignment="Bottom" />

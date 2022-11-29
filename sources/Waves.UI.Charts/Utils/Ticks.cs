@@ -35,6 +35,11 @@ public static class Ticks
             throw new Exception("Collection of drawing object has not been initialized.");
         }
 
+        var currentXMin = Values.GetValue(chart.CurrentXMin);
+        var currentXMax = Values.GetValue(chart.CurrentXMax);
+        var currentYMin = Values.GetValue(chart.CurrentYMin);
+        var currentYMax = Values.GetValue(chart.CurrentYMax);
+
         foreach (var obj in cache)
         {
             chart.DrawingObjects.Remove(obj);
@@ -59,8 +64,8 @@ public static class Ticks
                         chart.XAxisPrimaryTicksColor,
                         chart.XAxisPrimaryTicksDashArray,
                         0.5f,
-                        chart.CurrentXMin,
-                        chart.CurrentXMax,
+                        currentXMin,
+                        currentXMax,
                         width,
                         height);
 
@@ -80,8 +85,8 @@ public static class Ticks
                         chart.XAxisAdditionalTicksColor,
                         chart.XAxisAdditionalTicksDashArray,
                         0.25f,
-                        chart.CurrentXMin,
-                        chart.CurrentXMax,
+                        currentXMin,
+                        currentXMax,
                         width,
                         height);
 
@@ -101,8 +106,8 @@ public static class Ticks
                         chart.XAxisZeroLineColor,
                         chart.XAxisZeroLineDashArray,
                         1f,
-                        chart.CurrentXMin,
-                        chart.CurrentXMax,
+                        currentXMin,
+                        currentXMax,
                         width,
                         height);
 
@@ -482,27 +487,24 @@ public static class Ticks
         ticks?.Clear();
         ticks ??= new List<WavesAxisTick>();
 
-        if (chart.SignatureXMin is null || chart.SignatureXMax is null)
+        if (chart.CurrentXMin is double || chart.CurrentXMax is double)
         {
             ticks.GenerateAxisTicks(
-                chart.CurrentXMin,
-                chart.CurrentXMax,
+                (double)chart.CurrentXMin,
+                (double)chart.CurrentXMax,
                 chart.XAxisPrimaryTicksNumber,
                 chart.XAxisAdditionalTicksNumber,
                 WavesAxisTickOrientation.Horizontal);
         }
-        else
+        else if (chart.CurrentXMin is DateTime dateTimeMin && chart.CurrentXMax is DateTime dateTimeMax)
         {
-            if (chart.SignatureXMin is DateTime dateTimeMin && chart.SignatureXMax is DateTime dateTimeMax)
-            {
-                ticks.GenerateAxisTicks(
-                    dateTimeMin,
-                    dateTimeMax,
-                    signaturesFormat,
-                    chart.XAxisPrimaryTicksNumber,
-                    chart.XAxisAdditionalTicksNumber,
-                    WavesAxisTickOrientation.Horizontal);
-            }
+            ticks.GenerateAxisTicks(
+                dateTimeMin,
+                dateTimeMax,
+                signaturesFormat,
+                chart.XAxisPrimaryTicksNumber,
+                chart.XAxisAdditionalTicksNumber,
+                WavesAxisTickOrientation.Horizontal);
         }
 
         ticks.GenerateAxisTicks(

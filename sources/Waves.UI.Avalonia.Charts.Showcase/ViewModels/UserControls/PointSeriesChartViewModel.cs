@@ -67,13 +67,13 @@ public class PointSeriesChartViewModel : WavesViewModelBase
     /// Gets or sets X Min.
     /// </summary>
     [Reactive]
-    public double XMin { get; set; }
+    public object XMin { get; set; }
 
     /// <summary>
     /// Gets or sets X Max.
     /// </summary>
     [Reactive]
-    public double XMax { get; set; }
+    public object XMax { get; set; }
 
     /// <summary>
     /// Gets or sets Y Min.
@@ -170,8 +170,8 @@ public class PointSeriesChartViewModel : WavesViewModelBase
 
         Series.Add(_series);
 
-        var xmin = x.Min();
-        var xmax = x.Max();
+        var xmin = DateTime.FromOADate(x.Min());
+        var xmax = DateTime.FromOADate(x.Max());
         var ymin = y.Min();
         var ymax = y.Max();
 

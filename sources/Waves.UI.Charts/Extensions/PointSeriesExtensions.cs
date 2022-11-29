@@ -45,20 +45,25 @@ public static class PointSeriesExtensions
             return;
         }
 
+        var currentXMin = Values.GetValue(chart.CurrentXMin);
+        var currentXMax = Values.GetValue(chart.CurrentXMax);
+        var currentYMin = Values.GetValue(chart.CurrentYMin);
+        var currentYMax = Values.GetValue(chart.CurrentYMax);
+
         var visiblePoints = new List<WavesPoint> { new () };
         foreach (var point in series.Data)
         {
-            if (point.X <= chart.CurrentXMin)
+            if (point.X <= currentXMin)
             {
                 visiblePoints[0] = point;
                 continue;
             }
 
-            if (point.X > chart.CurrentXMin && point.X <= chart.CurrentXMax)
+            if (point.X > currentXMin && point.X <= currentXMax)
             {
                 visiblePoints.Add(point);
             }
-            else if (point.X > chart.CurrentXMax)
+            else if (point.X > currentXMax)
             {
                 visiblePoints.Add(point);
                 break;
@@ -76,10 +81,10 @@ public static class PointSeriesExtensions
                 points[i],
                 width,
                 height,
-                chart.CurrentXMin,
-                chart.CurrentYMin,
-                chart.CurrentXMax,
-                chart.CurrentYMax);
+                currentXMin,
+                currentYMin,
+                currentXMax,
+                currentYMax);
         }
 
         for (var i = 1; i < points.Length; i++)
@@ -116,10 +121,10 @@ public static class PointSeriesExtensions
                         visiblePoints[i],
                         width,
                         height,
-                        chart.CurrentXMin,
-                        chart.CurrentYMin,
-                        chart.CurrentXMax,
-                        chart.CurrentYMax);
+                        currentXMin,
+                        currentYMin,
+                        currentXMax,
+                        currentYMax);
                 }
             }
             else
@@ -177,11 +182,16 @@ public static class PointSeriesExtensions
             return;
         }
 
+        var currentXMin = Values.GetValue(chart.CurrentXMin);
+        var currentXMax = Values.GetValue(chart.CurrentXMax);
+        var currentYMin = Values.GetValue(chart.CurrentYMin);
+        var currentYMax = Values.GetValue(chart.CurrentYMax);
+
         var visiblePoints = new List<WavesPoint>();
         {
             foreach (var point in series.Data)
             {
-                if (point.X < chart.CurrentXMin)
+                if (point.X < currentXMin)
                 {
                     if (visiblePoints.Count == 0)
                     {
@@ -192,11 +202,11 @@ public static class PointSeriesExtensions
                     continue;
                 }
 
-                if (point.X >= chart.CurrentXMin && point.X <= chart.CurrentXMax)
+                if (point.X >= currentXMin && point.X <= currentXMax)
                 {
                     visiblePoints.Add(point);
                 }
-                else if (point.X > chart.CurrentXMax)
+                else if (point.X > currentXMax)
                 {
                     visiblePoints.Add(point);
                     break;
@@ -215,10 +225,10 @@ public static class PointSeriesExtensions
                 points[i],
                 width,
                 height,
-                chart.CurrentXMin,
-                chart.CurrentYMin,
-                chart.CurrentXMax,
-                chart.CurrentYMax);
+                currentXMin,
+                currentYMin,
+                currentXMax,
+                currentYMax);
         }
 
         for (var i = 0; i < points.Length - 1; i++)

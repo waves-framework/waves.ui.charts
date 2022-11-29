@@ -86,7 +86,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public static readonly StyledProperty<object> XMinProperty =
         AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, object>(
             nameof(XMin),
-            0,
+            0d,
             true);
 
     /// <summary>
@@ -95,7 +95,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public static readonly AttachedProperty<object> XMaxProperty =
         AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, object>(
             nameof(XMax),
-            1,
+            1d,
             true);
 
     /// <summary>
@@ -104,7 +104,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public static readonly StyledProperty<double> YMinProperty =
         AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, double>(
             nameof(YMin),
-            -1,
+            -1d,
             true);
 
     /// <summary>
@@ -113,7 +113,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public static readonly StyledProperty<double> YMaxProperty =
         AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, double>(
             nameof(YMax),
-            1,
+            1d,
             true);
 
     /// <summary>
@@ -122,7 +122,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public static readonly StyledProperty<object> CurrentXMinProperty =
         AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, object>(
             nameof(CurrentXMin),
-            0,
+            0d,
             true);
 
     /// <summary>
@@ -131,7 +131,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public static readonly StyledProperty<object> CurrentXMaxProperty =
         AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, object>(
             nameof(CurrentXMax),
-            1,
+            1d,
             true);
 
     /// <summary>
@@ -140,7 +140,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public static readonly StyledProperty<double> CurrentYMinProperty =
         AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, double>(
             nameof(CurrentYMin),
-            -1,
+            -1d,
             true);
 
     /// <summary>
@@ -149,23 +149,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public static readonly StyledProperty<double> CurrentYMaxProperty =
         AvaloniaProperty.Register<WavesChart, double>(
             nameof(CurrentYMax),
-            1);
-
-    /// <summary>
-    /// Defines <see cref="SignatureXMin"/> styled property.
-    /// </summary>
-    public static readonly StyledProperty<object> SignatureXMinProperty =
-        AvaloniaProperty.Register<WavesChart, object>(
-            nameof(SignatureXMin),
-            null);
-
-    /// <summary>
-    /// Defines <see cref="SignatureXMax"/> styled property.
-    /// </summary>
-    public static readonly StyledProperty<object> SignatureXMaxProperty =
-        AvaloniaProperty.Register<WavesChart, object>(
-            nameof(SignatureXMax),
-            null);
+            1d);
 
     /// <summary>
     /// Defines <see cref="SignaturesXFormat"/> styled property.
@@ -403,10 +387,10 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     private readonly List<IWavesDrawingObject> _signaturesCache = new ();
 
     private IWavesDrawingObject _background;
-    private object _xMin = 0;
-    private object _xMax = 1;
-    private double _yMin = -1;
-    private double _yMax = 1;
+    private object _xMin = 0d;
+    private object _xMax = 1d;
+    private double _yMin = -1d;
+    private double _yMax = 1d;
 
     /// <summary>
     /// Creates new instance of <see cref="WavesChart"/>.
@@ -573,24 +557,10 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     }
 
     /// <inheritdoc />
-    public object SignatureXMin
-    {
-        get => GetValue(SignatureXMinProperty);
-        set => SetValue(SignatureXMinProperty, value);
-    }
-
-    /// <inheritdoc />
     public string SignaturesXFormat
     {
         get => GetValue(SignaturesXFormatProperty);
         set => SetValue(SignaturesXFormatProperty, value);
-    }
-
-    /// <inheritdoc />
-    public object SignatureXMax
-    {
-        get => GetValue(SignatureXMaxProperty);
-        set => SetValue(SignatureXMaxProperty, value);
     }
 
     /// <inheritdoc />
@@ -919,26 +889,58 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     }
 
     /// <summary>
+    /// On value changed.
+    /// </summary>
+    /// <param name="newValue">New value.</param>
+    /// <param name="oldValue">Old value cache.</param>
+    /// <returns>Returns changed or not.</returns>
+    private bool OnValueChanged(object newValue, ref object oldValue)
+    {
+        if (newValue is double d && oldValue is double xMinD)
+        {
+            if (Math.Abs(d - xMinD) < double.Epsilon)
+            {
+                return false;
+            }
+        }
+
+        if (newValue is DateTime dt && oldValue is DateTime xMinDt)
+        {
+            if (dt == xMinDt)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// On value changed.
+    /// </summary>
+    /// <param name="newValue">New value.</param>
+    /// <param name="oldValue">Old value cache.</param>
+    /// <returns>Returns changed or not.</returns>
+    private bool OnValueChanged(double newValue, ref double oldValue)
+    {
+        if (Math.Abs(newValue - oldValue) < double.Epsilon)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
     /// On XMin changed.
     /// </summary>
     /// <param name="obj">Obj.</param>
     private void OnXMinChanged(AvaloniaPropertyChangedEventArgs<object> obj)
     {
         var newValue = obj.NewValue.Value;
-        if (newValue is double d)
+        if (!OnValueChanged(newValue, ref _xMin))
         {
-            if (Math.Abs(d - (double)_xMin) < double.Epsilon)
-            {
-                return;
-            }
-        }
-
-        if (newValue is DateTime dt)
-        {
-            if (dt == (DateTime)_xMin)
-            {
-                return;
-            }
+            return;
         }
 
         _xMin = newValue;
@@ -952,20 +954,9 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     private void OnXMaxChanged(AvaloniaPropertyChangedEventArgs<object> obj)
     {
         var newValue = obj.NewValue.Value;
-        if (newValue is double d)
+        if (!OnValueChanged(newValue, ref _xMax))
         {
-            if (Math.Abs(d - (double)_xMax) < double.Epsilon)
-            {
-                return;
-            }
-        }
-
-        if (newValue is DateTime dt)
-        {
-            if (dt == (DateTime)_xMax)
-            {
-                return;
-            }
+            return;
         }
 
         _xMax = newValue;
@@ -979,7 +970,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     private void OnYMinChanged(AvaloniaPropertyChangedEventArgs<double> obj)
     {
         var newValue = obj.NewValue.Value;
-        if (Math.Abs(newValue - _yMin) < double.Epsilon)
+        if (!OnValueChanged(newValue, ref _yMin))
         {
             return;
         }
@@ -995,7 +986,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     private void OnYMaxChanged(AvaloniaPropertyChangedEventArgs<double> obj)
     {
         var newValue = obj.NewValue.Value;
-        if (Math.Abs(newValue - _yMax) < double.Epsilon)
+        if (!OnValueChanged(newValue, ref _yMax))
         {
             return;
         }
@@ -1011,93 +1002,93 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// <param name="position">Zoom position.</param>
     private void ZoomChart(Vector delta, Point position)
     {
-        // if (!IsMouseOver)
-        // {
-        //     return;
-        // }
-        //
-        // //// if (!IsZoomEnabled)
-        // //// {
-        // ////     return;
-        // //// }
-        //
-        // var deltaF = -delta.Y;
-        //
-        // var x = Valuation.DenormalizePointX2D(position.X, Bounds.Width, CurrentXMin, CurrentXMax);
-        // var y = Valuation.DenormalizePointY2D(position.Y, Bounds.Height, CurrentYMin, CurrentYMax);
-        //
-        // if (double.IsInfinity(x))
-        // {
-        //     return;
-        // }
-        //
-        // if (double.IsInfinity(y))
-        // {
-        //     return;
-        // }
-        //
-        // if (IsCtrlPressed)
-        // {
-        //     var yMin = 0.0d;
-        //     var yMax = 0.0d;
-        //
-        //     if (false) // TODO:
-        //     {
-        //         yMin = -CurrentYMin * deltaF;
-        //         yMax = CurrentYMax * deltaF;
-        //     }
-        //     else
-        //     {
-        //         yMin = (y - CurrentYMin) * deltaF;
-        //         yMax = (CurrentYMax - y) * deltaF;
-        //     }
-        //
-        //     if (CurrentYMax - yMax - (CurrentYMin + yMin) > (YMax - YMin) / 1000000)
-        //     {
-        //         CurrentYMax -= yMax;
-        //         CurrentYMin += yMin;
-        //     }
-        //
-        //     if (CurrentYMin < YMin)
-        //     {
-        //         CurrentYMin = YMin;
-        //     }
-        //
-        //     if (CurrentYMax > YMax)
-        //     {
-        //         CurrentYMax = YMax;
-        //     }
-        //
-        //     InvalidateVisual();
-        //     return;
-        // }
-        //
-        // if (IsShiftPressed)
-        // {
-        //     ScrollChart(deltaF, x, y);
-        //
-        //     InvalidateVisual();
-        //     return;
-        // }
-        //
-        // var xMin = (x - CurrentXMin) * deltaF;
-        // var xMax = (CurrentXMax - x) * deltaF;
-        //
-        // if (CurrentXMax - xMax - (CurrentXMin + xMin) > (XMax - XMin) / 1000000)
-        // {
-        //     CurrentXMax -= xMax;
-        //     CurrentXMin += xMin;
-        // }
-        //
-        // if (CurrentXMin < XMin)
-        // {
-        //     CurrentXMin = XMin;
-        // }
-        //
-        // if (CurrentXMax > XMax)
-        // {
-        //     CurrentXMax = XMax;
-        // }
+        //// if (!IsMouseOver)
+        //// {
+        ////     return;
+        //// }
+        ////
+        //// //// if (!IsZoomEnabled)
+        //// //// {
+        //// ////     return;
+        //// //// }
+        ////
+        //// var deltaF = -delta.Y;
+        ////
+        //// var x = Valuation.DenormalizePointX2D(position.X, Bounds.Width, CurrentXMin, CurrentXMax);
+        //// var y = Valuation.DenormalizePointY2D(position.Y, Bounds.Height, CurrentYMin, CurrentYMax);
+        ////
+        //// if (double.IsInfinity(x))
+        //// {
+        ////     return;
+        //// }
+        ////
+        //// if (double.IsInfinity(y))
+        //// {
+        ////     return;
+        //// }
+        ////
+        //// if (IsCtrlPressed)
+        //// {
+        ////     var yMin = 0.0d;
+        ////     var yMax = 0.0d;
+        ////
+        ////     if (false) // TODO:
+        ////     {
+        ////         yMin = -CurrentYMin * deltaF;
+        ////         yMax = CurrentYMax * deltaF;
+        ////     }
+        ////     else
+        ////     {
+        ////         yMin = (y - CurrentYMin) * deltaF;
+        ////         yMax = (CurrentYMax - y) * deltaF;
+        ////     }
+        ////
+        ////     if (CurrentYMax - yMax - (CurrentYMin + yMin) > (YMax - YMin) / 1000000)
+        ////     {
+        ////         CurrentYMax -= yMax;
+        ////         CurrentYMin += yMin;
+        ////     }
+        ////
+        ////     if (CurrentYMin < YMin)
+        ////     {
+        ////         CurrentYMin = YMin;
+        ////     }
+        ////
+        ////     if (CurrentYMax > YMax)
+        ////     {
+        ////         CurrentYMax = YMax;
+        ////     }
+        ////
+        ////     InvalidateVisual();
+        ////     return;
+        //// }
+        ////
+        //// if (IsShiftPressed)
+        //// {
+        ////     ScrollChart(deltaF, x, y);
+        ////
+        ////     InvalidateVisual();
+        ////     return;
+        //// }
+        ////
+        //// var xMin = (x - CurrentXMin) * deltaF;
+        //// var xMax = (CurrentXMax - x) * deltaF;
+        ////
+        //// if (CurrentXMax - xMax - (CurrentXMin + xMin) > (XMax - XMin) / 1000000)
+        //// {
+        ////     CurrentXMax -= xMax;
+        ////     CurrentXMin += xMin;
+        //// }
+        ////
+        //// if (CurrentXMin < XMin)
+        //// {
+        ////     CurrentXMin = XMin;
+        //// }
+        ////
+        //// if (CurrentXMax > XMax)
+        //// {
+        ////     CurrentXMax = XMax;
+        //// }
 
         InvalidateVisual();
     }
@@ -1110,30 +1101,30 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// <param name="y">Scroll value along the Y axis.</param>
     private void ScrollChart(double delta, double x, double y)
     {
-        // var xMin = delta / 100d;
-        // var xMax = delta / 100d;
-        //
-        // if (CurrentXMax + xMax > XMax)
-        // {
-        //     return;
-        // }
-        //
-        // if (CurrentXMin + xMin < XMin)
-        // {
-        //     return;
-        // }
-        //
-        // CurrentXMax += xMax;
-        // CurrentXMin += xMin;
-        //
-        // if (CurrentXMin < XMin)
-        // {
-        //     CurrentXMin = XMin;
-        // }
-        //
-        // if (CurrentXMax > XMax)
-        // {
-        //     CurrentXMax = XMax;
-        // }
+        //// var xMin = delta / 100d;
+        //// var xMax = delta / 100d;
+        ////
+        //// if (CurrentXMax + xMax > XMax)
+        //// {
+        ////     return;
+        //// }
+        ////
+        //// if (CurrentXMin + xMin < XMin)
+        //// {
+        ////     return;
+        //// }
+        ////
+        //// CurrentXMax += xMax;
+        //// CurrentXMin += xMin;
+        ////
+        //// if (CurrentXMin < XMin)
+        //// {
+        ////     CurrentXMin = XMin;
+        //// }
+        ////
+        //// if (CurrentXMax > XMax)
+        //// {
+        ////     CurrentXMax = XMax;
+        //// }
     }
 }

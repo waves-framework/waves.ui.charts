@@ -91,19 +91,9 @@ public interface IWavesChart : IWavesSurface
     public double CurrentYMax { get; set; }
 
     /// <summary>
-    /// Gets or sets XMin for signatures.
-    /// </summary>
-    public object SignatureXMin { get; set; }
-
-    /// <summary>
     /// Gets or sets X-axis signatures format.
     /// </summary>
     public string SignaturesXFormat { get; set; }
-
-    /// <summary>
-    /// Gets or sets XMax for signatures.
-    /// </summary>
-    public object SignatureXMax { get; set; }
 
     /// <summary>
     /// Gets or sets X axis primary ticks number.

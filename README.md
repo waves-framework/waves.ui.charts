@@ -105,4 +105,4 @@ Chart initialization looks like this:
 
 ### 📋 Licence
 
-Waves.Core is licenced under the [MIT licence](https://github.com/waves-framework/waves.ui.charts/blob/master/license.md).
+Waves.UI.Charts is licenced under the [MIT licence](https://github.com/waves-framework/waves.ui.charts/blob/master/license.md).

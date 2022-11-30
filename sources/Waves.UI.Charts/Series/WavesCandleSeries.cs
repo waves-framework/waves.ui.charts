@@ -9,6 +9,23 @@ namespace Waves.UI.Charts.Series;
 /// </summary>
 public class WavesCandleSeries : WavesSeries<WavesCandle>, IWavesCandleSeries
 {
+    /// <summary>
+    ///     Creates new instance of <see cref="WavesCandleSeries" />.
+    /// </summary>
+    public WavesCandleSeries()
+        : base()
+    {
+    }
+
+    /// <summary>
+    ///     Creates new instance of <see cref="WavesCandleSeries" />.
+    /// </summary>
+    /// <param name="data">Data.</param>
+    public WavesCandleSeries(WavesCandle[] data)
+        : base(data)
+    {
+    }
+
     /// <inheritdoc />
     public WavesColor GrowingColor { get; set; }
 

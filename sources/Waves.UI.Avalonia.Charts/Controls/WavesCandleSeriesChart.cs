@@ -5,6 +5,7 @@ using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 using Waves.UI.Charts.Series;
 using Waves.UI.Charts.Series.Enums;
 using Waves.UI.Charts.Series.Interfaces;
+using Waves.UI.Charts.Utils;
 
 namespace Waves.UI.Avalonia.Charts.Controls;
 
@@ -65,6 +66,9 @@ public class WavesCandleSeriesChart : WavesSeriesChart<IWavesCandleSeries, Waves
         foreach (var candle in candles)
         {
             var color = candle.Close > candle.Open ? growingColor : fallingColor;
+            //// var rectangleLocation = Valuation.NormalizePoint(
+            ////     candle.DateTime.ToOADate(),
+            ////     candle.)
             var rectangle = new WavesRectangle()
             {
                 Fill = color,

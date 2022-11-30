@@ -18,7 +18,7 @@ namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels.UserControls;
 [WavesViewModel(typeof(CandleSeriesChartViewModel))]
 public class CandleSeriesChartViewModel : WavesViewModelBase
 {
-    private WavesPointSeries _series;
+    private WavesCandleSeries _series;
 
     /// <summary>
     /// Creates new instance of <see cref="CandleSeriesChartViewModel"/>.
@@ -29,51 +29,16 @@ public class CandleSeriesChartViewModel : WavesViewModelBase
     }
 
     /// <summary>
-    /// Gets or sets selected series type.
-    /// </summary>
-    [Reactive]
-    public WavesPointSeriesType SelectedSeriesType { get; set; }
-
-    /// <summary>
-    /// Gets or sets series type.
-    /// </summary>
-    [Reactive]
-    public ObservableCollection<WavesPointSeriesType> SeriesTypes { get; set; }
-
-    /// <summary>
-    /// Gets or sets selected dot type.
-    /// </summary>
-    [Reactive]
-    public WavesDotType SelectedDotType { get; set; }
-
-    /// <summary>
-    /// Gets or sets dots type.
-    /// </summary>
-    [Reactive]
-    public ObservableCollection<WavesDotType> DotsTypes { get; set; }
-
-    /// <summary>
-    /// Selected series color.
-    /// </summary>
-    [Reactive]
-    public WavesColor SelectedSeriesColor { get; set; }
-
-    /// <summary>
-    /// Gets or sets available series colors.
-    /// </summary>
-    public ObservableCollection<WavesColor> AvailableSeriesColors { get; set; }
-
-    /// <summary>
     /// Gets or sets X Min.
     /// </summary>
     [Reactive]
-    public double XMin { get; set; }
+    public object XMin { get; set; }
 
     /// <summary>
     /// Gets or sets X Max.
     /// </summary>
     [Reactive]
-    public double XMax { get; set; }
+    public object XMax { get; set; }
 
     /// <summary>
     /// Gets or sets Y Min.
@@ -88,57 +53,19 @@ public class CandleSeriesChartViewModel : WavesViewModelBase
     public double YMax { get; set; }
 
     /// <summary>
-    /// Gets or sets Signature X min.
-    /// </summary>
-    [Reactive]
-    public object SignatureXMin { get; set; }
-
-    /// <summary>
-    /// Gets or sets Signature X max.
-    /// </summary>
-    [Reactive]
-    public object SignatureXMax { get; set; }
-
-    /// <summary>
     /// Gets or sets series.
     /// </summary>
     [Reactive]
-    public ObservableCollection<IWavesPointSeries> Series { get; set; }
+    public ObservableCollection<IWavesCandleSeries> Series { get; set; }
 
     /// <summary>
     /// Initializes chart.
     /// </summary>
     private async void Initialize()
     {
-        Series = new ObservableCollection<IWavesPointSeries>();
-        SeriesTypes = new ObservableCollection<WavesPointSeriesType>()
-        {
-            WavesPointSeriesType.Line,
-            WavesPointSeriesType.Bar,
-        };
-        DotsTypes = new ObservableCollection<WavesDotType>()
-        {
-            WavesDotType.None,
-            WavesDotType.Circle,
-            WavesDotType.FilledCircle,
-        };
-        AvailableSeriesColors = new ObservableCollection<WavesColor>()
-        {
-            WavesColor.Blue,
-            WavesColor.Green,
-            WavesColor.Red,
-            WavesColor.LightGray,
-        };
-
-        SelectedSeriesType = WavesPointSeriesType.Line;
-        SelectedDotType = WavesDotType.FilledCircle;
-        SelectedSeriesColor = WavesColor.Red;
+        Series = new ObservableCollection<IWavesCandleSeries>();
 
         InitializeChartData();
-
-        this.WhenPropertyChanged(x => x.SelectedSeriesType).Subscribe(_ => Update());
-        this.WhenPropertyChanged(x => x.SelectedDotType).Subscribe(_ => Update());
-        this.WhenPropertyChanged(x => x.SelectedSeriesColor).Subscribe(_ => Update());
     }
 
     private void InitializeChartData()
@@ -148,48 +75,67 @@ public class CandleSeriesChartViewModel : WavesViewModelBase
         var endX = 4000d;
         var step = (endX - startX) / length;
 
-        var x = new double[length];
-        var y = new double[length];
+        var dt = new DateTime[length];
+        var o = new decimal[length];
+        var c = new decimal[length];
+        var l = new decimal[length];
+        var h = new decimal[length];
+        var candles = new WavesCandle[length];
         var random = new Random();
+        var volatility = 0.8m;
+        var oldPrice = 5m;
+        var minuteCount = 0;
+        var now = DateTime.Now;
 
-        x[0] = startX;
-        y[0] = 1;
+        //// https://stackoverflow.com/questions/8597731/are-there-known-techniques-to-generate-realistic-looking-fake-stock-data
+        //// rnd = Random_Float(); // generate number, 0 <= x < 1.0
+        //// change_percent = 2 * volatility * rnd;
+        //// if (change_percent > volatility)
+        ////     change_percent -= (2 * volatility);
+        //// change_amount = old_price * change_percent;
+        //// new_price = old_price + change_amount;
 
-        for (var i = 1; i < length; i++)
+        for (var i = 0; i < length; i++)
         {
-            x[i] = startX + i * step;
-            y[i] = Math.Sin(0.5 * i) / (0.5 * i);
+            var changePercent = 2 * volatility * Convert.ToDecimal(random.NextDouble());
+            if (changePercent > volatility)
+            {
+                changePercent -= 2 * volatility;
+            }
+
+            var changeAmount = oldPrice * changePercent;
+            var newPrice = oldPrice + changeAmount;
+
+            dt[i] = now.AddMinutes(minuteCount);
+            c[i] = newPrice;
+            o[i] = oldPrice;
+            h[i] = newPrice + Convert.ToDecimal(random.NextDouble());
+            l[i] = newPrice - Convert.ToDecimal(random.NextDouble());
+            candles[i] = new WavesCandle()
+            {
+                Open = o[i],
+                Close = c[i],
+                High = h[i],
+                Low = l[i],
+                DateTime = dt[i],
+            };
         }
 
-        _series = new WavesPointSeries(x, y)
-        {
-            Color = WavesColor.Green,
-            Type = SelectedSeriesType,
-            DotType = WavesDotType.FilledCircle,
-        };
+        _series = new WavesCandleSeries(candles);
 
         Series.Add(_series);
 
-        var xmin = x.Min();
-        var xmax = x.Max();
-        var ymin = y.Min();
-        var ymax = y.Max();
+        var xmin = dt.Min();
+        var xmax = dt.Max();
+        var ymin = l.Min();
+        var ymax = h.Max();
 
         ymin -= 10 * (ymax - ymin) / 100;
         ymax += 10 * (ymax - ymin) / 100;
 
         XMin = xmin;
         XMax = xmax;
-        YMin = ymin;
-        YMax = ymax;
-    }
-
-    private void Update()
-    {
-        _series.Color = SelectedSeriesColor;
-        _series.Type = SelectedSeriesType;
-        _series.DotType = SelectedDotType;
-
-        _series.Update();
+        YMin = Convert.ToDouble(ymin);
+        YMax = Convert.ToDouble(ymax);
     }
 }

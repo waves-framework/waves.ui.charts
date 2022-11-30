@@ -86,12 +86,6 @@ public class CandleSeriesChartViewModel : WavesViewModelBase
         var startX = 1000d;
         var endX = 4000d;
         var step = (endX - startX) / length;
-
-        var dt = new DateTime[length];
-        var o = new decimal[length];
-        var c = new decimal[length];
-        var l = new decimal[length];
-        var h = new decimal[length];
         var candles = new WavesCandle[length];
         var random = new Random();
         var volatility = 0.01m;
@@ -124,28 +118,23 @@ public class CandleSeriesChartViewModel : WavesViewModelBase
             //// h[i] = newPrice + Convert.ToDecimal(random.NextDouble());
             //// l[i] = newPrice - Convert.ToDecimal(random.NextDouble());
 
-            dt[i] = bCandles[i].CloseTime;
-            c[i] = bCandles[i].ClosePrice;
-            o[i] = bCandles[i].OpenPrice;
-            h[i] = bCandles[i].HighPrice;
-            l[i] = bCandles[i].LowPrice;
-
             candles[i] = new WavesCandle()
             {
-                Open = o[i],
-                Close = c[i],
-                High = h[i],
-                Low = l[i],
-                DateTime = dt[i],
+                Open = bCandles[i].OpenPrice,
+                Close = bCandles[i].ClosePrice,
+                High = bCandles[i].HighPrice,
+                Low = bCandles[i].LowPrice,
+                OpenDateTime = bCandles[i].OpenTime,
+                CloseDateTime = bCandles[i].CloseTime,
             };
         }
 
         _series = new WavesCandleSeries(candles);
 
-        var xmin = dt.Min();
-        var xmax = dt.Max();
-        var ymin = l.Min();
-        var ymax = h.Max();
+        var xmin = candles.Min(x => x.OpenDateTime);
+        var xmax = candles.Max(x => x.CloseDateTime);
+        var ymin = candles.Min(x => x.Low);
+        var ymax = candles.Max(x => x.High);
 
         ymin -= 10 * (ymax - ymin) / 100;
         ymax += 10 * (ymax - ymin) / 100;

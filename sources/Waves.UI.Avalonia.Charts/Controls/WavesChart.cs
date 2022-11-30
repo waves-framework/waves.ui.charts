@@ -1002,93 +1002,76 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// <param name="position">Zoom position.</param>
     private void ZoomChart(Vector delta, Point position)
     {
-        //// if (!IsMouseOver)
+        if (!IsMouseOver)
+        {
+            return;
+        }
+
+        //// if (!IsZoomEnabled)
         //// {
         ////     return;
         //// }
-        ////
-        //// //// if (!IsZoomEnabled)
-        //// //// {
-        //// ////     return;
-        //// //// }
-        ////
-        //// var deltaF = -delta.Y;
-        ////
-        //// var x = Valuation.DenormalizePointX2D(position.X, Bounds.Width, CurrentXMin, CurrentXMax);
-        //// var y = Valuation.DenormalizePointY2D(position.Y, Bounds.Height, CurrentYMin, CurrentYMax);
-        ////
-        //// if (double.IsInfinity(x))
-        //// {
-        ////     return;
-        //// }
-        ////
-        //// if (double.IsInfinity(y))
-        //// {
-        ////     return;
-        //// }
-        ////
-        //// if (IsCtrlPressed)
-        //// {
-        ////     var yMin = 0.0d;
-        ////     var yMax = 0.0d;
-        ////
-        ////     if (false) // TODO:
-        ////     {
-        ////         yMin = -CurrentYMin * deltaF;
-        ////         yMax = CurrentYMax * deltaF;
-        ////     }
-        ////     else
-        ////     {
-        ////         yMin = (y - CurrentYMin) * deltaF;
-        ////         yMax = (CurrentYMax - y) * deltaF;
-        ////     }
-        ////
-        ////     if (CurrentYMax - yMax - (CurrentYMin + yMin) > (YMax - YMin) / 1000000)
-        ////     {
-        ////         CurrentYMax -= yMax;
-        ////         CurrentYMin += yMin;
-        ////     }
-        ////
-        ////     if (CurrentYMin < YMin)
-        ////     {
-        ////         CurrentYMin = YMin;
-        ////     }
-        ////
-        ////     if (CurrentYMax > YMax)
-        ////     {
-        ////         CurrentYMax = YMax;
-        ////     }
-        ////
-        ////     InvalidateVisual();
-        ////     return;
-        //// }
-        ////
-        //// if (IsShiftPressed)
-        //// {
-        ////     ScrollChart(deltaF, x, y);
-        ////
-        ////     InvalidateVisual();
-        ////     return;
-        //// }
-        ////
-        //// var xMin = (x - CurrentXMin) * deltaF;
-        //// var xMax = (CurrentXMax - x) * deltaF;
-        ////
-        //// if (CurrentXMax - xMax - (CurrentXMin + xMin) > (XMax - XMin) / 1000000)
-        //// {
-        ////     CurrentXMax -= xMax;
-        ////     CurrentXMin += xMin;
-        //// }
-        ////
-        //// if (CurrentXMin < XMin)
-        //// {
-        ////     CurrentXMin = XMin;
-        //// }
-        ////
-        //// if (CurrentXMax > XMax)
-        //// {
-        ////     CurrentXMax = XMax;
-        //// }
+
+        var xMin = Values.GetValue(XMin);
+        var xMax = Values.GetValue(XMax);
+        var yMin = Values.GetValue(YMin);
+        var yMax = Values.GetValue(YMax);
+        var currentXMin = Values.GetValue(CurrentXMin);
+        var currentXMax = Values.GetValue(CurrentXMax);
+        var currentYMin = Values.GetValue(CurrentYMin);
+        var currentYMax = Values.GetValue(CurrentYMax);
+
+        var deltaFY = -delta.Y;
+        var deltaFX = -delta.X;
+
+        var x = Valuation.DenormalizeValueX(position.X, Bounds.Width, currentXMin, currentXMax);
+        var y = Valuation.DenormalizeValueY(position.Y, Bounds.Height, CurrentYMin, CurrentYMax);
+
+        if (double.IsInfinity(x))
+        {
+            return;
+        }
+
+        if (double.IsInfinity(y))
+        {
+            return;
+        }
+
+        if (IsShiftPressed)
+        {
+            Console.WriteLine("X: " + deltaFX);
+            ScrollChart(deltaFY, x, y);
+            return;
+        }
+
+        Console.WriteLine("Y: " + deltaFY);
+        var xMinDelta = (x - currentXMin) * deltaFY;
+        var xMaxDelta = (currentXMax - x) * deltaFY;
+
+        if (currentXMax - xMaxDelta - (currentXMin + xMinDelta) > (xMax - xMin) / 1000000)
+        {
+            if (CurrentXMin is double && CurrentXMax is double)
+            {
+                CurrentXMin = currentXMin + xMinDelta;
+                CurrentXMax = currentXMax - xMaxDelta;
+            }
+
+            if (CurrentXMin is DateTime && CurrentXMax is DateTime)
+            {
+                CurrentXMin = DateTime.FromOADate(currentXMin + xMinDelta);
+                CurrentXMax = DateTime.FromOADate(currentXMax - xMaxDelta);
+            }
+        }
+
+        if (currentXMin < xMin)
+        {
+            CurrentXMin = XMin;
+        }
+
+        if (currentXMax > xMax)
+        {
+            CurrentXMax = XMax;
+        }
 
         InvalidateVisual();
     }
@@ -1101,30 +1084,51 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// <param name="y">Scroll value along the Y axis.</param>
     private void ScrollChart(double delta, double x, double y)
     {
-        //// var xMin = delta / 100d;
-        //// var xMax = delta / 100d;
-        ////
-        //// if (CurrentXMax + xMax > XMax)
-        //// {
-        ////     return;
-        //// }
-        ////
-        //// if (CurrentXMin + xMin < XMin)
-        //// {
-        ////     return;
-        //// }
-        ////
-        //// CurrentXMax += xMax;
-        //// CurrentXMin += xMin;
-        ////
-        //// if (CurrentXMin < XMin)
-        //// {
-        ////     CurrentXMin = XMin;
-        //// }
-        ////
-        //// if (CurrentXMax > XMax)
-        //// {
-        ////     CurrentXMax = XMax;
-        //// }
+        if (delta == 0)
+        {
+            return;
+        }
+
+        var min = Values.GetValue(XMin);
+        var max = Values.GetValue(XMax);
+        var currentMin = Values.GetValue(CurrentXMin);
+        var currentMax = Values.GetValue(CurrentXMax);
+
+        var minDelta = (x - currentMin) * delta;
+        var maxDelta = (currentMax - x) * delta;
+
+        if (currentMax + maxDelta > max)
+        {
+            return;
+        }
+
+        if (currentMin + minDelta < min)
+        {
+            return;
+        }
+
+        if (CurrentXMin is double && CurrentXMax is double)
+        {
+            CurrentXMin = currentMin - minDelta;
+            CurrentXMax = currentMax - maxDelta;
+        }
+
+        if (CurrentXMin is DateTime && CurrentXMax is DateTime)
+        {
+            CurrentXMin = DateTime.FromOADate(currentMin - minDelta);
+            CurrentXMax = DateTime.FromOADate(currentMax - maxDelta);
+        }
+
+        if (currentMin < min)
+        {
+            CurrentXMin = XMin;
+        }
+
+        if (currentMax > max)
+        {
+            CurrentXMax = XMax;
+        }
+
+        InvalidateVisual();
     }
 }

@@ -67,14 +67,13 @@ public class WavesCandleSeriesChart : WavesSeriesChart<IWavesCandleSeries, Waves
         var currentYMin = Values.GetValue(CurrentYMin);
         var currentYMax = Values.GetValue(CurrentYMax);
 
-        const double rectangleWidth = 4;
-
         var candles = series.Data;
         foreach (var candle in candles)
         {
             var color = candle.Close > candle.Open ? growingColor : fallingColor;
+
             var rectangleLocation = Valuation.NormalizePoint(
-                candle.DateTime.ToOADate(),
+                candle.OpenDateTime.ToOADate(),
                 Convert.ToDouble(candle.High),
                 width,
                 height,
@@ -82,7 +81,19 @@ public class WavesCandleSeriesChart : WavesSeriesChart<IWavesCandleSeries, Waves
                 currentYMin,
                 currentXMax,
                 currentYMax);
+
             var rectangleHeight = Convert.ToDouble(Math.Abs(candle.Close - candle.Open));
+            var rectangleWidth = Valuation.NormalizeValueX(
+                candle.CloseDateTime.ToOADate(),
+                width,
+                currentXMin,
+                currentXMax) - Valuation.NormalizeValueX(
+                candle.OpenDateTime.ToOADate(),
+                width,
+                currentXMin,
+                currentXMax);
+
+            rectangleLocation = new WavesPoint(rectangleLocation.X, rectangleLocation.Y);
             var rectangle = new WavesRectangle
             {
                 Fill = color,
@@ -90,8 +101,46 @@ public class WavesCandleSeriesChart : WavesSeriesChart<IWavesCandleSeries, Waves
                 Width = rectangleWidth,
                 Height = rectangleHeight,
                 StrokeThickness = 0,
+                Stroke = BackgroundColor,
             };
 
+            if (rectangle.Width > 2)
+            {
+                rectangle.StrokeThickness = 2;
+            }
+
+            var linePositionX = (Valuation.NormalizeValueX(
+                candle.CloseDateTime.ToOADate(),
+                width,
+                currentXMin,
+                currentXMax) + Valuation.NormalizeValueX(
+                candle.OpenDateTime.ToOADate(),
+                width,
+                currentXMin,
+                currentXMax)) / 2;
+
+            var line = new WavesLine()
+            {
+                Point1 = new WavesPoint(
+                    linePositionX,
+                    Valuation.NormalizeValueY(
+                     Convert.ToDouble(candle.High),
+                     height,
+                     currentYMin,
+                     currentYMax)),
+                Point2 = new WavesPoint(
+                    linePositionX,
+                    Valuation.NormalizeValueY(
+                        Convert.ToDouble(candle.Low),
+                        height,
+                        currentYMin,
+                        currentYMax)),
+                Color = color,
+                Opacity = 0.75,
+            };
+
+            DrawingObjects.Add(line);
+            DrawingObjectsCache.Add(line);
             DrawingObjects.Add(rectangle);
             DrawingObjectsCache.Add(rectangle);
         }

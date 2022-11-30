@@ -68,7 +68,7 @@ public static class Valuation
     /// <param name="min">Min.</param>
     /// <param name="max">Max.</param>
     /// <returns>Returns denormalized value.</returns>
-    public static double DenormalizeValue(
+    public static double DenormalizeValueY(
         double input,
         double height,
         double min,
@@ -180,7 +180,7 @@ public static class Valuation
     {
         return new WavesPoint(
             DenormalizeValueX(input.X, width, xMin, xMax),
-            DenormalizeValue(input.Y, height, yMin, yMax));
+            DenormalizeValueY(input.Y, height, yMin, yMax));
     }
 
     /// <summary>
@@ -207,6 +207,6 @@ public static class Valuation
     {
         return new WavesPoint(
             DenormalizeValueX(x, width, xMin, xMax),
-            DenormalizeValue(y, height, yMin, yMax));
+            DenormalizeValueY(y, height, yMin, yMax));
     }
 }

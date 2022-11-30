@@ -33,7 +33,12 @@ public struct WavesCandle
     public decimal Volume { get; set; }
 
     /// <summary>
-    /// Gets or sets date / time.
+    /// Gets or sets open date / time.
     /// </summary>
-    public DateTime DateTime { get; set; }
+    public DateTime OpenDateTime { get; set; }
+
+    /// <summary>
+    /// Gets or sets close date / time.
+    /// </summary>
+    public DateTime CloseDateTime { get; set; }
 }

@@ -47,8 +47,8 @@ public class WavesCandleSeriesChart : WavesSeriesChart<IWavesCandleSeries, Waves
     private void GenerateCandleSeries(
         IWavesCandleSeries series,
         List<IWavesDrawingObject> drawingObjectsCache,
-        double boundsWidth,
-        double boundsHeight,
+        double width,
+        double height,
         WavesColor growingColor,
         WavesColor fallingColor)
     {
@@ -62,18 +62,41 @@ public class WavesCandleSeriesChart : WavesSeriesChart<IWavesCandleSeries, Waves
             return;
         }
 
+        var currentXMin = Values.GetValue(CurrentXMin);
+        var currentXMax = Values.GetValue(CurrentXMax);
+        var currentYMin = Values.GetValue(CurrentYMin);
+        var currentYMax = Values.GetValue(CurrentYMax);
+
+        const double rectangleWidth = 4;
+
         var candles = series.Data;
         foreach (var candle in candles)
         {
             var color = candle.Close > candle.Open ? growingColor : fallingColor;
-            //// var rectangleLocation = Valuation.NormalizePoint(
-            ////     candle.DateTime.ToOADate(),
-            ////     candle.)
+            var rectangleLocation = Valuation.NormalizePoint(
+                candle.DateTime.ToOADate(),
+                Convert.ToDouble(candle.High),
+                width,
+                height,
+                currentXMin,
+                currentYMin,
+                currentXMax,
+                currentYMax);
+            var rectangleHeight = Valuation.NormalizeValueY(
+                Convert.ToDouble(Math.Abs(candle.Close - candle.Open)),
+                height,
+                currentYMin,
+                CurrentYMax);
             var rectangle = new WavesRectangle()
             {
                 Fill = color,
-                Location = new WavesPoint(),
+                Location = rectangleLocation,
+                Width = rectangleWidth,
+                Height = rectangleHeight,
             };
+
+            DrawingObjects.Add(rectangle);
+            DrawingObjectsCache.Add(rectangle);
         }
     }
 }

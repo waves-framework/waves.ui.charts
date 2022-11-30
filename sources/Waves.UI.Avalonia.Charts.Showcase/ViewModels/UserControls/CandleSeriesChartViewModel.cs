@@ -70,7 +70,7 @@ public class CandleSeriesChartViewModel : WavesViewModelBase
 
     private void InitializeChartData()
     {
-        var length = 50;
+        var length = 100;
         var startX = 1000d;
         var endX = 4000d;
         var step = (endX - startX) / length;
@@ -82,8 +82,8 @@ public class CandleSeriesChartViewModel : WavesViewModelBase
         var h = new decimal[length];
         var candles = new WavesCandle[length];
         var random = new Random();
-        var volatility = 0.8m;
-        var oldPrice = 5m;
+        var volatility = 0.01m;
+        var oldPrice = 500m;
         var minuteCount = 0;
         var now = DateTime.Now;
 
@@ -106,7 +106,7 @@ public class CandleSeriesChartViewModel : WavesViewModelBase
             var changeAmount = oldPrice * changePercent;
             var newPrice = oldPrice + changeAmount;
 
-            dt[i] = now.AddMinutes(minuteCount);
+            dt[i] = now.AddMinutes(minuteCount++);
             c[i] = newPrice;
             o[i] = oldPrice;
             h[i] = newPrice + Convert.ToDecimal(random.NextDouble());

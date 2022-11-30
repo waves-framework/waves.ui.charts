@@ -17,7 +17,7 @@ public static class Valuation
     /// <param name="min">Min.</param>
     /// <param name="max">Max.</param>
     /// <returns>Returns normalized value.</returns>
-    public static double NormalizePointX2D(
+    public static double NormalizeValueX(
         double input,
         double width,
         double min,
@@ -34,7 +34,7 @@ public static class Valuation
     /// <param name="min">Min.</param>
     /// <param name="max">Max.</param>
     /// <returns>Returns denormalized value.</returns>
-    public static double DenormalizePointX2D(
+    public static double DenormalizeValueX(
         double input,
         double width,
         double min,
@@ -51,7 +51,7 @@ public static class Valuation
     /// <param name="min">Min.</param>
     /// <param name="max">Max.</param>
     /// <returns>Returns normalized value.</returns>
-    public static double NormalizePointY2D(
+    public static double NormalizeValueY(
         double input,
         double height,
         double min,
@@ -68,7 +68,7 @@ public static class Valuation
     /// <param name="min">Min.</param>
     /// <param name="max">Max.</param>
     /// <returns>Returns denormalized value.</returns>
-    public static double DenormalizePointY2D(
+    public static double DenormalizeValue(
         double input,
         double height,
         double min,
@@ -98,8 +98,8 @@ public static class Valuation
         double yMax)
     {
         return new WavesPoint(
-            NormalizePointX2D(input.X, width, xMin, xMax),
-            NormalizePointY2D(input.Y, height, yMin, yMax));
+            NormalizeValueX(input.X, width, xMin, xMax),
+            NormalizeValueY(input.Y, height, yMin, yMax));
     }
 
     /// <summary>
@@ -154,8 +154,8 @@ public static class Valuation
         double yMax)
     {
         return new WavesPoint(
-            NormalizePointX2D(x, width, xMin, xMax),
-            NormalizePointY2D(y, height, yMin, yMax));
+            NormalizeValueX(x, width, xMin, xMax),
+            NormalizeValueY(y, height, yMin, yMax));
     }
 
     /// <summary>
@@ -179,8 +179,8 @@ public static class Valuation
         double yMax)
     {
         return new WavesPoint(
-            DenormalizePointX2D(input.X, width, xMin, xMax),
-            DenormalizePointY2D(input.Y, height, yMin, yMax));
+            DenormalizeValueX(input.X, width, xMin, xMax),
+            DenormalizeValue(input.Y, height, yMin, yMax));
     }
 
     /// <summary>
@@ -206,7 +206,7 @@ public static class Valuation
         double yMax)
     {
         return new WavesPoint(
-            DenormalizePointX2D(x, width, xMin, xMax),
-            DenormalizePointY2D(y, height, yMin, yMax));
+            DenormalizeValueX(x, width, xMin, xMax),
+            DenormalizeValue(y, height, yMin, yMax));
     }
 }

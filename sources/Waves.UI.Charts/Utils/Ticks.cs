@@ -431,8 +431,8 @@ public static class Ticks
             IsVisible = true,
             Opacity = opacity,
             Thickness = strokeThickness,
-            Point1 = new WavesPoint(Valuation.NormalizePointX2D(value, width, xMin, xMax), 0),
-            Point2 = new WavesPoint(Valuation.NormalizePointX2D(value, width, xMin, xMax), height),
+            Point1 = new WavesPoint(Valuation.NormalizeValueX(value, width, xMin, xMax), 0),
+            Point2 = new WavesPoint(Valuation.NormalizeValueX(value, width, xMin, xMax), height),
         };
     }
 
@@ -468,8 +468,8 @@ public static class Ticks
             IsVisible = true,
             Opacity = opacity,
             Thickness = strokeThickness,
-            Point1 = new WavesPoint(0, Valuation.NormalizePointY2D(value, height, yMin, yMax)),
-            Point2 = new WavesPoint(width, Valuation.NormalizePointY2D(value, height, yMin, yMax)),
+            Point1 = new WavesPoint(0, Valuation.NormalizeValueY(value, height, yMin, yMax)),
+            Point2 = new WavesPoint(width, Valuation.NormalizeValueY(value, height, yMin, yMax)),
         };
     }
 

@@ -259,7 +259,7 @@ public static class PointSeriesExtensions
             {
                 // add signatures
                 var ep = new WavesPoint(points[i].X + (points[i + 1].X - points[i].X) / 2, points[i].Y);
-                var value = Valuation.DenormalizePointY2D(points[i].Y, height, chart.CurrentYMin, chart.CurrentYMax);
+                var value = Valuation.DenormalizeValue(points[i].Y, height, chart.CurrentYMin, chart.CurrentYMax);
 
                 var v = Math.Round(value, 2).ToString(CultureInfo.CurrentCulture);
 
@@ -318,7 +318,7 @@ public static class PointSeriesExtensions
             var ep = new WavesPoint(
                 points[lastIndex].X + (points[lastIndex].X - points[lastIndex].X) / 2,
                 points[lastIndex].Y);
-            var value = Valuation.DenormalizePointY2D(
+            var value = Valuation.DenormalizeValue(
                 points[lastIndex].Y,
                 height,
                 chart.CurrentYMin,

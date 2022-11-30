@@ -169,11 +169,11 @@ public static class Signatures
         switch (horizontalSignatureAlignment)
         {
             case WavesAxisHorizontalSignatureAlignment.Top:
-                x = Valuation.NormalizePointX2D(value, width, xMin, xMax) - size.Width / 2;
+                x = Valuation.NormalizeValueX(value, width, xMin, xMax) - size.Width / 2;
                 y = size.Height * 2;
                 break;
             case WavesAxisHorizontalSignatureAlignment.Bottom:
-                x = Valuation.NormalizePointX2D(value, width, xMin, xMax) - size.Width / 2;
+                x = Valuation.NormalizeValueX(value, width, xMin, xMax) - size.Width / 2;
                 y = height - size.Height * 2;
                 break;
             default:
@@ -228,11 +228,11 @@ public static class Signatures
         {
             case WavesAxisVerticalSignatureAlignment.Left:
                 x = size.Width;
-                y = Valuation.NormalizePointY2D(value, height, yMin, yMax) - size.Height / 2;
+                y = Valuation.NormalizeValueY(value, height, yMin, yMax) - size.Height / 2;
                 break;
             case WavesAxisVerticalSignatureAlignment.Right:
                 x = width - 1.5 * size.Width - 12;
-                y = Valuation.NormalizePointY2D(value, height, yMin, yMax) - size.Height / 2;
+                y = Valuation.NormalizeValueY(value, height, yMin, yMax) - size.Height / 2;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(verticalSignatureAlignment), verticalSignatureAlignment, null);
@@ -276,11 +276,11 @@ public static class Signatures
         switch (horizontalSignatureAlignment)
         {
             case WavesAxisHorizontalSignatureAlignment.Top:
-                x = Valuation.NormalizePointX2D(value, width, xMin, xMax) - textSize.Width / 2;
+                x = Valuation.NormalizeValueX(value, width, xMin, xMax) - textSize.Width / 2;
                 y = textSize.Height * 2;
                 break;
             case WavesAxisHorizontalSignatureAlignment.Bottom:
-                x = Valuation.NormalizePointX2D(value, width, xMin, xMax) - textSize.Width / 2;
+                x = Valuation.NormalizeValueX(value, width, xMin, xMax) - textSize.Width / 2;
                 y = height - textSize.Height * 2;
                 break;
             default:
@@ -340,11 +340,11 @@ public static class Signatures
         {
             case WavesAxisVerticalSignatureAlignment.Left:
                 x = textSize.Width;
-                y = Valuation.NormalizePointY2D(value, height, yMin, yMax) - textSize.Height / 2;
+                y = Valuation.NormalizeValueY(value, height, yMin, yMax) - textSize.Height / 2;
                 break;
             case WavesAxisVerticalSignatureAlignment.Right:
                 x = width - 1.5 * textSize.Width - 12;
-                y = Valuation.NormalizePointY2D(value, height, yMin, yMax) - textSize.Height / 2;
+                y = Valuation.NormalizeValueY(value, height, yMin, yMax) - textSize.Height / 2;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(verticalSignatureAlignment), verticalSignatureAlignment, null);

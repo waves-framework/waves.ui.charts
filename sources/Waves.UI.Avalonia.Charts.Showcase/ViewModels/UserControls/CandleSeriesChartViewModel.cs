@@ -1,6 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using Binance.Net.Clients;
+using Binance.Net.Enums;
+using Binance.Net.Interfaces;
+using CryptoExchange.Net.Objects;
 using DynamicData.Binding;
 using ReactiveUI.Fody.Helpers;
 using Waves.UI.Base.Attributes;
@@ -25,6 +31,11 @@ public class CandleSeriesChartViewModel : WavesViewModelBase
     /// </summary>
     public CandleSeriesChartViewModel()
     {
+        XMin = 0d;
+        YMin = 0d;
+        XMax = 1d;
+        YMax = 1d;
+
         Initialize();
     }
 
@@ -68,9 +79,10 @@ public class CandleSeriesChartViewModel : WavesViewModelBase
         InitializeChartData();
     }
 
-    private void InitializeChartData()
+    private async void InitializeChartData()
     {
-        var length = 100;
+        var bCandles = await GetCandles();
+        var length = bCandles.Count;
         var startX = 1000d;
         var endX = 4000d;
         var step = (endX - startX) / length;
@@ -97,20 +109,27 @@ public class CandleSeriesChartViewModel : WavesViewModelBase
 
         for (var i = 0; i < length; i++)
         {
-            var changePercent = 2 * volatility * Convert.ToDecimal(random.NextDouble());
-            if (changePercent > volatility)
-            {
-                changePercent -= 2 * volatility;
-            }
+            //// var changePercent = 2 * volatility * Convert.ToDecimal(random.NextDouble());
+            //// if (changePercent > volatility)
+            //// {
+            ////     changePercent -= 2 * volatility;
+            //// }
+            ////
+            //// var changeAmount = oldPrice * changePercent;
+            //// var newPrice = oldPrice + changeAmount;
 
-            var changeAmount = oldPrice * changePercent;
-            var newPrice = oldPrice + changeAmount;
+            //// dt[i] = now.AddMinutes(minuteCount++);
+            //// c[i] = newPrice;
+            //// o[i] = oldPrice;
+            //// h[i] = newPrice + Convert.ToDecimal(random.NextDouble());
+            //// l[i] = newPrice - Convert.ToDecimal(random.NextDouble());
 
-            dt[i] = now.AddMinutes(minuteCount++);
-            c[i] = newPrice;
-            o[i] = oldPrice;
-            h[i] = newPrice + Convert.ToDecimal(random.NextDouble());
-            l[i] = newPrice - Convert.ToDecimal(random.NextDouble());
+            dt[i] = bCandles[i].CloseTime;
+            c[i] = bCandles[i].ClosePrice;
+            o[i] = bCandles[i].OpenPrice;
+            h[i] = bCandles[i].HighPrice;
+            l[i] = bCandles[i].LowPrice;
+
             candles[i] = new WavesCandle()
             {
                 Open = o[i],
@@ -122,8 +141,6 @@ public class CandleSeriesChartViewModel : WavesViewModelBase
         }
 
         _series = new WavesCandleSeries(candles);
-
-        Series.Add(_series);
 
         var xmin = dt.Min();
         var xmax = dt.Max();
@@ -137,5 +154,18 @@ public class CandleSeriesChartViewModel : WavesViewModelBase
         XMax = xmax;
         YMin = Convert.ToDouble(ymin);
         YMax = Convert.ToDouble(ymax);
+        Series.Add(_series);
+    }
+
+    private async Task<List<IBinanceKline>> GetCandles()
+    {
+        using var client = new BinanceClient();
+        var result = await client.SpotApi.ExchangeData.GetKlinesAsync("BTCUSDT", KlineInterval.OneMinute, DateTime.Now.AddHours(-12), DateTime.Now);
+        if (!result.Success)
+        {
+            throw new Exception($"Error requesting data: {result.Error.Message}");
+        }
+
+        return result.Data.ToList();
     }
 }

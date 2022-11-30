@@ -82,17 +82,14 @@ public class WavesCandleSeriesChart : WavesSeriesChart<IWavesCandleSeries, Waves
                 currentYMin,
                 currentXMax,
                 currentYMax);
-            var rectangleHeight = Valuation.NormalizeValueY(
-                Convert.ToDouble(Math.Abs(candle.Close - candle.Open)),
-                height,
-                currentYMin,
-                CurrentYMax);
-            var rectangle = new WavesRectangle()
+            var rectangleHeight = Convert.ToDouble(Math.Abs(candle.Close - candle.Open));
+            var rectangle = new WavesRectangle
             {
                 Fill = color,
                 Location = rectangleLocation,
                 Width = rectangleWidth,
                 Height = rectangleHeight,
+                StrokeThickness = 0,
             };
 
             DrawingObjects.Add(rectangle);

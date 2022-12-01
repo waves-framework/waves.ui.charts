@@ -80,6 +80,13 @@ public class WavesSurface :
         base.Render(context);
     }
 
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        _renderingLogic?.Dispose();
+        Renderer?.Dispose();
+    }
+
     /// <summary>
     /// Gets color.
     /// </summary>

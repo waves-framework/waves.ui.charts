@@ -1,3 +1,4 @@
+using System;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 
@@ -6,7 +7,7 @@ namespace Waves.UI.Charts.Drawing.Interfaces;
 /// <summary>
 /// Interface of Waves surface.
 /// </summary>
-public interface IWavesSurface
+public interface IWavesSurface : IDisposable
 {
     /// <summary>
     /// Gets renderer.

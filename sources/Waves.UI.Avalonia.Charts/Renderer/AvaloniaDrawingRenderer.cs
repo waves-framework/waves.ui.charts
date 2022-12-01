@@ -13,12 +13,20 @@ namespace Waves.UI.Avalonia.Charts.Renderer;
 /// </summary>
 public class AvaloniaDrawingRenderer : IWavesDrawingRenderer
 {
+    private bool _disposed = false;
+
     private DrawingContext _context;
 
     /// <inheritdoc />
     public void Dispose()
     {
-        _context.Dispose();
+        //// if (_disposed)
+        //// {
+        ////     return;
+        //// }
+        ////
+        //// _context.Dispose();
+        //// _disposed = true;
     }
 
     /// <inheritdoc />

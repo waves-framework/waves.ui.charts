@@ -1,6 +1,6 @@
 using System;
 
-namespace Waves.UI.Charts.Series;
+namespace Waves.UI.Charts.Drawing.Primitives;
 
 /// <summary>
 /// Waves candle data.

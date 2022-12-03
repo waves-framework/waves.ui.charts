@@ -103,14 +103,14 @@ public class PointSeriesChartViewModel : WavesViewModelBase
     /// Gets or sets series.
     /// </summary>
     [Reactive]
-    public ObservableCollection<IWavesPointSeries> Series { get; set; }
+    public ObservableCollection<WavesPointSeries> Series { get; set; }
 
     /// <summary>
     /// Initializes chart.
     /// </summary>
     private async void Initialize()
     {
-        Series = new ObservableCollection<IWavesPointSeries>();
+        Series = new ObservableCollection<WavesPointSeries>();
         SeriesTypes = new ObservableCollection<WavesPointSeriesType>()
         {
             WavesPointSeriesType.Line,

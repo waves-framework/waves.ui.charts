@@ -10,7 +10,7 @@ namespace Waves.UI.Charts.Series;
 /// <summary>
 /// Waves point series.
 /// </summary>
-public class WavesPointSeries : WavesSeries<WavesPoint>, IWavesPointSeries
+public class WavesPointSeries : WavesSeries<WavesPoint>
 {
     /// <summary>
     ///     Creates new instance of <see cref="WavesPointSeries" />.
@@ -42,25 +42,41 @@ public class WavesPointSeries : WavesSeries<WavesPoint>, IWavesPointSeries
         }
     }
 
-    /// <inheritdoc />
-    public double[] DashPattern { get; set; } = new double[] { 0, 0, 0, 0 };
+    /// <summary>
+    ///     Gets or sets series type.
+    /// </summary>
+    public WavesPointSeriesType Type { get; set; }
 
-    /// <inheritdoc />
-    public double Thickness { get; set; } = 1.0d;
+    /// <summary>
+    /// Gets or sets color.
+    /// </summary>
+    public WavesColor Color { get; set; }
 
-    /// <inheritdoc />
-    public WavesColor Color { get; set; } = WavesColor.Red;
+    /// <summary>
+    ///     Gets or sets dash pattern.
+    /// </summary>
+    public double[] DashPattern { get; set; }
 
-    /// <inheritdoc />
-    public WavesPointSeriesType Type { get; set; } = WavesPointSeriesType.Line;
+    /// <summary>
+    /// Gets or sets stroke thickness.
+    /// </summary>
+    public double Thickness { get; set; }
 
-    /// <inheritdoc />
-    public WavesDotType DotType { get; set; } = WavesDotType.None;
+    /// <summary>
+    /// Gets or sets dot type.
+    /// </summary>
+    public WavesDotType DotType { get; set; }
 
-    /// <inheritdoc />
-    public double DotSize { get; set; } = 8;
+    /// <summary>
+    /// Gets or sets dot type.
+    /// </summary>
+    public double DotSize { get; set; }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Updates data.
+    /// </summary>
+    /// <param name="x">X array.</param>
+    /// <param name="y">Y array.</param>
     public void Update(double[] x, double[] y)
     {
         if (x == null)

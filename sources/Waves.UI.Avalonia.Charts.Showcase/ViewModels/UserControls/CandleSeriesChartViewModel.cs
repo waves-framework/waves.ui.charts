@@ -22,7 +22,7 @@ namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels.UserControls;
 [WavesViewModel(typeof(CandleSeriesChartViewModel))]
 public class CandleSeriesChartViewModel : WavesViewModelBase
 {
-    private IWavesSeries<IWavesSeriesData> _series;
+    private IWavesSeries<WavesCandle> _series;
 
     /// <summary>
     /// Creates new instance of <see cref="CandleSeriesChartViewModel"/>.

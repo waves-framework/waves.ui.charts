@@ -13,7 +13,7 @@ namespace Waves.UI.Avalonia.Charts.Controls;
 /// <summary>
 ///     Waves candle series chart.
 /// </summary>
-public class WavesCandleSeriesChart : WavesSeriesChart<IWavesCandleSeries, WavesCandle>, IStyleable
+public class WavesCandleSeriesChart : WavesSeriesChart<WavesCandleSeries, WavesCandle>, IStyleable
 {
     /// <inheritdoc />
     Type IStyleable.StyleKey => typeof(WavesChart);
@@ -46,7 +46,7 @@ public class WavesCandleSeriesChart : WavesSeriesChart<IWavesCandleSeries, Waves
     }
 
     private void GenerateCandleSeries(
-        IWavesCandleSeries series,
+        WavesCandleSeries series,
         List<IWavesDrawingObject> drawingObjectsCache,
         double width,
         double height,

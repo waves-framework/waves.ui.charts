@@ -6,6 +6,7 @@ using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Data;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
+using Waves.UI.Charts.Series;
 using Waves.UI.Charts.Series.Enums;
 using Waves.UI.Charts.Series.Interfaces;
 using Waves.UI.Charts.Utils;
@@ -29,7 +30,7 @@ public static class PointSeriesExtensions
     /// <param name="foreground">Foreground.</param>
     public static void GenerateLineSeries(
         this IWavesChart chart,
-        IWavesPointSeries series,
+        WavesPointSeries series,
         ICollection<IWavesDrawingObject> cache,
         double width,
         double height,
@@ -166,7 +167,7 @@ public static class PointSeriesExtensions
     /// <param name="foreground">Foreground.</param>
     public static void GenerateBarSeries(
         this IWavesChart chart,
-        IWavesPointSeries series,
+        WavesPointSeries series,
         ICollection<IWavesDrawingObject> cache,
         double width,
         double height,

@@ -3,6 +3,7 @@ using Avalonia.Styling;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Data;
 using Waves.UI.Charts.Extensions;
+using Waves.UI.Charts.Series;
 using Waves.UI.Charts.Series.Enums;
 using Waves.UI.Charts.Series.Interfaces;
 
@@ -11,7 +12,7 @@ namespace Waves.UI.Avalonia.Charts.Controls;
 /// <summary>
 ///     Waves point series chart.
 /// </summary>
-public class WavesPointSeriesChart : WavesSeriesChart<IWavesPointSeries, WavesPoint>, IStyleable
+public class WavesPointSeriesChart : WavesSeriesChart<WavesPointSeries, WavesPoint>, IStyleable
 {
     /// <inheritdoc />
     Type IStyleable.StyleKey => typeof(WavesChart);

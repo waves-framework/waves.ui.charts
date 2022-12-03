@@ -9,7 +9,7 @@ namespace Waves.UI.Charts.Series.Interfaces;
 /// Interface of series.
 /// </summary>
 /// <typeparam name="T">Type of series data.</typeparam>
-public interface IWavesSeries<in T>
+public interface IWavesSeries<T>
 {
     /// <summary>
     /// Series updated event.

@@ -11,25 +11,33 @@ namespace Waves.UI.Charts.Series;
 /// <summary>
 /// Candle series.
 /// </summary>
-/// <typeparam name="WavesCandle">Type of waves candle.</typeparam>
-public class WavesCandleSeries<WavesCandle> : WavesSeries<WavesCandle>, IWavesSeries<WavesCandle>
+public class WavesCandleSeries :
+    IWavesSeries<WavesCandle>
 {
     /// <summary>
-    ///     Creates new instance of <see cref="WavesCandleSeries" />.
+    ///     Creates new instance of <see cref="WavesPointSeries" />.
     /// </summary>
     public WavesCandleSeries()
-        : base()
     {
     }
 
     /// <summary>
-    ///     Creates new instance of <see cref="WavesCandleSeries" />.
+    ///     Creates new instance of <see cref="WavesPointSeries" />.
     /// </summary>
     /// <param name="data">Data.</param>
     public WavesCandleSeries(WavesCandle[] data)
-        : base(data)
     {
+        Data = data ?? throw new ArgumentNullException(nameof(data), "Data was not set.");
     }
+
+    /// <inheritdoc />
+    public event EventHandler Updated;
+
+    /// <inheritdoc />
+    public bool IsVisible { get; set; } = true;
+
+    /// <inheritdoc />
+    public double Opacity { get; set; } = 1.0d;
 
     /// <summary>
     /// Gets or sets growing color.
@@ -41,8 +49,49 @@ public class WavesCandleSeries<WavesCandle> : WavesSeries<WavesCandle>, IWavesSe
     /// </summary>
     public WavesColor FallingColor { get; set; }
 
+    /// <summary>
+    ///     Gets or sets point.
+    /// </summary>
+    public WavesCandle[] Data { get; protected set; }
+
     /// <inheritdoc />
-    public override void Draw(IWavesChart chart)
+    public virtual void Update()
+    {
+        OnSeriesUpdated();
+    }
+
+    /// <inheritdoc />
+    public void Update(WavesCandle[] data)
+    {
+        if (data == null)
+        {
+            throw new ArgumentNullException(nameof(data), "Data was not set.");
+        }
+
+        if (data.Length != Data.Length)
+        {
+            Data = new WavesCandle[data.Length];
+        }
+
+        for (var i = 0; i < Data.Length; i++)
+        {
+            Data[i] = data[i];
+        }
+
+        OnSeriesUpdated();
+    }
+
+    /// <summary>
+    /// Updates data.
+    /// </summary>
+    /// <param name="data">Data.</param>
+    public void Update(IWavesSeriesData[] data)
+    {
+        Update(data);
+    }
+
+    /// <inheritdoc />
+    public virtual void Draw(IWavesChart chart)
     {
         if (Data == null)
         {
@@ -140,5 +189,13 @@ public class WavesCandleSeries<WavesCandle> : WavesSeries<WavesCandle>, IWavesSe
                 chart.SetCache(rectangle);
             }
         }
+    }
+
+    /// <summary>
+    /// Series updated invocator.
+    /// </summary>
+    protected virtual void OnSeriesUpdated()
+    {
+        Updated?.Invoke(this, EventArgs.Empty);
     }
 }

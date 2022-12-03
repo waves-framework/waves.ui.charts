@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Data;
 
 namespace Waves.UI.Charts.Utils;
 

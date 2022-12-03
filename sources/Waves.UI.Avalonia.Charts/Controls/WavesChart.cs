@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Avalonia;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
@@ -5,6 +6,7 @@ using Avalonia.Media;
 using Avalonia.Styling;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Data;
 using Waves.UI.Charts.Drawing.Primitives.Enums;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 using Waves.UI.Charts.Utils;
@@ -383,6 +385,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             nameof(IsMouseOver),
             false);
 
+    private readonly List<IWavesDrawingObject> _cache = new ();
     private readonly List<IWavesDrawingObject> _ticksCache = new ();
     private readonly List<IWavesDrawingObject> _signaturesCache = new ();
 
@@ -772,6 +775,33 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// Gets or sets ticks.
     /// </summary>
     protected List<WavesAxisTick> Ticks { get; set; } = new List<WavesAxisTick>();
+
+    /// <inheritdoc />
+    public void SetCache(IWavesDrawingObject obj)
+    {
+        _cache.Add(obj);
+    }
+
+    /// <inheritdoc />
+    public void SetCache(IEnumerable<IWavesDrawingObject> obj)
+    {
+        _cache.AddRange(obj);
+    }
+
+    /// <inheritdoc />
+    public void ReleaseCache(IWavesDrawingObject obj)
+    {
+        _cache.Remove(obj);
+    }
+
+    /// <inheritdoc />
+    public void ReleaseCache(IEnumerable<IWavesDrawingObject> objs)
+    {
+        foreach (var obj in objs)
+        {
+            _cache.Remove(obj);
+        }
+    }
 
     /// <inheritdoc />
     protected override void OnPointerEntered(PointerEventArgs e)

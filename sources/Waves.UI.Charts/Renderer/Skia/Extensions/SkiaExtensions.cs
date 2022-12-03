@@ -2,6 +2,7 @@
 using System.Drawing;
 using SkiaSharp;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Data;
 using Waves.UI.Charts.Drawing.Primitives.Enums;
 
 namespace Waves.UI.Charts.Renderer.Skia.Extensions;

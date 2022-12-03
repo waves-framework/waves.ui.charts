@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Data;
 using Waves.UI.Charts.Drawing.Primitives.Enums;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 

@@ -10,6 +10,16 @@ namespace Waves.UI.Charts.Drawing.Interfaces;
 public interface IWavesSurface : IDisposable
 {
     /// <summary>
+    /// Gets surfaces width.
+    /// </summary>
+    public double SurfaceWidth { get; }
+
+    /// <summary>
+    /// Gets surface height.
+    /// </summary>
+    public double SurfaceHeight { get; }
+
+    /// <summary>
     /// Gets renderer.
     /// </summary>
     public IWavesDrawingRenderer Renderer { get; }

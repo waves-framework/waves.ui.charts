@@ -1,4 +1,5 @@
 using System;
+using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Series.Interfaces;
 
 namespace Waves.UI.Charts.Series;
@@ -7,7 +8,7 @@ namespace Waves.UI.Charts.Series;
 /// Waves series.
 /// </summary>
 /// <typeparam name="T">Type of series data.</typeparam>
-public class WavesSeries<T> : IWavesSeries<T>
+public abstract class WavesSeries<T> : IWavesSeries<T>
 {
     /// <summary>
     ///     Creates new instance of <see cref="WavesPointSeries" />.
@@ -65,6 +66,9 @@ public class WavesSeries<T> : IWavesSeries<T>
 
         OnSeriesUpdated();
     }
+
+    /// <inheritdoc />
+    public abstract void Draw(IWavesChart chart);
 
     /// <summary>
     /// Series updated invocator.

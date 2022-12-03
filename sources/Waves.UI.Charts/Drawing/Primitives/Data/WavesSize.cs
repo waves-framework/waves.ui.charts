@@ -1,4 +1,4 @@
-namespace Waves.UI.Charts.Drawing.Primitives;
+namespace Waves.UI.Charts.Drawing.Primitives.Data;
 
 /// <summary>
 ///     Size base structure.

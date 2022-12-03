@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Data;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 using Waves.UI.Charts.Series.Enums;
 using Waves.UI.Charts.Series.Interfaces;

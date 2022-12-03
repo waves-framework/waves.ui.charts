@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SkiaSharp;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Data;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 using Waves.UI.Charts.Extensions;
 using Waves.UI.Charts.Renderer.Skia.Extensions;

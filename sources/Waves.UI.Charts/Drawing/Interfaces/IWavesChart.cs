@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Enums;
+using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 
 namespace Waves.UI.Charts.Drawing.Interfaces;
 
@@ -224,4 +225,28 @@ public interface IWavesChart : IWavesSurface
     /// Gets or sets whether chart has default ticks or not.
     /// </summary>
     bool HasDefaultTicks { get; }
+
+    /// <summary>
+    /// Sets cache.
+    /// </summary>
+    /// <param name="obj">Object.</param>
+    void SetCache(IWavesDrawingObject obj);
+
+    /// <summary>
+    /// Sets cache.
+    /// </summary>
+    /// <param name="obj">Objects.</param>
+    void SetCache(IEnumerable<IWavesDrawingObject> obj);
+
+    /// <summary>
+    /// Releases cache.
+    /// </summary>
+    /// <param name="obj">Object.</param>
+    void ReleaseCache(IWavesDrawingObject obj);
+
+    /// <summary>
+    /// Releases cache.
+    /// </summary>
+    /// <param name="obj">Objects.</param>
+    void ReleaseCache(IEnumerable<IWavesDrawingObject> obj);
 }

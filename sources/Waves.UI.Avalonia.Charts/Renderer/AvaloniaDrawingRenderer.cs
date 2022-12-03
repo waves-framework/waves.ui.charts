@@ -4,6 +4,7 @@ using Avalonia.Media;
 using Waves.UI.Avalonia.Charts.Extensions;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Data;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 
 namespace Waves.UI.Avalonia.Charts.Renderer;

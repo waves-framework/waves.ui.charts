@@ -1,11 +1,12 @@
 using System;
+using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 
-namespace Waves.UI.Charts.Drawing.Primitives;
+namespace Waves.UI.Charts.Drawing.Primitives.Data;
 
 /// <summary>
 ///     Waves point.
 /// </summary>
-public struct WavesPoint
+public struct WavesPoint : IWavesSeriesData
 {
     /// <summary>
     ///     Creates new instance of <see cref="WavesPoint"/>.
@@ -80,6 +81,6 @@ public struct WavesPoint
     /// <returns>The string representation of the vector.</returns>
     public override string ToString()
     {
-        return "(" + X + ", " + Y + ")";
+        return $"({X}, {Y})";
     }
 }

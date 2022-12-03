@@ -1,5 +1,7 @@
 using System;
+using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Data;
 using Waves.UI.Charts.Series.Enums;
 using Waves.UI.Charts.Series.Interfaces;
 
@@ -84,5 +86,11 @@ public class WavesPointSeries : WavesSeries<WavesPoint>, IWavesPointSeries
         }
 
         OnSeriesUpdated();
+    }
+
+    /// <inheritdoc />
+    public override void Draw(IWavesChart chart)
+    {
+        throw new NotImplementedException();
     }
 }

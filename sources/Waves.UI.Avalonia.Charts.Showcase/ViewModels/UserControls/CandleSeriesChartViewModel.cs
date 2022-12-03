@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 using Binance.Net.Clients;
 using Binance.Net.Enums;
 using Binance.Net.Interfaces;
-using CryptoExchange.Net.Objects;
-using DynamicData.Binding;
 using ReactiveUI.Fody.Helpers;
 using Waves.UI.Base.Attributes;
-using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Data;
+using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 using Waves.UI.Charts.Series;
-using Waves.UI.Charts.Series.Enums;
 using Waves.UI.Charts.Series.Interfaces;
 using Waves.UI.Presentation;
 
@@ -24,7 +22,7 @@ namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels.UserControls;
 [WavesViewModel(typeof(CandleSeriesChartViewModel))]
 public class CandleSeriesChartViewModel : WavesViewModelBase
 {
-    private WavesCandleSeries _series;
+    private IWavesSeries<IWavesSeriesData> _series;
 
     /// <summary>
     /// Creates new instance of <see cref="CandleSeriesChartViewModel"/>.
@@ -67,14 +65,14 @@ public class CandleSeriesChartViewModel : WavesViewModelBase
     /// Gets or sets series.
     /// </summary>
     [Reactive]
-    public ObservableCollection<IWavesCandleSeries> Series { get; set; }
+    public ObservableCollection<IWavesSeries<IWavesSeriesData>> Series { get; set; }
 
     /// <summary>
     /// Initializes chart.
     /// </summary>
     private async void Initialize()
     {
-        Series = new ObservableCollection<IWavesCandleSeries>();
+        Series = new ObservableCollection<IWavesSeries<IWavesSeriesData>>();
 
         InitializeChartData();
     }

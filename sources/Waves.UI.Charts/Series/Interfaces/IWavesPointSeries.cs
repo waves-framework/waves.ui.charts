@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Data;
 using Waves.UI.Charts.Series.Enums;
 
 namespace Waves.UI.Charts.Series.Interfaces;

@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
 
 namespace Waves.UI.Charts.Series.Interfaces;
@@ -8,7 +9,7 @@ namespace Waves.UI.Charts.Series.Interfaces;
 /// Interface of series.
 /// </summary>
 /// <typeparam name="T">Type of series data.</typeparam>
-public interface IWavesSeries<T>
+public interface IWavesSeries<in T>
 {
     /// <summary>
     /// Series updated event.
@@ -40,4 +41,10 @@ public interface IWavesSeries<T>
     /// </summary>
     /// <param name="data">Series data.</param>
     void Update(T[] data);
+
+    /// <summary>
+    /// Draws series.
+    /// </summary>
+    /// <param name="chart">Chart.</param>
+    void Draw(IWavesChart chart);
 }

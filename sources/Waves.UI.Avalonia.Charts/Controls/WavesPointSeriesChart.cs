@@ -1,6 +1,7 @@
 using Avalonia.Media;
 using Avalonia.Styling;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Data;
 using Waves.UI.Charts.Extensions;
 using Waves.UI.Charts.Series.Enums;
 using Waves.UI.Charts.Series.Interfaces;

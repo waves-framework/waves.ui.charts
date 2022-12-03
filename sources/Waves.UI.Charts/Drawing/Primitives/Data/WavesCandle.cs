@@ -1,11 +1,12 @@
 using System;
+using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 
-namespace Waves.UI.Charts.Drawing.Primitives;
+namespace Waves.UI.Charts.Drawing.Primitives.Data;
 
 /// <summary>
 /// Waves candle data.
 /// </summary>
-public struct WavesCandle
+public struct WavesCandle : IWavesSeriesData
 {
     /// <summary>
     /// Gets or sets open price.
@@ -41,4 +42,13 @@ public struct WavesCandle
     /// Gets or sets close date / time.
     /// </summary>
     public DateTime CloseDateTime { get; set; }
+
+    /// <summary>
+    ///     ToString method overriden for easy printing/debugging.
+    /// </summary>
+    /// <returns>The string representation of the vector.</returns>
+    public override string ToString()
+    {
+        return $"(O: {Open} ({OpenDateTime}); C: {Close} ({CloseDateTime}); L: {Low}; H: {High}; V: {Volume})";
+    }
 }

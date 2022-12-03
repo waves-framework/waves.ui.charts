@@ -68,6 +68,12 @@ public class WavesSurface :
     /// <inheritdoc />
     public WavesColor BackgroundColor { get; set; }
 
+    /// <inheritdoc />
+    public double SurfaceWidth => Bounds.Width;
+
+    /// <inheritdoc />
+    public double SurfaceHeight => Bounds.Height;
+
     /// <summary>
     /// Gets renderer.
     /// </summary>

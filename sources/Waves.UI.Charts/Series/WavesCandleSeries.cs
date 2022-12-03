@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Data;
@@ -11,9 +12,10 @@ namespace Waves.UI.Charts.Series;
 /// <summary>
 /// Candle series.
 /// </summary>
-public class WavesCandleSeries :
-    IWavesSeries<WavesCandle>
+public class WavesCandleSeries : WavesSeries
 {
+    private readonly ConcurrentBag<IWavesDrawingObject> _cache = new ();
+
     /// <summary>
     ///     Creates new instance of <see cref="WavesPointSeries" />.
     /// </summary>
@@ -27,40 +29,34 @@ public class WavesCandleSeries :
     /// <param name="data">Data.</param>
     public WavesCandleSeries(WavesCandle[] data)
     {
-        Data = data ?? throw new ArgumentNullException(nameof(data), "Data was not set.");
+        Candles = data ?? throw new ArgumentNullException(nameof(data), "Data was not set.");
     }
-
-    /// <inheritdoc />
-    public event EventHandler Updated;
-
-    /// <inheritdoc />
-    public bool IsVisible { get; set; } = true;
-
-    /// <inheritdoc />
-    public double Opacity { get; set; } = 1.0d;
 
     /// <summary>
     /// Gets or sets growing color.
     /// </summary>
-    public WavesColor GrowingColor { get; set; }
+    public WavesColor GrowingColor { get; set; } = WavesColor.Green;
 
     /// <summary>
     /// Gets or sets falling color.
     /// </summary>
-    public WavesColor FallingColor { get; set; }
+    public WavesColor FallingColor { get; set; } = WavesColor.Red;
 
     /// <summary>
     ///     Gets or sets point.
     /// </summary>
-    public WavesCandle[] Data { get; protected set; }
+    public WavesCandle[] Candles { get; protected set; }
 
     /// <inheritdoc />
-    public virtual void Update()
+    public override void Update()
     {
         OnSeriesUpdated();
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Updates data.
+    /// </summary>
+    /// <param name="data">New candles.</param>
     public void Update(WavesCandle[] data)
     {
         if (data == null)
@@ -68,39 +64,35 @@ public class WavesCandleSeries :
             throw new ArgumentNullException(nameof(data), "Data was not set.");
         }
 
-        if (data.Length != Data.Length)
+        if (data.Length != Candles.Length)
         {
-            Data = new WavesCandle[data.Length];
+            Candles = new WavesCandle[data.Length];
         }
 
-        for (var i = 0; i < Data.Length; i++)
+        for (var i = 0; i < Candles.Length; i++)
         {
-            Data[i] = data[i];
+            Candles[i] = data[i];
         }
 
         OnSeriesUpdated();
     }
 
-    /// <summary>
-    /// Updates data.
-    /// </summary>
-    /// <param name="data">Data.</param>
-    public void Update(IWavesSeriesData[] data)
-    {
-        Update(data);
-    }
-
     /// <inheritdoc />
-    public virtual void Draw(IWavesChart chart)
+    public override void Draw(IWavesChart chart)
     {
-        if (Data == null)
+        if (Candles == null)
         {
             return;
         }
 
-        if (Data.Length == 0)
+        if (Candles.Length == 0)
         {
             return;
+        }
+
+        while (_cache.TryTake(out var obj))
+        {
+            chart.DrawingObjects.Remove(obj);
         }
 
         var currentXMin = Values.GetValue(chart.CurrentXMin);
@@ -108,7 +100,7 @@ public class WavesCandleSeries :
         var currentYMin = Values.GetValue(chart.CurrentYMin);
         var currentYMax = Values.GetValue(chart.CurrentYMax);
 
-        var candles = Data;
+        var candles = Candles;
         foreach (var candle in candles)
         {
             var color = candle.Close > candle.Open ? GrowingColor : FallingColor;
@@ -180,22 +172,19 @@ public class WavesCandleSeries :
                 Opacity = 0.75,
             };
 
-            if (chart.DrawingObjects != null)
+            if (chart.DrawingObjects == null)
             {
-                chart.DrawingObjects.Add(line);
-                chart.DrawingObjects.Add(rectangle);
-
-                chart.SetCache(line);
-                chart.SetCache(rectangle);
+                continue;
             }
-        }
-    }
 
-    /// <summary>
-    /// Series updated invocator.
-    /// </summary>
-    protected virtual void OnSeriesUpdated()
-    {
-        Updated?.Invoke(this, EventArgs.Empty);
+            chart.DrawingObjects.Add(line);
+            chart.DrawingObjects.Add(rectangle);
+
+            chart.SetCache(line);
+            chart.SetCache(rectangle);
+
+            _cache.Add(line);
+            _cache.Add(rectangle);
+        }
     }
 }

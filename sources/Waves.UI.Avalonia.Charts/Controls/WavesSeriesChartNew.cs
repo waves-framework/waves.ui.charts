@@ -5,6 +5,7 @@ using Avalonia.Media;
 using Avalonia.Styling;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
+using Waves.UI.Charts.Series;
 using Waves.UI.Charts.Series.Interfaces;
 
 namespace Waves.UI.Avalonia.Charts.Controls;
@@ -12,8 +13,6 @@ namespace Waves.UI.Avalonia.Charts.Controls;
 /// <summary>
 /// Waves series chart abstraction.
 /// </summary>
-/// <typeparam name="T1">Type of series.</typeparam>
-/// <typeparam name="T2">Type of series data..</typeparam>
 public class WavesSeriesChartNew :
     WavesChart,
     IStyleable
@@ -21,10 +20,10 @@ public class WavesSeriesChartNew :
     /// <summary>
     ///     Defines <see cref="Series" /> property.
     /// </summary>
-    public static readonly AttachedProperty<ObservableCollection<IWavesSeries<IWavesSeriesData>>> SeriesProperty =
-        AvaloniaProperty.RegisterAttached<WavesSeriesChartNew, WavesSeriesChartNew, ObservableCollection<IWavesSeries<IWavesSeriesData>>>(
+    public static readonly AttachedProperty<ObservableCollection<WavesSeries>> SeriesProperty =
+        AvaloniaProperty.RegisterAttached<WavesSeriesChartNew, WavesSeriesChartNew, ObservableCollection<WavesSeries>>(
             nameof(Series),
-            new ObservableCollection<IWavesSeries<IWavesSeriesData>>(),
+            new ObservableCollection<WavesSeries>(),
             true);
 
     private readonly object _seriesLocker = new ();
@@ -41,7 +40,7 @@ public class WavesSeriesChartNew :
     /// <summary>
     ///     Gets or sets waves point series.
     /// </summary>
-    public ObservableCollection<IWavesSeries<IWavesSeriesData>> Series
+    public ObservableCollection<WavesSeries> Series
     {
         get => GetValue(SeriesProperty);
         set => SetValue(SeriesProperty, value);
@@ -54,59 +53,6 @@ public class WavesSeriesChartNew :
     /// Drawing objects cache.
     /// </summary>
     protected List<IWavesDrawingObject> DrawingObjectsCache { get; } = new ();
-
-    /// <summary>
-    ///     Adds series.
-    /// </summary>
-    /// <param name="series">Series.</param>
-    public void AddSeries(IWavesSeries<IWavesSeriesData> series)
-    {
-        lock (_seriesLocker)
-        {
-            series.Updated += OnSeriesUpdated;
-            Series.Add(series);
-        }
-
-        InvalidateVisual();
-    }
-
-    /// <summary>
-    ///     Update series.
-    /// </summary>
-    /// <param name="index">Series index.</param>
-    /// <param name="data">New data.</param>
-    public void UpdateSeries(int index, IWavesSeriesData[] data)
-    {
-        if (index >= Series.Count)
-        {
-            throw new Exception("Series index is not correct");
-        }
-
-        Series[index].Update(data);
-
-        InvalidateVisual();
-    }
-
-    /// <summary>
-    ///     Removes series.
-    /// </summary>
-    /// <param name="index">Series index.</param>
-    public void RemoveSeries(int index)
-    {
-        if (index >= Series.Count)
-        {
-            return;
-        }
-
-        lock (_seriesLocker)
-        {
-            var series = Series[index];
-            series.Updated -= OnSeriesUpdated;
-            Series.Remove(series);
-        }
-
-        InvalidateVisual();
-    }
 
     /// <inheritdoc />
     protected override void Refresh(DrawingContext context)
@@ -146,7 +92,7 @@ public class WavesSeriesChartNew :
     /// Callback when series changed.
     /// </summary>
     /// <param name="obj">Obj.</param>
-    protected void OnSeriesChanged(AvaloniaPropertyChangedEventArgs<ObservableCollection<IWavesSeries<IWavesSeriesData>>> obj)
+    protected void OnSeriesChanged(AvaloniaPropertyChangedEventArgs<ObservableCollection<WavesSeries>> obj)
     {
         var series = obj.NewValue.Value;
 
@@ -186,7 +132,7 @@ public class WavesSeriesChartNew :
             {
                 foreach (var item in e.OldItems)
                 {
-                    if (item is IWavesSeries<IWavesSeriesData> series)
+                    if (item is WavesSeries series)
                     {
                         series.Updated -= OnSeriesUpdated;
                     }
@@ -200,7 +146,7 @@ public class WavesSeriesChartNew :
             {
                 foreach (var item in e.NewItems)
                 {
-                    if (item is IWavesSeries<IWavesSeriesData> series)
+                    if (item is WavesSeries series)
                     {
                         series.Updated += OnSeriesUpdated;
                     }

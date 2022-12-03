@@ -123,19 +123,19 @@
             
             <Grid Classes="chartAdaptive">
                 
-                <controls:WavesPointSeriesChart x:Name="Surface"
-                                                Series="{Binding Series}"
-                                                Background="#07080D"
-                                                Foreground="White"
-                                                XMin="{Binding XMin}"
-                                                XMax="{Binding XMax}"
-                                                YMin="{Binding YMin}"
-                                                YMax="{Binding YMax}"
-                                                SignaturesXFormat="hh:mm:ss"
-                                                BorderThickness="1"
-                                                VerticalSignatureAlignment="Right"
-                                                HorizontalSignatureAlignment="Bottom" />
-                
+                <!-- <controls:WavesPointSeriesChart x:Name="Surface" -->
+                <!--                                 Series="{Binding Series}" -->
+                <!--                                 Background="#07080D" -->
+                <!--                                 Foreground="White" -->
+                <!--                                 XMin="{Binding XMin}" -->
+                <!--                                 XMax="{Binding XMax}" -->
+                <!--                                 YMin="{Binding YMin}" -->
+                <!--                                 YMax="{Binding YMax}" -->
+                <!--                                 SignaturesXFormat="hh:mm:ss" -->
+                <!--                                 BorderThickness="1" -->
+                <!--                                 VerticalSignatureAlignment="Right" -->
+                <!--                                 HorizontalSignatureAlignment="Bottom" /> -->
+                <!-- -->
             </Grid>
             
             <Grid Classes="settingsAdaptive">

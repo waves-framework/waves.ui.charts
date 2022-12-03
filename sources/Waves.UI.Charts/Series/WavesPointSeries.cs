@@ -10,7 +10,7 @@ namespace Waves.UI.Charts.Series;
 /// <summary>
 /// Waves point series.
 /// </summary>
-public class WavesPointSeries : WavesSeries<WavesPoint>
+public class WavesPointSeries : WavesSeries
 {
     /// <summary>
     ///     Creates new instance of <see cref="WavesPointSeries" />.
@@ -35,10 +35,10 @@ public class WavesPointSeries : WavesSeries<WavesPoint>
         }
 
         var length = x.Length;
-        Data = new WavesPoint[length];
+        Points = new WavesPoint[length];
         for (var i = 0; i < length; i++)
         {
-            Data[i] = new WavesPoint(x[i], y[i]);
+            Points[i] = new WavesPoint(x[i], y[i]);
         }
     }
 
@@ -73,6 +73,11 @@ public class WavesPointSeries : WavesSeries<WavesPoint>
     public double DotSize { get; set; }
 
     /// <summary>
+    ///     Gets or sets point.
+    /// </summary>
+    public WavesPoint[] Points { get; protected set; }
+
+    /// <summary>
     /// Updates data.
     /// </summary>
     /// <param name="x">X array.</param>
@@ -95,10 +100,10 @@ public class WavesPointSeries : WavesSeries<WavesPoint>
         }
 
         var length = x.Length;
-        Data = new WavesPoint[length];
+        Points = new WavesPoint[length];
         for (var i = 0; i < length; i++)
         {
-            Data[i] = new WavesPoint(x[i], y[i]);
+            Points[i] = new WavesPoint(x[i], y[i]);
         }
 
         OnSeriesUpdated();

@@ -22,7 +22,7 @@ namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels.UserControls;
 [WavesViewModel(typeof(CandleSeriesChartViewModel))]
 public class CandleSeriesChartViewModel : WavesViewModelBase
 {
-    private IWavesSeries<WavesCandle> _series;
+    private WavesCandleSeries _series;
 
     /// <summary>
     /// Creates new instance of <see cref="CandleSeriesChartViewModel"/>.
@@ -65,15 +65,14 @@ public class CandleSeriesChartViewModel : WavesViewModelBase
     /// Gets or sets series.
     /// </summary>
     [Reactive]
-    public ObservableCollection<IWavesSeries<IWavesSeriesData>> Series { get; set; }
+    public ObservableCollection<WavesSeries> Series { get; set; }
 
     /// <summary>
     /// Initializes chart.
     /// </summary>
     private async void Initialize()
     {
-        Series = new ObservableCollection<IWavesSeries<IWavesSeriesData>>();
-
+        Series = new ObservableCollection<WavesSeries>();
         InitializeChartData();
     }
 

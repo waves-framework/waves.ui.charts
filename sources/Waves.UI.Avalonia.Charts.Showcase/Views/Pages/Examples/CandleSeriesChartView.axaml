@@ -3,12 +3,11 @@
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
            xmlns:controls="clr-namespace:Waves.UI.Avalonia.Charts.Controls;assembly=Waves.UI.Avalonia.Charts"
-           xmlns:converters="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.Views.Converters"
-           xmlns:pages="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages"
            xmlns:controls1="https://github.com/waves-framework/waves.ui.avalonia"
-           xmlns:userControls="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.ViewModels.UserControls"
+           xmlns:converters="clr-namespace:Waves.UI.Avalonia.Charts.Converters;assembly=Waves.UI.Avalonia.Charts"
+           xmlns:examples="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages.Examples"
            mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-           x:Class="Waves.UI.Avalonia.Charts.Showcase.Views.UserControls.CandleSeriesChartView"
+           x:Class="Waves.UI.Avalonia.Charts.Showcase.Views.Pages.Examples.CandleSeriesChartView"
            Foreground="White"
            Background="#0E111B">
     
@@ -81,7 +80,7 @@
     </UserControl.Styles>
 
     <Design.DataContext>
-        <userControls:CandleSeriesChartViewModel />
+        <examples:CandleSeriesChartViewModel />
     </Design.DataContext>
 
     <Grid>

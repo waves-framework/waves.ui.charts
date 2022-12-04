@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ReactiveUI;
@@ -6,7 +5,7 @@ using Waves.UI.Base.Attributes;
 using Waves.UI.Presentation;
 using Waves.UI.Services.Interfaces;
 
-namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels.UserControls;
+namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages.Examples;
 
 /// <summary>
 /// View-model for example selection control.
@@ -35,6 +34,11 @@ public class ExampleSelectionControlViewModel : WavesViewModelBase
     /// </summary>
     public ICommand OpenCandleSeriesChartCommand { get; private set; }
 
+    /// <summary>
+    /// Gets command to open sandbox.
+    /// </summary>
+    public ICommand OpenSandboxCommand { get; private set; }
+
     /// <inheritdoc/>
     public override async Task InitializeAsync()
     {
@@ -42,6 +46,7 @@ public class ExampleSelectionControlViewModel : WavesViewModelBase
 
         OpenPointSeriesChartCommand = ReactiveCommand.CreateFromTask(OnOpenPointSeriesChart);
         OpenCandleSeriesChartCommand = ReactiveCommand.CreateFromTask(OnOpenCandleSeriesChart);
+        OpenSandboxCommand = ReactiveCommand.CreateFromTask(OnOpenSandbox);
     }
 
     private async Task OnOpenPointSeriesChart()
@@ -52,5 +57,10 @@ public class ExampleSelectionControlViewModel : WavesViewModelBase
     private async Task OnOpenCandleSeriesChart()
     {
         await _navigationService.NavigateAsync<CandleSeriesChartViewModel>();
+    }
+
+    private async Task OnOpenSandbox()
+    {
+        await _navigationService.NavigateAsync<SandboxViewModel>();
     }
 }

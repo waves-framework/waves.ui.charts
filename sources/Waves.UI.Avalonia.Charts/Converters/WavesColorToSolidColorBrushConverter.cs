@@ -4,7 +4,7 @@ using Avalonia.Data.Converters;
 using Avalonia.Media;
 using Waves.UI.Charts.Drawing.Primitives;
 
-namespace Waves.UI.Avalonia.Charts.Showcase.Views.Converters;
+namespace Waves.UI.Avalonia.Charts.Converters;
 
 /// <summary>
 /// Waves color to Solid color brush converter.

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
 using ReactiveUI;
-using Waves.UI.Avalonia.Charts.Showcase.ViewModels.UserControls;
+using Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages.Examples;
 using Waves.UI.Avalonia.Charts.Showcase.ViewModels.Windows;
 using Waves.UI.Base.Attributes;
 using Waves.UI.Presentation;

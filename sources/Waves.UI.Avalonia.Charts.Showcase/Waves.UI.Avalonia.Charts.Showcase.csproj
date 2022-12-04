@@ -46,16 +46,20 @@
         <DependentUpon>MainView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
-      <Compile Update="Views\UserControls\ExampleSelectionControl.axaml.cs">
-        <DependentUpon>MainView.axaml</DependentUpon>
+      <Compile Update="Views\Pages\Examples\CandleSeriesChartView.axaml.cs">
+        <DependentUpon>CandleSeriesChartView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
-      <Compile Update="Views\UserControls\PointSeriesChartView.axaml.cs">
+      <Compile Update="Views\Pages\Examples\ExampleSelectionControl.axaml.cs">
+        <DependentUpon>ExampleSelectionControl.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\Examples\PointSeriesChartView.axaml.cs">
         <DependentUpon>PointSeriesChartView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
-      <Compile Update="Views\UserControls\CandleSeriesChartView.axaml.cs">
-        <DependentUpon>CandleSeriesChartView.axaml</DependentUpon>
+      <Compile Update="Views\Pages\Examples\SandboxView.axaml.cs">
+        <DependentUpon>SandboxView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>

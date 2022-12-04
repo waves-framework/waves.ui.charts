@@ -46,12 +46,12 @@ public class WavesPointSeries : WavesSeries
     /// <summary>
     ///     Gets or sets dot type.
     /// </summary>
-    public WavesDotType DotType { get; set; }
+    public WavesDotType DotType { get; set; } = WavesDotType.None;
 
     /// <summary>
     ///     Gets or sets dot type.
     /// </summary>
-    public double DotSize { get; set; }
+    public double DotSize { get; set; } = 5;
 
     /// <summary>
     ///     Gets or sets point.

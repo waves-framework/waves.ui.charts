@@ -3,7 +3,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.Logging;
 using Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages;
-using Waves.UI.Avalonia.Charts.Showcase.ViewModels.UserControls;
 using Waves.UI.Avalonia.Charts.Showcase.ViewModels.Windows;
 
 namespace Waves.UI.Avalonia.Charts.Showcase;

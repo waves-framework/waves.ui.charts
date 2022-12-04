@@ -58,9 +58,12 @@ public class WavesSeriesChart :
         PrepareBackground();
         ClearCacheObjects();
 
-        foreach (var series in Series)
+        if (Series != null)
         {
-            series.Draw(this);
+            foreach (var series in Series)
+            {
+                series.Draw(this);
+            }
         }
 
         PrepareGrid();

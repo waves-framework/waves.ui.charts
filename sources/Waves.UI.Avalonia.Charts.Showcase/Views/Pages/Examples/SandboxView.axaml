@@ -7,9 +7,7 @@
            xmlns:converters="clr-namespace:Waves.UI.Avalonia.Charts.Converters;assembly=Waves.UI.Avalonia.Charts"
            xmlns:examples="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages.Examples"
            mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-           x:Class="Waves.UI.Avalonia.Charts.Showcase.Views.Pages.Examples.SandboxView"
-           Foreground="White"
-           Background="#0E111B">
+           x:Class="Waves.UI.Avalonia.Charts.Showcase.Views.Pages.Examples.SandboxView">
     
     <UserControl.Resources>
         <converters:WavesColorToSolidColorBrushConverter x:Key="WavesColorToSolidColorBrushConverter" />
@@ -112,7 +110,8 @@
             <StackPanel Grid.Column="2"
                         Orientation="Horizontal">
                 
-                <Button Command="{Binding AddSeriesCommand}"/>
+                <Button Command="{Binding AddSeriesCommand}"
+                        Content="Add series"/>
                 
             </StackPanel>
             
@@ -133,17 +132,14 @@
             <Grid Classes="chartAdaptive">
                 
                 <controls:WavesSeriesChart x:Name="Surface"
-                                              Series="{Binding Series}"
-                                              Background="#07080D"
-                                              Foreground="White"
-                                              XMin="{Binding XMin}"
-                                              XMax="{Binding XMax}"
-                                              YMin="{Binding YMin}"
-                                              YMax="{Binding YMax}"
-                                              SignaturesXFormat="hh:mm:ss"
-                                              BorderThickness="1"
-                                              VerticalSignatureAlignment="Right"
-                                              HorizontalSignatureAlignment="Bottom" />
+                                           Series="{Binding Series}"
+                                           XMin="{Binding XMin}"
+                                           XMax="{Binding XMax}"
+                                           YMin="{Binding YMin}"
+                                           YMax="{Binding YMax}"
+                                           BorderThickness="1"
+                                           VerticalSignatureAlignment="Right"
+                                           HorizontalSignatureAlignment="Bottom" />
                 
             </Grid>
             

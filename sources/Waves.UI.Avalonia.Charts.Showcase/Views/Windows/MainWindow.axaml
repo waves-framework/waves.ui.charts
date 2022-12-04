@@ -8,6 +8,4 @@
              x:Class="Waves.UI.Avalonia.Charts.Showcase.Views.Windows.MainWindow"
              Icon="/Assets/avalonia-logo.ico"
              Title="Waves.UI.Avalonia.Charts.Showcase"
-             ExtendClientAreaToDecorationsHint="True"
-             Foreground="White"
-             Background="#0E111B"/>
+             ExtendClientAreaToDecorationsHint="True"/>

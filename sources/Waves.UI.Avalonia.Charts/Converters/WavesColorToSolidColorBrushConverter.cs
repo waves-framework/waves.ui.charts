@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
+using Waves.UI.Avalonia.Charts.Extensions;
 using Waves.UI.Charts.Drawing.Primitives;
 
 namespace Waves.UI.Avalonia.Charts.Converters;
@@ -21,6 +22,7 @@ public class WavesColorToSolidColorBrushConverter : IValueConverter
     /// <inheritdoc />
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        return null;
+        var brush = (SolidColorBrush)(value ?? throw new ArgumentNullException(nameof(value)));
+        return brush.Color.ToWavesColor();
     }
 }

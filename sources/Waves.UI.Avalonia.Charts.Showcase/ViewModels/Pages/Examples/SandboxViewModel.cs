@@ -3,9 +3,11 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Waves.UI.Avalonia.Charts.Showcase.ViewModels.Dialogs;
 using Waves.UI.Base.Attributes;
 using Waves.UI.Charts.Series;
 using Waves.UI.Presentation;
+using Waves.UI.Services.Interfaces;
 
 namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages.Examples;
 
@@ -15,6 +17,17 @@ namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages.Examples;
 [WavesViewModel(typeof(SandboxViewModel))]
 public class SandboxViewModel : WavesViewModelBase
 {
+    private readonly IWavesNavigationService _navigationService;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SandboxViewModel"/> class.
+    /// </summary>
+    /// <param name="navigationService">Navigation service.</param>
+    public SandboxViewModel(IWavesNavigationService navigationService)
+    {
+        _navigationService = navigationService;
+    }
+
     /// <summary>
     /// Gets or sets series.
     /// </summary>
@@ -35,8 +48,8 @@ public class SandboxViewModel : WavesViewModelBase
         AddSeriesCommand = ReactiveCommand.CreateFromTask(OnAddSeries);
     }
 
-    private Task OnAddSeries()
+    private async Task OnAddSeries()
     {
-        throw new System.NotImplementedException();
+        var result = await _navigationService.NavigateAsync<AddSeriesDialogViewModel, WavesSeries>();
     }
 }

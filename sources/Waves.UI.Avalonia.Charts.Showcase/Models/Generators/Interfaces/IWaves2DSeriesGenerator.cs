@@ -7,8 +7,7 @@ namespace Waves.UI.Avalonia.Charts.Showcase.Models.Generators.Interfaces;
 /// Interface of series generator.
 /// </summary>
 /// <typeparam name="T">Type of series generator.</typeparam>
-public interface ISeriesGenerator<T>
-    where T : IWavesSeries
+public interface IWaves2DSeriesGenerator
 {
     /// <summary>
     /// Gets or sets length.
@@ -39,5 +38,5 @@ public interface ISeriesGenerator<T>
     /// Generates data.
     /// </summary>
     /// <returns>Returns series.</returns>
-    Task<T> Generate();
+    Task<IWaves2DSeries> Generate();
 }

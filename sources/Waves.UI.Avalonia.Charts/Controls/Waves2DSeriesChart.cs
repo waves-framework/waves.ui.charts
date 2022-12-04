@@ -5,40 +5,41 @@ using Avalonia.Media;
 using Avalonia.Styling;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 using Waves.UI.Charts.Series;
+using Waves.UI.Charts.Series.Interfaces;
 
 namespace Waves.UI.Avalonia.Charts.Controls;
 
 /// <summary>
 /// Waves series chart abstraction.
 /// </summary>
-public class WavesSeriesChart :
+public class Waves2DSeriesChart :
     WavesChart,
     IStyleable
 {
     /// <summary>
     ///     Defines <see cref="Series" /> property.
     /// </summary>
-    public static readonly AttachedProperty<ObservableCollection<WavesSeries>> SeriesProperty =
-        AvaloniaProperty.RegisterAttached<WavesSeriesChart, WavesSeriesChart, ObservableCollection<WavesSeries>>(
+    public static readonly AttachedProperty<ObservableCollection<IWaves2DSeries>> SeriesProperty =
+        AvaloniaProperty.RegisterAttached<Waves2DSeriesChart, Waves2DSeriesChart, ObservableCollection<IWaves2DSeries>>(
             nameof(Series),
-            new ObservableCollection<WavesSeries>(),
+            new ObservableCollection<IWaves2DSeries>(),
             true);
 
     private readonly object _seriesLocker = new ();
 
     /// <summary>
-    ///     Creates new instance of <see cref="WavesSeriesChart" />.
+    ///     Creates new instance of <see cref="Waves2DSeriesChart" />.
     /// </summary>
-    public WavesSeriesChart()
+    public Waves2DSeriesChart()
     {
-        AffectsRender<WavesSeriesChart>(SeriesProperty);
+        AffectsRender<Waves2DSeriesChart>(SeriesProperty);
         SeriesProperty.Changed.Subscribe(OnSeriesChanged);
     }
 
     /// <summary>
     ///     Gets or sets waves point series.
     /// </summary>
-    public ObservableCollection<WavesSeries> Series
+    public ObservableCollection<IWaves2DSeries> Series
     {
         get => GetValue(SeriesProperty);
         set => SetValue(SeriesProperty, value);
@@ -93,7 +94,7 @@ public class WavesSeriesChart :
     /// Callback when series changed.
     /// </summary>
     /// <param name="obj">Obj.</param>
-    protected void OnSeriesChanged(AvaloniaPropertyChangedEventArgs<ObservableCollection<WavesSeries>> obj)
+    protected void OnSeriesChanged(AvaloniaPropertyChangedEventArgs<ObservableCollection<IWaves2DSeries>> obj)
     {
         var series = obj.NewValue.Value;
 
@@ -133,7 +134,7 @@ public class WavesSeriesChart :
             {
                 foreach (var item in e.OldItems)
                 {
-                    if (item is WavesSeries series)
+                    if (item is IWaves2DSeries series)
                     {
                         series.Updated -= OnSeriesUpdated;
                     }
@@ -147,13 +148,15 @@ public class WavesSeriesChart :
             {
                 foreach (var item in e.NewItems)
                 {
-                    if (item is WavesSeries series)
+                    if (item is IWaves2DSeries series)
                     {
                         series.Updated += OnSeriesUpdated;
                     }
                 }
             }
         }
+
+        InvalidateVisual();
     }
 
     /// <summary>

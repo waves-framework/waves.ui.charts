@@ -14,9 +14,18 @@ namespace Waves.UI.Charts.Series;
 /// <summary>
 ///     Waves point series.
 /// </summary>
-public class WavesPointSeries : WavesSeries
+public class WavesPointSeries : Waves2DSeries
 {
     private readonly ConcurrentBag<IWavesDrawingObject> _cache = new ();
+
+    /// <summary>
+    ///     Creates new instance of <see cref="WavesPointSeries" />.
+    /// </summary>
+    /// <param name="points">Data.</param>
+    public WavesPointSeries(WavesPoint[] points)
+    {
+        CheckAndFillArray(points);
+    }
 
     /// <summary>
     ///     Creates new instance of <see cref="WavesPointSeries" />.
@@ -57,6 +66,28 @@ public class WavesPointSeries : WavesSeries
     ///     Gets or sets point.
     /// </summary>
     public WavesPoint[] Points { get; protected set; }
+
+    /// <inheritdoc />
+    public override object XMin => Points.Min(x => x.X);
+
+    /// <inheritdoc />
+    public override object XMax => Points.Max(x => x.X);
+
+    /// <inheritdoc />
+    public override double YMin => Points.Min(x => x.Y);
+
+    /// <inheritdoc />
+    public override double YMax => Points.Max(x => x.Y);
+
+    /// <summary>
+    ///     Updates data.
+    /// </summary>
+    /// <param name="points">Data.</param>
+    public void Update(WavesPoint[] points)
+    {
+        CheckAndFillArray(points);
+        OnSeriesUpdated();
+    }
 
     /// <summary>
     ///     Updates data.
@@ -212,6 +243,29 @@ public class WavesPointSeries : WavesSeries
             })
             .Cast<IWavesDrawingObject>()
             .ToList();
+    }
+
+    /// <summary>
+    /// Checks input array and fills inner.
+    /// </summary>
+    /// <param name="points">Points.</param>
+    private void CheckAndFillArray(WavesPoint[] points)
+    {
+        if (points == null)
+        {
+            throw new ArgumentNullException(nameof(points), "Points data were not set.");
+        }
+
+        var length = points.Length;
+        if (Points == null || Points.Length != points.Length)
+        {
+            Points = new WavesPoint[length];
+        }
+
+        for (var i = 0; i < length; i++)
+        {
+            Points[i] = points[i];
+        }
     }
 
     /// <summary>

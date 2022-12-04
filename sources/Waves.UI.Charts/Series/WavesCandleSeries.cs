@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Data;
@@ -12,7 +13,7 @@ namespace Waves.UI.Charts.Series;
 /// <summary>
 /// Candle series.
 /// </summary>
-public class WavesCandleSeries : WavesSeries
+public class WavesCandleSeries : Waves2DSeries
 {
     private readonly ConcurrentBag<IWavesDrawingObject> _cache = new ();
 
@@ -46,6 +47,18 @@ public class WavesCandleSeries : WavesSeries
     ///     Gets or sets point.
     /// </summary>
     public WavesCandle[] Candles { get; protected set; }
+
+    /// <inheritdoc />
+    public override object XMin => Candles.Min(x => x.OpenDateTime);
+
+    /// <inheritdoc />
+    public override object XMax => Candles.Max(x => x.CloseDateTime);
+
+    /// <inheritdoc />
+    public override double YMin => Convert.ToDouble(Candles.Min(x => x.Low));
+
+    /// <inheritdoc />
+    public override double YMax => Convert.ToDouble(Candles.Max(x => x.High));
 
     /// <inheritdoc />
     public override void Update()

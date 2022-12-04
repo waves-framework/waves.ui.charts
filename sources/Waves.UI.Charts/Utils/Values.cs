@@ -19,6 +19,11 @@ public static class Values
             return double.NaN;
         }
 
+        if (data is int i)
+        {
+            return i;
+        }
+
         if (data is double d)
         {
             return d;

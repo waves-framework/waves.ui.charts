@@ -131,7 +131,7 @@
             
             <Grid Classes="chartAdaptive">
                 
-                <controls:WavesSeriesChart x:Name="Surface"
+                <controls:Waves2DSeriesChart x:Name="Surface"
                                            Series="{Binding Series}"
                                            XMin="{Binding XMin}"
                                            XMax="{Binding XMax}"

@@ -14,11 +14,17 @@ public static class Values
     /// <returns>Returns double value.</returns>
     public static double GetValue(object data)
     {
+        if (data is null)
+        {
+            return double.NaN;
+        }
+
         if (data is double d)
         {
             return d;
         }
-        else if (data is DateTime dt)
+
+        if (data is DateTime dt)
         {
             return dt.ToOADate();
         }

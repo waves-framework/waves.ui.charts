@@ -777,33 +777,6 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     protected List<WavesAxisTick> Ticks { get; set; } = new List<WavesAxisTick>();
 
     /// <inheritdoc />
-    public void SetCache(IWavesDrawingObject obj)
-    {
-        _cache.Add(obj);
-    }
-
-    /// <inheritdoc />
-    public void SetCache(IEnumerable<IWavesDrawingObject> obj)
-    {
-        _cache.AddRange(obj);
-    }
-
-    /// <inheritdoc />
-    public void ReleaseCache(IWavesDrawingObject obj)
-    {
-        _cache.Remove(obj);
-    }
-
-    /// <inheritdoc />
-    public void ReleaseCache(IEnumerable<IWavesDrawingObject> objs)
-    {
-        foreach (var obj in objs)
-        {
-            _cache.Remove(obj);
-        }
-    }
-
-    /// <inheritdoc />
     protected override void OnPointerEntered(PointerEventArgs e)
     {
         base.OnPointerEntered(e);

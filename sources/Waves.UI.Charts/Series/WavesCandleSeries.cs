@@ -180,9 +180,6 @@ public class WavesCandleSeries : WavesSeries
             chart.DrawingObjects.Add(line);
             chart.DrawingObjects.Add(rectangle);
 
-            chart.SetCache(line);
-            chart.SetCache(rectangle);
-
             _cache.Add(line);
             _cache.Add(rectangle);
         }

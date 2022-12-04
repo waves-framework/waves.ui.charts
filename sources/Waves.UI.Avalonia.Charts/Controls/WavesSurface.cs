@@ -42,14 +42,14 @@ public class WavesSurface :
 
         AffectsRender<WavesSurface>(DesiredSizeProperty);
         AffectsRender<WavesSurface>(DrawingObjectsProperty);
-        AffectsRender<WavesChart>(BackgroundProperty);
-        AffectsRender<WavesChart>(ForegroundProperty);
 
-        ForegroundProperty.Changed.Subscribe(OnForegroundChanged);
-        BackgroundProperty.Changed.Subscribe(OnBackgroundChanged);
-
-        TextColor = GetWavesColor(Foreground);
-        BackgroundColor = GetWavesColor(Background);
+        //// AffectsRender<WavesChart>(BackgroundProperty);
+        //// AffectsRender<WavesChart>(ForegroundProperty);
+        ////
+        //// ForegroundProperty.Changed.Subscribe(OnForegroundChanged);
+        //// BackgroundProperty.Changed.Subscribe(OnBackgroundChanged);
+        //// TextColor = GetWavesColor(Foreground);
+        //// BackgroundColor = GetWavesColor(Background);
     }
 
     /// <summary>
@@ -63,10 +63,10 @@ public class WavesSurface :
     }
 
     /// <inheritdoc />
-    public WavesColor TextColor { get; set; }
+    public WavesColor TextColor { get; set; } = WavesColor.White;
 
     /// <inheritdoc />
-    public WavesColor BackgroundColor { get; set; }
+    public WavesColor BackgroundColor { get; set; } = WavesColor.Black;
 
     /// <inheritdoc />
     public double SurfaceWidth => Bounds.Width;

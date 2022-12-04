@@ -31,14 +31,14 @@ public class PointSeriesChartViewModel : WavesViewModelBase
     /// <summary>
     /// Gets or sets selected series type.
     /// </summary>
-    [Reactive]
-    public WavesPointSeriesType SelectedSeriesType { get; set; }
+    // [Reactive]
+    // public WavesPointSeriesType SelectedSeriesType { get; set; }
 
     /// <summary>
     /// Gets or sets series type.
     /// </summary>
-    [Reactive]
-    public ObservableCollection<WavesPointSeriesType> SeriesTypes { get; set; }
+    // [Reactive]
+    // public ObservableCollection<WavesPointSeriesType> SeriesTypes { get; set; }
 
     /// <summary>
     /// Gets or sets selected dot type.
@@ -103,19 +103,19 @@ public class PointSeriesChartViewModel : WavesViewModelBase
     /// Gets or sets series.
     /// </summary>
     [Reactive]
-    public ObservableCollection<WavesPointSeries> Series { get; set; }
+    public ObservableCollection<WavesSeries> Series { get; set; }
 
     /// <summary>
     /// Initializes chart.
     /// </summary>
     private async void Initialize()
     {
-        Series = new ObservableCollection<WavesPointSeries>();
-        SeriesTypes = new ObservableCollection<WavesPointSeriesType>()
-        {
-            WavesPointSeriesType.Line,
-            WavesPointSeriesType.Bar,
-        };
+        Series = new ObservableCollection<WavesSeries>();
+        //// SeriesTypes = new ObservableCollection<WavesPointSeriesType>()
+        //// {
+        ////     WavesPointSeriesType.Line,
+        ////     WavesPointSeriesType.Bar,
+        //// };
         DotsTypes = new ObservableCollection<WavesDotType>()
         {
             WavesDotType.None,
@@ -130,13 +130,13 @@ public class PointSeriesChartViewModel : WavesViewModelBase
             WavesColor.LightGray,
         };
 
-        SelectedSeriesType = WavesPointSeriesType.Line;
+        // SelectedSeriesType = WavesPointSeriesType.Line;
         SelectedDotType = WavesDotType.FilledCircle;
         SelectedSeriesColor = WavesColor.Red;
 
         InitializeChartData();
 
-        this.WhenPropertyChanged(x => x.SelectedSeriesType).Subscribe(_ => Update());
+        // this.WhenPropertyChanged(x => x.SelectedSeriesType).Subscribe(_ => Update());
         this.WhenPropertyChanged(x => x.SelectedDotType).Subscribe(_ => Update());
         this.WhenPropertyChanged(x => x.SelectedSeriesColor).Subscribe(_ => Update());
     }
@@ -164,7 +164,7 @@ public class PointSeriesChartViewModel : WavesViewModelBase
         _series = new WavesPointSeries(x, y)
         {
             Color = WavesColor.Green,
-            Type = SelectedSeriesType,
+            //// Type = SelectedSeriesType,
             DotType = WavesDotType.FilledCircle,
         };
 
@@ -187,7 +187,7 @@ public class PointSeriesChartViewModel : WavesViewModelBase
     private void Update()
     {
         _series.Color = SelectedSeriesColor;
-        _series.Type = SelectedSeriesType;
+        //// _series.Type = SelectedSeriesType;
         _series.DotType = SelectedDotType;
 
         _series.Update();

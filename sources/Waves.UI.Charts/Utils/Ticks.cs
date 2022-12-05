@@ -515,4 +515,65 @@ public static class Ticks
             chart.YAxisAdditionalTicksNumber,
             WavesAxisTickOrientation.Vertical);
     }
+
+    /// <summary>
+    /// Generates point ticks.
+    /// </summary>
+    /// <param name="chart">Chart.</param>
+    /// <param name="cache">Cache.</param>
+    /// <param name="point">Pointer location.</param>
+    /// <param name="width">Width.</param>
+    /// <param name="height">Height.</param>
+    /// <param name="stroke">Stroke.</param>
+    /// <param name="xMin">X min.</param>
+    /// <param name="xMax">X max.</param>
+    /// <param name="yMin">Y min.</param>
+    /// <param name="yMax">Y max.</param>
+    /// <param name="dashArray">Dash array.</param>
+    /// <param name="strokeThickness">Stroke thickness.</param>
+    /// <param name="opacity">Opacity.</param>
+    public static void GeneratePointerTicks(
+        this IWavesChart chart,
+        List<IWavesDrawingObject> cache,
+        WavesPoint point,
+        double width,
+        double height,
+        WavesColor stroke,
+        double xMin,
+        double xMax,
+        double yMin,
+        double yMax,
+        double[] dashArray,
+        double strokeThickness = 1d,
+        double opacity = 0.5d)
+    {
+        var line1 = new WavesLine
+        {
+            Color = stroke,
+            DashPattern = dashArray,
+            IsAntialiased = true,
+            IsVisible = true,
+            Opacity = opacity,
+            Thickness = strokeThickness,
+            Point1 = new WavesPoint(0, point.Y),
+            Point2 = new WavesPoint(width, point.Y),
+        };
+
+        var line2 = new WavesLine
+        {
+            Color = stroke,
+            DashPattern = dashArray,
+            IsAntialiased = true,
+            IsVisible = true,
+            Opacity = opacity,
+            Thickness = strokeThickness,
+            Point1 = new WavesPoint(point.X, 0),
+            Point2 = new WavesPoint(point.X, width),
+        };
+
+        chart.DrawingObjects?.Add(line1);
+        chart.DrawingObjects?.Add(line2);
+        cache.Add(line1);
+        cache.Add(line2);
+    }
 }

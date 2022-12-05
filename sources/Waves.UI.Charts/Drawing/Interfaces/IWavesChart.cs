@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Data;
 using Waves.UI.Charts.Drawing.Primitives.Enums;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 
@@ -225,4 +226,9 @@ public interface IWavesChart : IWavesSurface
     /// Gets or sets whether chart has default ticks or not.
     /// </summary>
     bool HasDefaultTicks { get; }
+
+    /// <summary>
+    /// Gets pointer location.
+    /// </summary>
+    public WavesPoint PointerLocation { get; }
 }

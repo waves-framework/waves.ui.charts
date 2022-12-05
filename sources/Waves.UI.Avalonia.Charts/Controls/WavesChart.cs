@@ -762,6 +762,9 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         protected set => SetValue(HasDefaultTicksProperty, value);
     }
 
+    /// <inheritdoc />
+    public WavesPoint PointerLocation { get; private set; }
+
     /// <summary>
     /// Gets or sets whether if Shift key pressed or not.
     /// </summary>
@@ -803,6 +806,35 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         base.OnPointerEntered(e);
         Focus();
         IsMouseOver = true;
+        InvalidateVisual();
+    }
+
+    /// <inheritdoc />
+    protected override void OnPointerMoved(PointerEventArgs e)
+    {
+        base.OnPointerMoved(e);
+        IsMouseOver = true;
+
+        var position = e.GetPosition(this);
+
+        var xMin = Values.GetValue(_currentXMin);
+        var yMin = Values.GetValue(_currentYMin);
+        var xMax = Values.GetValue(_currentXMax);
+        var yMax = Values.GetValue(_currentYMax);
+
+        //// PointerLocation = Valuation.NormalizePoint(
+        ////     position.X,
+        ////     position.Y,
+        ////     SurfaceWidth,
+        ////     SurfaceHeight,
+        ////     xMin,
+        ////     yMin,
+        ////     xMax,
+        ////     yMax);
+
+        PointerLocation = new WavesPoint(position.X, position.Y);
+
+        InvalidateVisual();
     }
 
     /// <inheritdoc />
@@ -810,6 +842,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     {
         base.OnPointerExited(e);
         IsMouseOver = false;
+        InvalidateVisual();
     }
 
     /// <inheritdoc />
@@ -910,6 +943,26 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             _signaturesCache,
             Bounds.Width,
             Bounds.Height);
+
+        if (IsMouseOver)
+        {
+            var currentXMin = Values.GetValue(CurrentXMin);
+            var currentXMax = Values.GetValue(CurrentXMax);
+            var currentYMin = Values.GetValue(CurrentYMin);
+            var currentYMax = Values.GetValue(CurrentYMax);
+
+            this.GeneratePointerTicks(
+                _ticksCache,
+                PointerLocation,
+                SurfaceWidth,
+                SurfaceHeight,
+                WavesColor.Gray,    // TODO:
+                currentXMin,
+                currentXMax,
+                currentYMin,
+                currentYMax,
+                new double[] { 4, 4, 4, 4 });
+        }
     }
 
     /// <summary>
@@ -1019,7 +1072,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         CurrentYMax = newValue;
     }
 
-    private async void SetPan(double xMin, double xMax, double yMin, double yMax, double transition = 25)
+    private void SetPan(double xMin, double xMax, double yMin, double yMax, double transition = 25)
     {
         if (CurrentXMin is double && CurrentXMax is double)
         {

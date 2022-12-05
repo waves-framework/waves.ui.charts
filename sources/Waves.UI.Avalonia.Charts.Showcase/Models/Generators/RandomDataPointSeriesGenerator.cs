@@ -24,7 +24,7 @@ public class RandomDataPointSeriesGenerator :
     /// </summary>
     public RandomDataPointSeriesGenerator()
     {
-        Length = 10000;
+        Length = 1000000;
         XMin = 0;
         XMax = 1;
         YMin = 0;

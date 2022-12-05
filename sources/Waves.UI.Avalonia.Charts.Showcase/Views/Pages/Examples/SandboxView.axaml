@@ -149,7 +149,20 @@
                     
                     <StackPanel Margin="0,0,24,0">
                     
-                        <TextBlock Text="test"/>
+                        <TextBlock Text="Chart options"
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   Margin="0,0,0,18"/>
+            
+                        <TextBlock Text="Signature Format"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,9"/>
+            
+                        <ComboBox HorizontalAlignment="Stretch"
+                                  Items="{Binding AvailableSignaturesFormatTypes}"
+                                  SelectedItem="{Binding SelectedSignaturesFormatType}"
+                                  Margin="0,0,0,18"/>
                     
                     </StackPanel>
                     

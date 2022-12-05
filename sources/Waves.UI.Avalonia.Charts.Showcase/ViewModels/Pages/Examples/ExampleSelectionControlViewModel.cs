@@ -25,16 +25,6 @@ public class ExampleSelectionControlViewModel : WavesViewModelBase
     }
 
     /// <summary>
-    /// Gets command to open PointSeriesChart.
-    /// </summary>
-    public ICommand OpenPointSeriesChartCommand { get; private set; }
-
-    /// <summary>
-    /// Gets command to open CandleSeriesChart.
-    /// </summary>
-    public ICommand OpenCandleSeriesChartCommand { get; private set; }
-
-    /// <summary>
     /// Gets command to open sandbox.
     /// </summary>
     public ICommand OpenSandboxCommand { get; private set; }
@@ -44,19 +34,7 @@ public class ExampleSelectionControlViewModel : WavesViewModelBase
     {
         await base.InitializeAsync();
 
-        OpenPointSeriesChartCommand = ReactiveCommand.CreateFromTask(OnOpenPointSeriesChart);
-        OpenCandleSeriesChartCommand = ReactiveCommand.CreateFromTask(OnOpenCandleSeriesChart);
         OpenSandboxCommand = ReactiveCommand.CreateFromTask(OnOpenSandbox);
-    }
-
-    private async Task OnOpenPointSeriesChart()
-    {
-        await _navigationService.NavigateAsync<PointSeriesChartViewModel>();
-    }
-
-    private async Task OnOpenCandleSeriesChart()
-    {
-        await _navigationService.NavigateAsync<CandleSeriesChartViewModel>();
     }
 
     private async Task OnOpenSandbox()

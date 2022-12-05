@@ -17,7 +17,7 @@ namespace Waves.UI.Avalonia.Charts.Showcase.Models.Generators;
 /// </summary>
 public class RandomDataPointSeriesGenerator :
     ReactiveObject,
-    IWaves2DSeriesGenerator
+    IWaves2DRandomSeriesGenerator
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="RandomDataPointSeriesGenerator"/> class.

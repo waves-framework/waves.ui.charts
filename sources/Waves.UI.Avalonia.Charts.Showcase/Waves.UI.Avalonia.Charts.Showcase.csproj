@@ -51,16 +51,8 @@
         <DependentUpon>MainView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
-      <Compile Update="Views\Pages\Examples\CandleSeriesChartView.axaml.cs">
-        <DependentUpon>CandleSeriesChartView.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
       <Compile Update="Views\Pages\Examples\ExampleSelectionControl.axaml.cs">
         <DependentUpon>ExampleSelectionControl.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Update="Views\Pages\Examples\PointSeriesChartView.axaml.cs">
-        <DependentUpon>PointSeriesChartView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
       <Compile Update="Views\Pages\Examples\SandboxView.axaml.cs">

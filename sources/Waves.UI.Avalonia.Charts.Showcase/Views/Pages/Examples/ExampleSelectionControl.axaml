@@ -20,14 +20,6 @@
                     Command="{Binding OpenSandboxCommand}"
                     Margin="0,0,0,12"/>
             
-            <Button Content="Point Series"
-                    Command="{Binding OpenPointSeriesChartCommand}"
-                    Margin="0,0,0,12"/>
-            
-            <Button Content="Candle Series"
-                    Command="{Binding OpenCandleSeriesChartCommand}"
-                    Margin="0,0,0,12"/>
-            
         </StackPanel>
         
     </ScrollViewer>

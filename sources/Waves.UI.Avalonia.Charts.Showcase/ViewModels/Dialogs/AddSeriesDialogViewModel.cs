@@ -87,6 +87,10 @@ public class AddSeriesDialogViewModel : WavesDialogViewModelBase<IWaves2DSeries>
             WavesSeriesGeneratorType.Random,
         };
 
+        _disposables.Add(this.WhenAnyValue(
+                x => x.SelectedSeriesType)
+            .Subscribe(_ => OnSeriesTypeChanged()));
+
         // changes
         _disposables.Add(this.WhenAnyValue(
                 x => x.SelectedSeriesType,
@@ -113,6 +117,27 @@ public class AddSeriesDialogViewModel : WavesDialogViewModelBase<IWaves2DSeries>
         _disposables.Clear();
     }
 
+    private void OnSeriesTypeChanged()
+    {
+        switch (SelectedSeriesType)
+        {
+            case WavesSeriesType.Line or WavesSeriesType.Bar:
+                AvailableSeriesGeneratorTypes = new ObservableCollection<WavesSeriesGeneratorType>()
+                {
+                    WavesSeriesGeneratorType.Random,
+                };
+                break;
+            case WavesSeriesType.Candle:
+                AvailableSeriesGeneratorTypes = new ObservableCollection<WavesSeriesGeneratorType>()
+                {
+                    WavesSeriesGeneratorType.Binance,
+                };
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
     private async Task ChangeGenerator()
     {
         switch (SelectedSeriesType)
@@ -126,7 +151,11 @@ public class AddSeriesDialogViewModel : WavesDialogViewModelBase<IWaves2DSeries>
 
                 break;
             case WavesSeriesType.Candle:
-                Generator = new RandomDataCandleSeriesGenerator();
+                Generator = SelectedSeriesGeneratorType switch
+                {
+                    WavesSeriesGeneratorType.Binance => new BinanceCandleSeriesGenerator(),
+                    _ => throw new ArgumentOutOfRangeException()
+                };
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

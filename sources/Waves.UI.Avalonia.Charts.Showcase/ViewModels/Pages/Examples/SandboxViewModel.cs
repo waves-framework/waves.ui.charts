@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages.Examples;
 public class SandboxViewModel : WavesViewModelBase
 {
     private readonly IWavesNavigationService _navigationService;
+    private readonly List<IDisposable> _disposables = new ();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SandboxViewModel"/> class.
@@ -36,12 +38,20 @@ public class SandboxViewModel : WavesViewModelBase
     /// <summary>
     /// Gets or sets auto scale.
     /// </summary>
+    [Reactive]
     public bool IsAutoScale { get; set; }
 
     /// <summary>
-    /// Selected signatures format type.
+    /// Gets or sets selected signatures format type.
     /// </summary>
+    [Reactive]
     public WavesSignaturesFormatType SelectedSignaturesFormatType { get; set; }
+
+    /// <summary>
+    /// Gets or sets signature format types.
+    /// </summary>
+    [Reactive]
+    public ObservableCollection<WavesSignaturesFormatType> AvailableSignaturesFormatTypes { get; set; }
 
     /// <summary>
     /// Gets or sets X Min.
@@ -93,9 +103,27 @@ public class SandboxViewModel : WavesViewModelBase
 
         // collections
         Series = new ObservableCollection<IWaves2DSeries>();
+        AvailableSignaturesFormatTypes = new ObservableCollection<WavesSignaturesFormatType>()
+        {
+            WavesSignaturesFormatType.Double,
+            WavesSignaturesFormatType.DateTime,
+        };
 
         // commands
         AddSeriesCommand = ReactiveCommand.CreateFromTask(OnAddSeries);
+
+        // observables
+        _disposables.Add(this.WhenAnyValue(
+                x => x.SelectedSignaturesFormatType)
+            .Subscribe(_ => OnSignaturesFormatChanged()));
+    }
+
+    private void OnSignaturesFormatChanged()
+    {
+        if (IsAutoScale)
+        {
+            AutoScale();
+        }
     }
 
     private async Task OnAddSeries()
@@ -111,6 +139,11 @@ public class SandboxViewModel : WavesViewModelBase
 
     private void AutoScale()
     {
+        if (Series == null || Series.Count == 0)
+        {
+            return;
+        }
+
         var xMin = Series.Min(x => Values.GetValue(x.XMin));
         var xMax = Series.Max(x => Values.GetValue(x.XMax));
         var yMin = Series.Min(x => Values.GetValue(x.YMin));

@@ -9,4 +9,9 @@ public enum WavesSeriesGeneratorType
     /// Line.
     /// </summary>
     Random,
+
+    /// <summary>
+    /// Binance.
+    /// </summary>
+    Binance,
 }

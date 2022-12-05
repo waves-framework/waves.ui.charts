@@ -390,10 +390,15 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     private readonly List<IWavesDrawingObject> _signaturesCache = new ();
 
     private IWavesDrawingObject _background;
+
     private object _xMin = 0d;
     private object _xMax = 1d;
     private double _yMin = -1d;
     private double _yMax = 1d;
+    private object _currentXMin = 0d;
+    private object _currentXMax = 1d;
+    private double _currentYMin = -1d;
+    private double _currentYMax = 1d;
 
     /// <summary>
     /// Creates new instance of <see cref="WavesChart"/>.
@@ -534,29 +539,45 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// <inheritdoc />
     public object CurrentXMin
     {
-        get => GetValue(CurrentXMinProperty);
-        set => SetValue(CurrentXMinProperty, value);
+        get => _currentXMin;
+        set
+        {
+            _currentXMin = value;
+            SetValue(CurrentXMinProperty, value);
+        }
     }
 
     /// <inheritdoc />
     public object CurrentXMax
     {
-        get => GetValue(CurrentXMaxProperty);
-        set => SetValue(CurrentXMaxProperty, value);
+        get => _currentXMax;
+        set
+        {
+            _currentXMax = value;
+            SetValue(CurrentXMaxProperty, value);
+        }
     }
 
     /// <inheritdoc />
     public double CurrentYMin
     {
-        get => GetValue(CurrentYMinProperty);
-        set => SetValue(CurrentYMinProperty, value);
+        get => _currentYMin;
+        set
+        {
+            _currentYMin = value;
+            SetValue(CurrentYMinProperty, value);
+        }
     }
 
     /// <inheritdoc />
     public double CurrentYMax
     {
-        get => GetValue(CurrentYMaxProperty);
-        set => SetValue(CurrentYMaxProperty, value);
+        get => _currentYMax;
+        set
+        {
+            _currentYMax = value;
+            SetValue(CurrentYMaxProperty, value);
+        }
     }
 
     /// <inheritdoc />
@@ -998,6 +1019,24 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         CurrentYMax = newValue;
     }
 
+    private async void SetPan(double xMin, double xMax, double yMin, double yMax, double transition = 25)
+    {
+        if (CurrentXMin is double && CurrentXMax is double)
+        {
+            _currentXMin = xMin;
+            _currentXMax = xMax;
+        }
+
+        if (CurrentXMin is DateTime && CurrentXMax is DateTime)
+        {
+            _currentXMin = DateTime.FromOADate(xMin);
+            _currentXMax = DateTime.FromOADate(xMax);
+        }
+
+        CurrentYMin = yMin;
+        CurrentYMax = yMax;
+    }
+
     /// <summary>
     ///     Zooms chart.
     /// </summary>
@@ -1053,29 +1092,21 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
 
         if (currentXMax - xMaxDelta - (currentXMin + xMinDelta) > (xMax - xMin) / 1000000)
         {
-            if (CurrentXMin is double && CurrentXMax is double)
-            {
-                CurrentXMin = currentXMin + xMinDelta;
-                CurrentXMax = currentXMax - xMaxDelta;
-            }
-
-            if (CurrentXMin is DateTime && CurrentXMax is DateTime)
-            {
-                CurrentXMin = DateTime.FromOADate(currentXMin + xMinDelta);
-                CurrentXMax = DateTime.FromOADate(currentXMax - xMaxDelta);
-            }
+            currentXMin = currentXMin + xMinDelta;
+            currentXMax = currentXMax - xMaxDelta;
         }
 
         if (currentXMin < xMin)
         {
-            CurrentXMin = XMin;
+            currentXMin = xMin;
         }
 
         if (currentXMax > xMax)
         {
-            CurrentXMax = XMax;
+            currentXMax = xMax;
         }
 
+        SetPan(currentXMin, currentXMax, currentYMin, currentYMax);
         InvalidateVisual();
     }
 

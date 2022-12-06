@@ -1119,6 +1119,16 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         var deltaFY = -delta.Y;
         var deltaFX = -delta.X;
 
+        if (deltaFY > 1)
+        {
+            deltaFY = 0.1 * Math.Sign(deltaFY);
+        }
+
+        if (deltaFX > 1)
+        {
+            deltaFX = 0.1 * Math.Sign(deltaFX);
+        }
+
         var x = Valuation.DenormalizeValueX(position.X, Bounds.Width, currentXMin, currentXMax);
         var y = Valuation.DenormalizeValueY(position.Y, Bounds.Height, CurrentYMin, CurrentYMax);
 

@@ -120,7 +120,7 @@ public class WavesCandleSeries : Waves2DSeries
 
             var rectangleLocation = Valuation.NormalizePoint(
                 candle.OpenDateTime.ToOADate(),
-                Convert.ToDouble(candle.High),
+                Convert.ToDouble(candle.Close > candle.Open ? candle.Close : candle.Open),
                 chart.SurfaceWidth,
                 chart.SurfaceHeight,
                 currentXMin,
@@ -150,9 +150,17 @@ public class WavesCandleSeries : Waves2DSeries
                 Stroke = chart.BackgroundColor,
             };
 
+            // TODO
             if (rectangle.Width > 2)
             {
                 rectangle.StrokeThickness = 2;
+            }
+
+            // TODO
+            if (rectangle.Height < 3)
+            {
+                rectangle.StrokeThickness = 0;
+                rectangle.Height = 3;
             }
 
             var linePositionX = (Valuation.NormalizeValueX(

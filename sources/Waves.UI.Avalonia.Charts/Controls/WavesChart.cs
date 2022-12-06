@@ -816,24 +816,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         IsMouseOver = true;
 
         var position = e.GetPosition(this);
-
-        var xMin = Values.GetValue(_currentXMin);
-        var yMin = Values.GetValue(_currentYMin);
-        var xMax = Values.GetValue(_currentXMax);
-        var yMax = Values.GetValue(_currentYMax);
-
-        //// PointerLocation = Valuation.NormalizePoint(
-        ////     position.X,
-        ////     position.Y,
-        ////     SurfaceWidth,
-        ////     SurfaceHeight,
-        ////     xMin,
-        ////     yMin,
-        ////     xMax,
-        ////     yMax);
-
         PointerLocation = new WavesPoint(position.X, position.Y);
-
         InvalidateVisual();
     }
 
@@ -957,6 +940,20 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
                 SurfaceWidth,
                 SurfaceHeight,
                 WavesColor.Gray,    // TODO:
+                currentXMin,
+                currentXMax,
+                currentYMin,
+                currentYMax,
+                new double[] { 4, 4, 4, 4 });
+
+            this.GetPointerSignatures(
+                _ticksCache,
+                PointerLocation,
+                SurfaceWidth,
+                SurfaceHeight,
+                WavesColor.Gray,    // TODO:
+                BackgroundColor,
+                TextColor,    // TODO:
                 currentXMin,
                 currentXMax,
                 currentYMin,

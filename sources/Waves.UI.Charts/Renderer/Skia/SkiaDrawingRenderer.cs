@@ -220,7 +220,7 @@ public class SkiaDrawingRenderer : IWavesDrawingRenderer
     {
         return new SKPaint
         {
-            TextSize = text.Style.FontSize,
+            TextSize = Convert.ToSingle(text.Style.FontSize),
             Color = text.Color.ToSkColor(),
             IsStroke = false,
             SubpixelText = true,

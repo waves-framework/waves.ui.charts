@@ -163,7 +163,7 @@ public class SandboxViewModel : WavesViewModelBase
                 throw new ArgumentOutOfRangeException();
         }
 
-        YMin = yMin;
-        YMax = yMax;
+        YMin = yMin - Math.Abs(yMax - yMin) / 10;
+        YMax = yMax + Math.Abs(yMax - yMin) / 10;
     }
 }

@@ -167,7 +167,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public static readonly StyledProperty<int> XAxisPrimaryTicksNumberProperty =
         AvaloniaProperty.Register<WavesChart, int>(
             nameof(XAxisPrimaryTicksNumber),
-            2);
+            4);
 
     /// <summary>
     /// Defines <see cref="XAxisAdditionalTicksNumber"/> styled property.
@@ -395,6 +395,8 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
 
     private readonly List<IWavesDrawingObject> _gridCache = new ();
 
+    private bool _isGridChanged = true;
+
     private IWavesDrawingObject _background;
 
     private object _xMin = 0d;
@@ -452,10 +454,53 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         AffectsRender<WavesChart>(HorizontalSignatureAlignmentProperty);
         AffectsRender<WavesChart>(VerticalSignatureAlignmentProperty);
 
-        XMinProperty.Changed.Subscribe(OnXMinChanged);
-        XMaxProperty.Changed.Subscribe(OnXMaxChanged);
-        YMinProperty.Changed.Subscribe(OnYMinChanged);
-        YMaxProperty.Changed.Subscribe(OnYMaxChanged);
+        // subscriptions
+        Disposables.Add(BoundsProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(IsXAxisPrimaryTicksVisibleProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(IsXAxisAdditionalTicksVisibleProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(IsXAxisSignaturesVisibleProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(IsXAxisZeroLineVisibleProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(IsYAxisPrimaryTicksVisibleProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(IsYAxisPrimaryTicksVisibleProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(IsYAxisPrimaryTicksVisibleProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(IsYAxisPrimaryTicksVisibleProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XMinProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XMaxProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YMinProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YMaxProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XMinProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XMaxProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YMinProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YMaxProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisPrimaryTicksNumberProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisAdditionalTicksNumberProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisPrimaryTicksNumberProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisAdditionalTicksNumberProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisPrimaryTickThicknessProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisAdditionalTickThicknessProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisZeroLineThicknessProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisPrimaryTickThicknessProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisAdditionalTickThicknessProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisZeroLineThicknessProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisPrimaryTicksDashArrayProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisAdditionalTicksDashArrayProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisZeroLineDashArrayProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisPrimaryTicksDashArrayProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisAdditionalTicksDashArrayProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisZeroLineDashArrayProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisPrimaryTicksColorProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisAdditionalTicksColorProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisZeroLineColorProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisPrimaryTicksColorProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisAdditionalTicksColorProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisZeroLineColorProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(HorizontalSignatureAlignmentProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(VerticalSignatureAlignmentProperty.Changed.Subscribe(args => SetGridChanged()));
+
+        Disposables.Add(XMinProperty.Changed.Subscribe(OnXMinChanged));
+        Disposables.Add(XMaxProperty.Changed.Subscribe(OnXMaxChanged));
+        Disposables.Add(YMinProperty.Changed.Subscribe(OnYMinChanged));
+        Disposables.Add(YMaxProperty.Changed.Subscribe(OnYMaxChanged));
     }
 
     /// <inheritdoc />
@@ -548,6 +593,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         get => _currentXMin;
         set
         {
+            _isGridChanged = true;
             _currentXMin = value;
             SetValue(CurrentXMinProperty, value);
         }
@@ -559,6 +605,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         get => _currentXMax;
         set
         {
+            _isGridChanged = true;
             _currentXMax = value;
             SetValue(CurrentXMaxProperty, value);
         }
@@ -570,6 +617,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         get => _currentYMin;
         set
         {
+            _isGridChanged = true;
             _currentYMin = value;
             SetValue(CurrentYMinProperty, value);
         }
@@ -581,6 +629,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         get => _currentYMax;
         set
         {
+            _isGridChanged = true;
             _currentYMax = value;
             SetValue(CurrentYMaxProperty, value);
         }
@@ -819,6 +868,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         base.OnPointerEntered(e);
         Focus();
         IsMouseOver = true;
+        _isGridChanged = true;
         InvalidateVisual();
     }
 
@@ -830,6 +880,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
 
         var position = e.GetPosition(this);
         PointerLocation = new WavesPoint(position.X, position.Y);
+        _isGridChanged = true;
         InvalidateVisual();
     }
 
@@ -838,6 +889,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     {
         base.OnPointerExited(e);
         IsMouseOver = false;
+        _isGridChanged = true;
         InvalidateVisual();
     }
 
@@ -855,6 +907,8 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         {
             IsCtrlPressed = true;
         }
+
+        _isGridChanged = true;
     }
 
     /// <inheritdoc />
@@ -871,6 +925,8 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         {
             IsCtrlPressed = false;
         }
+
+        _isGridChanged = true;
     }
 
     /// <inheritdoc />
@@ -920,6 +976,11 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// </summary>
     protected void PrepareGrid()
     {
+        if (!_isGridChanged)
+        {
+            return;
+        }
+
         if (HasDefaultTicks)
         {
             this.GenerateDefaultTicks(Ticks, SignaturesXFormat);
@@ -927,29 +988,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
 
         this.GenerateGridObjects(Ticks, _gridCache);
 
-        // // generate axis ticks
-        // this.GenerateAxisTicksDrawingObjects(
-        //     Ticks,
-        //     _ticksCache);
-        //
-        //     // generate signatures
-        // this.GenerateAxisSignaturesDrawingObjects(
-        //     Renderer,
-        //     Ticks,
-        //     _signaturesCache);
-        //
-        // if (IsMouseOver)
-        // {
-        //     this.GeneratePointerTicks(
-        //         _ticksCache,
-        //         PointerLocation,
-        //         WavesColor.Gray,    // TODO:
-        //         new double[] { 4, 4, 4, 4 });
-        //
-        //     this.GetPointerSignatures(
-        //         _ticksCache,
-        //         PointerLocation);
-        // }
+        _isGridChanged = false;
     }
 
     /// <summary>
@@ -1214,5 +1253,10 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         }
 
         InvalidateVisual();
+    }
+
+    private bool SetGridChanged()
+    {
+        return _isGridChanged = true;
     }
 }

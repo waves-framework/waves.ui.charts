@@ -32,7 +32,7 @@ public class BinanceCandleSeriesGenerator :
     {
         var now = DateTime.Now;
         Symbol = "BTCUSDT";
-        StartDateTime = now.AddHours(-24);
+        StartDateTime = now.AddDays(-3);
         StopDateTime = now;
     }
 

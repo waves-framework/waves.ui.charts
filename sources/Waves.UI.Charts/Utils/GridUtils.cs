@@ -322,94 +322,93 @@ public static class GridUtils
         int additionalTicksCount,
         WavesAxisTickOrientation orientation)
     {
-        var min = dateMin.ToOADate();
-        var max = dateMax.ToOADate();
+        var span = dateMax - dateMin;
+        var interval = GetInterval(span);
 
-        var rank = (int)Math.Round(Math.Log10(max - min));
+        var interval1 = span.Round(interval);
+        var start = dateMin.Round(interval);
+        var end = dateMax.Round(interval);
+        var primaryTickStep = TimeSpan.FromTicks((end - start).Ticks / primaryTicksCount).Round(interval);
+        var additionalTickStep = TimeSpan.FromTicks((end - start).Ticks / additionalTicksCount).Round(interval);
 
-        if (rank == int.MinValue)
+        if (primaryTickStep == TimeSpan.Zero)
         {
             return;
         }
 
-        var highestRange = Math.Pow(10, rank);
-        var roundFactor = Math.Abs(rank) + 1;
-        var tickStep = highestRange / primaryTicksCount;
-        var additionalTickStep = tickStep / additionalTicksCount;
-
-        if (!(Math.Abs(tickStep) > 0))
+        if (additionalTickStep == TimeSpan.Zero)
         {
             return;
         }
 
-        var start = Math.Round(min / tickStep) * tickStep;
-
-        for (var i = start; i <= max; i += tickStep)
+        for (var i = start; i <= end; i += primaryTickStep)
         {
-            for (var j = i + additionalTickStep; j <= i + tickStep - additionalTickStep; j += additionalTickStep)
+            for (var j = i + additionalTickStep; j <= i + primaryTickStep - additionalTickStep; j += additionalTickStep)
             {
-                if (j > max)
-                {
-                    continue;
-                }
-
-                if (Math.Abs(j - min) < double.Epsilon || Math.Abs(j - max) < double.Epsilon)
-                {
-                    continue;
-                }
-
                 ticks.Add(new WavesAxisTick
                 {
-                    Description = DateTime.FromOADate(j).ToString(format),
-                    Value = Convert.ToSingle(j),
+                    Description = j.ToString(format),
+                    Value = j.ToOADate(),
                     IsVisible = true,
                     Orientation = orientation,
                     Type = WavesAxisTickType.Additional,
                 });
             }
 
-            if (i > max)
-            {
-                continue;
-            }
-
-            if (Math.Abs(i) > 0)
-            {
-                if (Math.Abs(i - min) < double.Epsilon || Math.Abs(i - max) < double.Epsilon)
-                {
-                    continue;
-                }
-
-                var description = DateTime.FromOADate(i).ToString(format);
-                if (roundFactor < 15)
-                {
-                    description = DateTime.FromOADate(i).ToString(format);
-                }
-
-                ticks.Add(new WavesAxisTick
-                {
-                    Description = description,
-                    Value = Convert.ToSingle(i),
-                    IsVisible = true,
-                    Orientation = orientation,
-                    Type = WavesAxisTickType.Primary,
-                });
-            }
-        }
-
-        ticks.Reverse();
-
-        if (min < 0 && max > 0)
-        {
+            var description = i.ToString(format);
             ticks.Add(new WavesAxisTick
             {
-                Description = 0.ToString(CultureInfo.CurrentCulture),
-                Value = 0,
+                Description = description,
+                Value = i.ToOADate(),
                 IsVisible = true,
                 Orientation = orientation,
-                Type = WavesAxisTickType.Zero,
+                Type = WavesAxisTickType.Primary,
             });
         }
+    }
+
+    private static TimeSpan GetInterval(TimeSpan span)
+    {
+        var interval = TimeSpan.FromHours(1);
+
+        if (span.TotalDays >= 1)
+        {
+            return TimeSpan.FromDays(1);
+        }
+
+        if (span.TotalHours >= 1)
+        {
+            return TimeSpan.FromHours(1);
+        }
+
+        if (span.TotalMinutes >= 1)
+        {
+            return TimeSpan.FromMinutes(1);
+        }
+
+        if (span.TotalSeconds >= 1)
+        {
+            return TimeSpan.FromSeconds(1);
+        }
+
+        if (span.TotalMilliseconds >= 1)
+        {
+            return TimeSpan.FromMilliseconds(1);
+        }
+
+        return interval;
+    }
+
+    private static DateTime Round(this DateTime dateTime, TimeSpan interval)
+    {
+        var halfIntervalTicks = (interval.Ticks + 1) >> 1;
+        return dateTime.AddTicks(halfIntervalTicks - ((dateTime.Ticks + halfIntervalTicks) % interval.Ticks));
+    }
+
+    private static TimeSpan Round(this TimeSpan timeSpan, TimeSpan interval)
+    {
+        long ticks = (timeSpan.Ticks + interval.Ticks / 2 + 1) / interval.Ticks;
+        return new TimeSpan(ticks * interval.Ticks);
     }
 
     private static void SetSignatureLocationX(

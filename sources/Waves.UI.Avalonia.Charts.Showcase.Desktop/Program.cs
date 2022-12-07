@@ -14,7 +14,7 @@ internal static class Program
     /// SynchronizationContext-reliant code before AppMain is called: things aren't initialized
     /// yet and stuff might break.
     /// </summary>
-    /// <param name="args"></param>
+    /// <param name="args">Args.</param>
     [STAThread]
     public static void Main(string[] args) => BuildAvaloniaApp()
         .StartWithClassicDesktopLifetime(args);
@@ -22,7 +22,7 @@ internal static class Program
     /// <summary>
     /// Avalonia configuration, don't remove; also used by visual designer.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Appbuilder.</returns>
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()

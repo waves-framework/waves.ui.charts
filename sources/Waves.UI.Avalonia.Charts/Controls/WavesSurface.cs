@@ -79,6 +79,11 @@ public class WavesSurface :
     /// </summary>
     public IWavesDrawingRenderer Renderer { get; }
 
+    /// <summary>
+    /// Gets disposables.
+    /// </summary>
+    protected List<IDisposable> Disposables { get; } = new ();
+
     /// <inheritdoc />
     public override void Render(DrawingContext context)
     {
@@ -89,6 +94,11 @@ public class WavesSurface :
     /// <inheritdoc />
     public void Dispose()
     {
+        foreach (var disposable in Disposables)
+        {
+            disposable.Dispose();
+        }
+
         _renderingLogic?.Dispose();
         Renderer?.Dispose();
     }

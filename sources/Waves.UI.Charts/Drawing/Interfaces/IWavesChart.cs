@@ -208,9 +208,9 @@ public interface IWavesChart : IWavesSurface
     public WavesColor YAxisZeroLineColor { get; set; }
 
     /// <summary>
-    /// Gets or sets font size.
+    /// Gets or sets text style.
     /// </summary>
-    public double FontSize { get; set; }
+    public WavesTextStyle TextStyle { get; set; }
 
     /// <summary>
     /// Gets or sets horizontal signature alignment.

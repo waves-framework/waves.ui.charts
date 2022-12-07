@@ -338,6 +338,14 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             WavesColor.LightGray);
 
     /// <summary>
+    /// Defines <see cref="TextStyle"/> styled property.
+    /// </summary>
+    public static readonly StyledProperty<WavesTextStyle> TextStyleProperty =
+        AvaloniaProperty.Register<WavesChart, WavesTextStyle>(
+            nameof(TextStyle),
+            new WavesTextStyle());
+
+    /// <summary>
     /// Defines <see cref="HasDefaultTicks"/> styled property.
     /// </summary>
     public static readonly StyledProperty<bool> HasDefaultTicksProperty =
@@ -742,6 +750,13 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     }
 
     /// <inheritdoc />
+    public WavesTextStyle TextStyle
+    {
+        get => GetValue(TextStyleProperty);
+        set => SetValue(TextStyleProperty, value);
+    }
+
+    /// <inheritdoc />
     public WavesAxisHorizontalSignatureAlignment HorizontalSignatureAlignment
     {
         get => GetValue(HorizontalSignatureAlignmentProperty);
@@ -915,17 +930,13 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         // generate axis ticks
         this.GenerateAxisTicksDrawingObjects(
             Ticks,
-            _ticksCache,
-            Bounds.Width,
-            Bounds.Height);
+            _ticksCache);
 
-        // generate signatures
+            // generate signatures
         this.GenerateAxisSignaturesDrawingObjects(
             Renderer,
             Ticks,
-            _signaturesCache,
-            Bounds.Width,
-            Bounds.Height);
+            _signaturesCache);
 
         if (IsMouseOver)
         {
@@ -937,27 +948,12 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             this.GeneratePointerTicks(
                 _ticksCache,
                 PointerLocation,
-                SurfaceWidth,
-                SurfaceHeight,
                 WavesColor.Gray,    // TODO:
-                currentXMin,
-                currentXMax,
-                currentYMin,
-                currentYMax,
                 new double[] { 4, 4, 4, 4 });
 
             this.GetPointerSignatures(
                 _ticksCache,
                 PointerLocation,
-                SurfaceWidth,
-                SurfaceHeight,
-                WavesColor.Gray,    // TODO:
-                BackgroundColor,
-                TextColor,    // TODO:
-                currentXMin,
-                currentXMax,
-                currentYMin,
-                currentYMax,
                 new double[] { 4, 4, 4, 4 });
         }
     }

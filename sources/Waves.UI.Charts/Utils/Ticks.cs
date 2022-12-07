@@ -21,15 +21,11 @@ public static class Ticks
     /// <param name="chart">Chart.</param>
     /// <param name="ticks">Ticks.</param>
     /// <param name="cache">Axis ticks drawing objects cache.</param>
-    /// <param name="width">Width.</param>
-    /// <param name="height">Height.</param>
     /// <returns>Returns cache.</returns>
     public static ICollection<IWavesDrawingObject> GenerateAxisTicksDrawingObjects(
         this IWavesChart chart,
         List<WavesAxisTick> ticks,
-        List<IWavesDrawingObject> cache,
-        double width,
-        double height)
+        List<IWavesDrawingObject> cache)
     {
         if (chart.DrawingObjects is null)
         {
@@ -67,8 +63,8 @@ public static class Ticks
                         0.5f,
                         currentXMin,
                         currentXMax,
-                        width,
-                        height);
+                        chart.SurfaceWidth,
+                        chart.SurfaceHeight);
 
                     chart.DrawingObjects.Add(obj);
                     cache.Add(obj);
@@ -88,8 +84,8 @@ public static class Ticks
                         0.25f,
                         currentXMin,
                         currentXMax,
-                        width,
-                        height);
+                        chart.SurfaceWidth,
+                        chart.SurfaceHeight);
 
                     chart.DrawingObjects.Add(obj);
                     cache.Add(obj);
@@ -109,8 +105,8 @@ public static class Ticks
                         1f,
                         currentXMin,
                         currentXMax,
-                        width,
-                        height);
+                        chart.SurfaceWidth,
+                        chart.SurfaceHeight);
 
                     chart.DrawingObjects.Add(obj);
                     cache.Add(obj);
@@ -133,8 +129,8 @@ public static class Ticks
                         0.5f,
                         chart.CurrentYMin,
                         chart.CurrentYMax,
-                        width,
-                        height);
+                        chart.SurfaceWidth,
+                        chart.SurfaceHeight);
 
                     chart.DrawingObjects.Add(obj);
                     cache.Add(obj);
@@ -154,8 +150,8 @@ public static class Ticks
                         0.25f,
                         chart.CurrentYMin,
                         chart.CurrentYMax,
-                        width,
-                        height);
+                        chart.SurfaceWidth,
+                        chart.SurfaceHeight);
 
                     chart.DrawingObjects.Add(obj);
                     cache.Add(obj);
@@ -175,8 +171,8 @@ public static class Ticks
                         1f,
                         chart.CurrentYMin,
                         chart.CurrentYMax,
-                        width,
-                        height);
+                        chart.SurfaceWidth,
+                        chart.SurfaceHeight);
 
                     chart.DrawingObjects.Add(obj);
                     cache.Add(obj);
@@ -522,13 +518,7 @@ public static class Ticks
     /// <param name="chart">Chart.</param>
     /// <param name="cache">Cache.</param>
     /// <param name="point">Pointer location.</param>
-    /// <param name="width">Width.</param>
-    /// <param name="height">Height.</param>
     /// <param name="stroke">Stroke.</param>
-    /// <param name="xMin">X min.</param>
-    /// <param name="xMax">X max.</param>
-    /// <param name="yMin">Y min.</param>
-    /// <param name="yMax">Y max.</param>
     /// <param name="dashArray">Dash array.</param>
     /// <param name="strokeThickness">Stroke thickness.</param>
     /// <param name="opacity">Opacity.</param>
@@ -536,13 +526,7 @@ public static class Ticks
         this IWavesChart chart,
         List<IWavesDrawingObject> cache,
         WavesPoint point,
-        double width,
-        double height,
         WavesColor stroke,
-        double xMin,
-        double xMax,
-        double yMin,
-        double yMax,
         double[] dashArray,
         double strokeThickness = 1d,
         double opacity = 0.5d)
@@ -556,7 +540,7 @@ public static class Ticks
             Opacity = opacity,
             Thickness = strokeThickness,
             Point1 = new WavesPoint(0, point.Y),
-            Point2 = new WavesPoint(width, point.Y),
+            Point2 = new WavesPoint(chart.SurfaceWidth, point.Y),
         };
 
         var line2 = new WavesLine
@@ -568,7 +552,7 @@ public static class Ticks
             Opacity = opacity,
             Thickness = strokeThickness,
             Point1 = new WavesPoint(point.X, 0),
-            Point2 = new WavesPoint(point.X, width),
+            Point2 = new WavesPoint(point.X, chart.SurfaceHeight),
         };
 
         chart.DrawingObjects?.Add(line1);

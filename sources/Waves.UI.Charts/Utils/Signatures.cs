@@ -21,16 +21,12 @@ public static class Signatures
     /// <param name="renderer">Renderer.</param>
     /// <param name="ticks">Axis ticks.</param>
     /// <param name="cache">Axis signatures drawing objects cache.</param>
-    /// <param name="width">Width.</param>
-    /// <param name="height">Height.</param>
     /// <returns>Returns cache.</returns>
     public static ICollection<IWavesDrawingObject> GenerateAxisSignaturesDrawingObjects(
         this IWavesChart chart,
         IWavesDrawingRenderer renderer,
         List<WavesAxisTick> ticks,
-        List<IWavesDrawingObject> cache,
-        double width,
-        double height)
+        List<IWavesDrawingObject> cache)
     {
         if (chart.DrawingObjects is null)
         {
@@ -73,8 +69,8 @@ public static class Signatures
                         horizontalTextStyle,
                         currentXMin,
                         currentXMax,
-                        width,
-                        height,
+                        chart.SurfaceWidth,
+                        chart.SurfaceWidth,
                         chart.HorizontalSignatureAlignment);
                     rectangle = GetXAxisSignatureRectangle(
                         tick.Value,
@@ -82,8 +78,8 @@ public static class Signatures
                         chart.TextColor,
                         currentXMin,
                         currentXMax,
-                        width,
-                        height,
+                        chart.SurfaceWidth,
+                        chart.SurfaceWidth,
                         size,
                         chart.HorizontalSignatureAlignment);
                     break;
@@ -96,8 +92,8 @@ public static class Signatures
                         verticalTextStyle,
                         currentYMin,
                         currentYMax,
-                        width,
-                        height,
+                        chart.SurfaceWidth,
+                        chart.SurfaceWidth,
                         chart.VerticalSignatureAlignment);
                     rectangle = GetYAxisSignatureRectangle(
                         tick.Value,
@@ -105,8 +101,8 @@ public static class Signatures
                         chart.TextColor,
                         chart.CurrentYMin,
                         chart.CurrentYMax,
-                        width,
-                        height,
+                        chart.SurfaceWidth,
+                        chart.SurfaceWidth,
                         size,
                         chart.VerticalSignatureAlignment);
                     break;
@@ -129,6 +125,85 @@ public static class Signatures
     }
 
     /// <summary>
+    /// Generates point ticks.
+    /// </summary>
+    /// <param name="chart">Chart.</param>
+    /// <param name="cache">Cache.</param>
+    /// <param name="point">Pointer location.</param>
+    /// <param name="dashArray">Dash array.</param>
+    /// <param name="strokeThickness">Stroke thickness.</param>
+    /// <param name="opacity">Opacity.</param>
+    public static void GetPointerSignatures(
+        this IWavesChart chart,
+        List<IWavesDrawingObject> cache,
+        WavesPoint point,
+        double[] dashArray,
+        double strokeThickness = 1d,
+        double opacity = 0.5d)
+    {
+        var currentXMin = Values.GetValue(chart.CurrentXMin);
+        var currentXMax = Values.GetValue(chart.CurrentXMax);
+        var currentYMin = Values.GetValue(chart.CurrentYMin);
+        var currentYMax = Values.GetValue(chart.CurrentYMax);
+
+        var text1Value = Valuation.DenormalizeValueX(point.X, chart.SurfaceWidth, currentXMin, currentXMax);
+        var text2Value = Valuation.DenormalizeValueY(point.Y, chart.SurfaceHeight, currentYMin, currentYMax);
+
+        var (text1, text1Size) = GetXAxisSignature(
+            chart.Renderer,
+            text1Value,
+            text1Value.ToString(),
+            chart.TextColor,
+            chart.TextStyle,
+            currentXMin,
+            currentXMax,
+            chart.SurfaceWidth,
+            chart.SurfaceHeight);
+
+        var (text2, text2Size) = GetYAxisSignature(
+            chart.Renderer,
+            text2Value,
+            text2Value.ToString(),
+            chart.TextColor,
+            chart.TextStyle,
+            currentYMin,
+            currentYMax,
+            chart.SurfaceWidth,
+            chart.SurfaceHeight);
+
+        var text1Rectangle = GetXAxisSignatureRectangle(
+            text1Value,
+            chart.BackgroundColor,
+            chart.TextColor,
+            currentXMin,
+            currentXMax,
+            chart.SurfaceWidth,
+            chart.SurfaceHeight,
+            text1Size,
+            WavesAxisHorizontalSignatureAlignment.Bottom);
+
+        var text2Rectangle = GetYAxisSignatureRectangle(
+            text2Value,
+            chart.BackgroundColor,
+            chart.TextColor,
+            currentYMin,
+            currentYMax,
+            chart.SurfaceWidth,
+            chart.SurfaceHeight,
+            text1Size,
+            WavesAxisVerticalSignatureAlignment.Right);
+
+        chart.DrawingObjects?.Add(text1Rectangle);
+        chart.DrawingObjects?.Add(text1);
+        chart.DrawingObjects?.Add(text2Rectangle);
+        chart.DrawingObjects?.Add(text2);
+        cache.Add(text1Rectangle);
+        cache.Add(text1);
+        cache.Add(text2Rectangle);
+        cache.Add(text2);
+    }
+
+    /// <summary>
     /// Generates X axis signature.
     /// </summary>
     /// <param name="renderer">Renderer.</param>
@@ -143,7 +218,7 @@ public static class Signatures
     /// <param name="horizontalSignatureAlignment">Horizontal signature alignment.</param>
     /// <param name="opacity">Opacity.</param>
     /// <returns>Returns X axis signature drawing object.</returns>
-    public static (WavesText, WavesSize) GetXAxisSignature(
+    private static (WavesText, WavesSize) GetXAxisSignature(
         IWavesDrawingRenderer renderer,
         double value,
         string description,
@@ -210,7 +285,7 @@ public static class Signatures
         double yMax,
         double width,
         double height,
-        WavesAxisVerticalSignatureAlignment verticalSignatureAlignment,
+        WavesAxisVerticalSignatureAlignment verticalSignatureAlignment = WavesAxisVerticalSignatureAlignment.Right,
         double opacity = 1)
     {
         var obj = new WavesText
@@ -259,7 +334,7 @@ public static class Signatures
     /// <param name="opacity">Opacity.</param>
     /// <param name="cornerRadius">Corner radius.</param>
     /// <returns>Returns X axis signatures background.</returns>
-    public static WavesRectangle GetXAxisSignatureRectangle(
+    private static WavesRectangle GetXAxisSignatureRectangle(
         double value,
         WavesColor fill,
         WavesColor stroke,
@@ -322,7 +397,7 @@ public static class Signatures
     /// <param name="opacity">Opacity.</param>
     /// <param name="cornerRadius">Corner radius.</param>
     /// <returns>Returns Y axis signatures background.</returns>
-    public static WavesRectangle GetYAxisSignatureRectangle(
+    private static WavesRectangle GetYAxisSignatureRectangle(
         double value,
         WavesColor fill,
         WavesColor stroke,
@@ -367,100 +442,5 @@ public static class Signatures
             IsVisible = true,
             IsAntialiased = true,
         };
-    }
-
-    /// <summary>
-    /// Generates point ticks.
-    /// </summary>
-    /// <param name="chart">Chart.</param>
-    /// <param name="cache">Cache.</param>
-    /// <param name="point">Pointer location.</param>
-    /// <param name="width">Width.</param>
-    /// <param name="height">Height.</param>
-    /// <param name="stroke">Stroke.</param>
-    /// <param name="background">Background.</param>
-    /// <param name="color">Text color.</param>
-    /// <param name="xMin">X min.</param>
-    /// <param name="xMax">X max.</param>
-    /// <param name="yMin">Y min.</param>
-    /// <param name="yMax">Y max.</param>
-    /// <param name="dashArray">Dash array.</param>
-    /// <param name="strokeThickness">Stroke thickness.</param>
-    /// <param name="opacity">Opacity.</param>
-    public static void GetPointerSignatures(
-        this IWavesChart chart,
-        List<IWavesDrawingObject> cache,
-        WavesPoint point,
-        double width,
-        double height,
-        WavesColor stroke,
-        WavesColor background,
-        WavesColor color,
-        double xMin,
-        double xMax,
-        double yMin,
-        double yMax,
-        double[] dashArray,
-        double strokeThickness = 1d,
-        double opacity = 0.5d)
-    {
-        var textStyle = new WavesTextStyle { TextAlignment = WavesTextAlignment.Center };
-
-        var text1Value = Valuation.DenormalizeValueX(point.X, width, xMin, xMax);
-        var (text1, text1Size) = GetXAxisSignature(
-            chart.Renderer,
-            text1Value,
-            text1Value.ToString(),
-            color,
-            textStyle,
-            xMin,
-            xMax,
-            chart.SurfaceWidth,
-            chart.SurfaceHeight);
-
-        var text1Rectangle = GetXAxisSignatureRectangle(
-            text1Value,
-            background,
-            stroke,
-            xMin,
-            xMax,
-            width,
-            height,
-            text1Size,
-            WavesAxisHorizontalSignatureAlignment.Bottom);
-
-        chart.DrawingObjects?.Add(text1Rectangle);
-        chart.DrawingObjects?.Add(text1);
-        cache.Add(text1Rectangle);
-        cache.Add(text1);
-
-        //// var line1 = new WavesLine
-        //// {
-        ////     Color = stroke,
-        ////     DashPattern = dashArray,
-        ////     IsAntialiased = true,
-        ////     IsVisible = true,
-        ////     Opacity = opacity,
-        ////     Thickness = strokeThickness,
-        ////     Point1 = new WavesPoint(0, point.Y),
-        ////     Point2 = new WavesPoint(width, point.Y),
-        //// };
-        ////
-        //// var line2 = new WavesLine
-        //// {
-        ////     Color = stroke,
-        ////     DashPattern = dashArray,
-        ////     IsAntialiased = true,
-        ////     IsVisible = true,
-        ////     Opacity = opacity,
-        ////     Thickness = strokeThickness,
-        ////     Point1 = new WavesPoint(point.X, 0),
-        ////     Point2 = new WavesPoint(point.X, width),
-        //// };
-        ////
-        //// chart.DrawingObjects?.Add(line1);
-        //// chart.DrawingObjects?.Add(line2);
-        //// cache.Add(line1);
-        //// cache.Add(line2);
     }
 }

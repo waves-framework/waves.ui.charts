@@ -369,7 +369,7 @@ public static class GridUtils
 
     private static TimeSpan GetInterval(TimeSpan span)
     {
-        var interval = TimeSpan.FromHours(1);
+        var interval = TimeSpan.FromSeconds(1);
 
         if (span.TotalDays >= 1)
         {
@@ -393,7 +393,7 @@ public static class GridUtils
 
         if (span.TotalMilliseconds >= 1)
         {
-            return TimeSpan.FromMilliseconds(1);
+            return TimeSpan.FromSeconds(1);
         }
 
         return interval;

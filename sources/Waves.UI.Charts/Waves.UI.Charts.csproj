@@ -13,7 +13,7 @@
     </PropertyGroup>
 
     <ItemGroup Condition="'$(Configuration)'=='Debug'">
-        <ProjectReference Include="..\..\submodules\ui\sources\Waves.UI\Waves.UI.csproj" />
+        <ProjectReference Include="..\..\submodules\ui.avalonia\submodules\ui\sources\Waves.UI\Waves.UI.csproj" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(Configuration)'!='Debug'">

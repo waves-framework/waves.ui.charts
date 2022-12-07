@@ -1,4 +1,6 @@
-﻿namespace Waves.UI.Charts.Drawing.Primitives.Interfaces;
+﻿using Waves.UI.Charts.Drawing.Primitives.Data;
+
+namespace Waves.UI.Charts.Drawing.Primitives.Interfaces;
 
 /// <summary>
 ///     Interface of primitive drawing object.

@@ -1,6 +1,7 @@
 using System.Drawing;
 using Avalonia.Media;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Data;
 using Color = Avalonia.Media.Color;
 
 namespace Waves.UI.Avalonia.Charts.Extensions;

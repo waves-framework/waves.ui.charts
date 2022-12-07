@@ -42,14 +42,14 @@ public class WavesSurface :
 
         AffectsRender<WavesSurface>(DesiredSizeProperty);
         AffectsRender<WavesSurface>(DrawingObjectsProperty);
-        AffectsRender<WavesChart>(BackgroundProperty);
-        AffectsRender<WavesChart>(ForegroundProperty);
 
-        ForegroundProperty.Changed.Subscribe(OnForegroundChanged);
-        BackgroundProperty.Changed.Subscribe(OnBackgroundChanged);
-
-        TextColor = GetWavesColor(Foreground);
-        BackgroundColor = GetWavesColor(Background);
+        //// AffectsRender<WavesChart>(BackgroundProperty);
+        //// AffectsRender<WavesChart>(ForegroundProperty);
+        ////
+        //// ForegroundProperty.Changed.Subscribe(OnForegroundChanged);
+        //// BackgroundProperty.Changed.Subscribe(OnBackgroundChanged);
+        //// TextColor = GetWavesColor(Foreground);
+        //// BackgroundColor = GetWavesColor(Background);
     }
 
     /// <summary>
@@ -63,21 +63,44 @@ public class WavesSurface :
     }
 
     /// <inheritdoc />
-    public WavesColor TextColor { get; set; }
+    public WavesColor TextColor { get; set; } = WavesColor.White;
 
     /// <inheritdoc />
-    public WavesColor BackgroundColor { get; set; }
+    public WavesColor BackgroundColor { get; set; } = WavesColor.Black;
+
+    /// <inheritdoc />
+    public double SurfaceWidth => Bounds.Width;
+
+    /// <inheritdoc />
+    public double SurfaceHeight => Bounds.Height;
 
     /// <summary>
     /// Gets renderer.
     /// </summary>
     public IWavesDrawingRenderer Renderer { get; }
 
+    /// <summary>
+    /// Gets disposables.
+    /// </summary>
+    protected List<IDisposable> Disposables { get; } = new ();
+
     /// <inheritdoc />
     public override void Render(DrawingContext context)
     {
         Refresh(context);
         base.Render(context);
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        foreach (var disposable in Disposables)
+        {
+            disposable.Dispose();
+        }
+
+        _renderingLogic?.Dispose();
+        Renderer?.Dispose();
     }
 
     /// <summary>

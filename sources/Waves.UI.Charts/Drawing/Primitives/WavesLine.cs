@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using Waves.UI.Charts.Drawing.Interfaces;
+using Waves.UI.Charts.Drawing.Primitives.Data;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 
 namespace Waves.UI.Charts.Drawing.Primitives;

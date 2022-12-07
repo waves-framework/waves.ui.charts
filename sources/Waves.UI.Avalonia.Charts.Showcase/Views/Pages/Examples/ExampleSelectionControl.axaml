@@ -1,0 +1,27 @@
+<controls:WavesPage xmlns="https://github.com/avaloniaui"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:controls="https://github.com/waves-framework/waves.ui.avalonia"
+           xmlns:examples="clr-namespace:Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages.Examples"
+           mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+           x:Class="Waves.UI.Avalonia.Charts.Showcase.Views.Pages.Examples.ExampleSelectionControl">
+    
+    <Design.DataContext>
+        <examples:ExampleSelectionControlViewModel/>
+    </Design.DataContext>
+    
+    <ScrollViewer>
+        
+        <StackPanel
+            Margin="24">
+            
+            <Button Content="MVVM Sandbox"
+                    Command="{Binding OpenSandboxCommand}"
+                    Margin="0,0,0,12"/>
+            
+        </StackPanel>
+        
+    </ScrollViewer>
+
+</controls:WavesPage>

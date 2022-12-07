@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Avalonia;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
@@ -5,6 +6,7 @@ using Avalonia.Media;
 using Avalonia.Styling;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Data;
 using Waves.UI.Charts.Drawing.Primitives.Enums;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 using Waves.UI.Charts.Utils;
@@ -83,19 +85,19 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// <summary>
     /// Defines <see cref="XMin"/> styled property.
     /// </summary>
-    public static readonly StyledProperty<double> XMinProperty =
-        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, double>(
+    public static readonly StyledProperty<object> XMinProperty =
+        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, object>(
             nameof(XMin),
-            0,
+            0d,
             true);
 
     /// <summary>
     /// Defines <see cref="XMax"/> styled property.
     /// </summary>
-    public static readonly AttachedProperty<double> XMaxProperty =
-        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, double>(
+    public static readonly AttachedProperty<object> XMaxProperty =
+        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, object>(
             nameof(XMax),
-            1,
+            1d,
             true);
 
     /// <summary>
@@ -104,7 +106,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public static readonly StyledProperty<double> YMinProperty =
         AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, double>(
             nameof(YMin),
-            -1,
+            -1d,
             true);
 
     /// <summary>
@@ -113,25 +115,25 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public static readonly StyledProperty<double> YMaxProperty =
         AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, double>(
             nameof(YMax),
-            1,
+            1d,
             true);
 
     /// <summary>
     /// Defines <see cref="CurrentXMin"/> styled property.
     /// </summary>
-    public static readonly StyledProperty<double> CurrentXMinProperty =
-        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, double>(
+    public static readonly StyledProperty<object> CurrentXMinProperty =
+        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, object>(
             nameof(CurrentXMin),
-            0,
+            0d,
             true);
 
     /// <summary>
     /// Defines <see cref="CurrentXMax"/> styled property.
     /// </summary>
-    public static readonly StyledProperty<double> CurrentXMaxProperty =
-        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, double>(
+    public static readonly StyledProperty<object> CurrentXMaxProperty =
+        AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, object>(
             nameof(CurrentXMax),
-            1,
+            1d,
             true);
 
     /// <summary>
@@ -140,7 +142,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public static readonly StyledProperty<double> CurrentYMinProperty =
         AvaloniaProperty.RegisterAttached<WavesSurface, WavesSurface, double>(
             nameof(CurrentYMin),
-            -1,
+            -1d,
             true);
 
     /// <summary>
@@ -149,23 +151,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public static readonly StyledProperty<double> CurrentYMaxProperty =
         AvaloniaProperty.Register<WavesChart, double>(
             nameof(CurrentYMax),
-            1);
-
-    /// <summary>
-    /// Defines <see cref="SignatureXMin"/> styled property.
-    /// </summary>
-    public static readonly StyledProperty<object> SignatureXMinProperty =
-        AvaloniaProperty.Register<WavesChart, object>(
-            nameof(SignatureXMin),
-            null);
-
-    /// <summary>
-    /// Defines <see cref="SignatureXMax"/> styled property.
-    /// </summary>
-    public static readonly StyledProperty<object> SignatureXMaxProperty =
-        AvaloniaProperty.Register<WavesChart, object>(
-            nameof(SignatureXMax),
-            null);
+            1d);
 
     /// <summary>
     /// Defines <see cref="SignaturesXFormat"/> styled property.
@@ -181,7 +167,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     public static readonly StyledProperty<int> XAxisPrimaryTicksNumberProperty =
         AvaloniaProperty.Register<WavesChart, int>(
             nameof(XAxisPrimaryTicksNumber),
-            2);
+            4);
 
     /// <summary>
     /// Defines <see cref="XAxisAdditionalTicksNumber"/> styled property.
@@ -352,6 +338,14 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             WavesColor.LightGray);
 
     /// <summary>
+    /// Defines <see cref="TextStyle"/> styled property.
+    /// </summary>
+    public static readonly StyledProperty<WavesTextStyle> TextStyleProperty =
+        AvaloniaProperty.Register<WavesChart, WavesTextStyle>(
+            nameof(TextStyle),
+            new WavesTextStyle());
+
+    /// <summary>
     /// Defines <see cref="HasDefaultTicks"/> styled property.
     /// </summary>
     public static readonly StyledProperty<bool> HasDefaultTicksProperty =
@@ -399,14 +393,20 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             nameof(IsMouseOver),
             false);
 
-    private readonly List<IWavesDrawingObject> _ticksCache = new ();
-    private readonly List<IWavesDrawingObject> _signaturesCache = new ();
+    private readonly List<IWavesDrawingObject> _gridCache = new ();
+
+    private bool _isGridChanged = true;
 
     private IWavesDrawingObject _background;
-    private double _xMin = 0;
-    private double _xMax = 1;
-    private double _yMin = -1;
-    private double _yMax = 1;
+
+    private object _xMin = 0d;
+    private object _xMax = 1d;
+    private double _yMin = -1d;
+    private double _yMax = 1d;
+    private object _currentXMin = 0d;
+    private object _currentXMax = 1d;
+    private double _currentYMin = -1d;
+    private double _currentYMax = 1d;
 
     /// <summary>
     /// Creates new instance of <see cref="WavesChart"/>.
@@ -454,10 +454,53 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         AffectsRender<WavesChart>(HorizontalSignatureAlignmentProperty);
         AffectsRender<WavesChart>(VerticalSignatureAlignmentProperty);
 
-        XMinProperty.Changed.Subscribe(OnXMinChanged);
-        XMaxProperty.Changed.Subscribe(OnXMaxChanged);
-        YMinProperty.Changed.Subscribe(OnYMinChanged);
-        YMaxProperty.Changed.Subscribe(OnYMaxChanged);
+        // subscriptions
+        Disposables.Add(BoundsProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(IsXAxisPrimaryTicksVisibleProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(IsXAxisAdditionalTicksVisibleProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(IsXAxisSignaturesVisibleProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(IsXAxisZeroLineVisibleProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(IsYAxisPrimaryTicksVisibleProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(IsYAxisPrimaryTicksVisibleProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(IsYAxisPrimaryTicksVisibleProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(IsYAxisPrimaryTicksVisibleProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XMinProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XMaxProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YMinProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YMaxProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XMinProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XMaxProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YMinProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YMaxProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisPrimaryTicksNumberProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisAdditionalTicksNumberProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisPrimaryTicksNumberProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisAdditionalTicksNumberProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisPrimaryTickThicknessProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisAdditionalTickThicknessProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisZeroLineThicknessProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisPrimaryTickThicknessProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisAdditionalTickThicknessProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisZeroLineThicknessProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisPrimaryTicksDashArrayProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisAdditionalTicksDashArrayProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisZeroLineDashArrayProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisPrimaryTicksDashArrayProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisAdditionalTicksDashArrayProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisZeroLineDashArrayProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisPrimaryTicksColorProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisAdditionalTicksColorProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(XAxisZeroLineColorProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisPrimaryTicksColorProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisAdditionalTicksColorProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(YAxisZeroLineColorProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(HorizontalSignatureAlignmentProperty.Changed.Subscribe(args => SetGridChanged()));
+        Disposables.Add(VerticalSignatureAlignmentProperty.Changed.Subscribe(args => SetGridChanged()));
+
+        Disposables.Add(XMinProperty.Changed.Subscribe(OnXMinChanged));
+        Disposables.Add(XMaxProperty.Changed.Subscribe(OnXMaxChanged));
+        Disposables.Add(YMinProperty.Changed.Subscribe(OnYMinChanged));
+        Disposables.Add(YMaxProperty.Changed.Subscribe(OnYMaxChanged));
     }
 
     /// <inheritdoc />
@@ -517,14 +560,14 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     }
 
     /// <inheritdoc />
-    public double XMin
+    public object XMin
     {
         get => GetValue(XMinProperty);
         set => SetValue(XMinProperty, value);
     }
 
     /// <inheritdoc />
-    public double XMax
+    public object XMax
     {
         get => GetValue(XMaxProperty);
         set => SetValue(XMaxProperty, value);
@@ -545,38 +588,51 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     }
 
     /// <inheritdoc />
-    public double CurrentXMin
+    public object CurrentXMin
     {
-        get => GetValue(CurrentXMinProperty);
-        set => SetValue(CurrentXMinProperty, value);
+        get => _currentXMin;
+        set
+        {
+            _isGridChanged = true;
+            _currentXMin = value;
+            SetValue(CurrentXMinProperty, value);
+        }
     }
 
     /// <inheritdoc />
-    public double CurrentXMax
+    public object CurrentXMax
     {
-        get => GetValue(CurrentXMaxProperty);
-        set => SetValue(CurrentXMaxProperty, value);
+        get => _currentXMax;
+        set
+        {
+            _isGridChanged = true;
+            _currentXMax = value;
+            SetValue(CurrentXMaxProperty, value);
+        }
     }
 
     /// <inheritdoc />
     public double CurrentYMin
     {
-        get => GetValue(CurrentYMinProperty);
-        set => SetValue(CurrentYMinProperty, value);
+        get => _currentYMin;
+        set
+        {
+            _isGridChanged = true;
+            _currentYMin = value;
+            SetValue(CurrentYMinProperty, value);
+        }
     }
 
     /// <inheritdoc />
     public double CurrentYMax
     {
-        get => GetValue(CurrentYMaxProperty);
-        set => SetValue(CurrentYMaxProperty, value);
-    }
-
-    /// <inheritdoc />
-    public object SignatureXMin
-    {
-        get => GetValue(SignatureXMinProperty);
-        set => SetValue(SignatureXMinProperty, value);
+        get => _currentYMax;
+        set
+        {
+            _isGridChanged = true;
+            _currentYMax = value;
+            SetValue(CurrentYMaxProperty, value);
+        }
     }
 
     /// <inheritdoc />
@@ -584,13 +640,6 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     {
         get => GetValue(SignaturesXFormatProperty);
         set => SetValue(SignaturesXFormatProperty, value);
-    }
-
-    /// <inheritdoc />
-    public object SignatureXMax
-    {
-        get => GetValue(SignatureXMaxProperty);
-        set => SetValue(SignatureXMaxProperty, value);
     }
 
     /// <inheritdoc />
@@ -748,6 +797,13 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     }
 
     /// <inheritdoc />
+    public WavesTextStyle TextStyle
+    {
+        get => GetValue(TextStyleProperty);
+        set => SetValue(TextStyleProperty, value);
+    }
+
+    /// <inheritdoc />
     public WavesAxisHorizontalSignatureAlignment HorizontalSignatureAlignment
     {
         get => GetValue(HorizontalSignatureAlignmentProperty);
@@ -767,6 +823,9 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         get => GetValue(HasDefaultTicksProperty);
         protected set => SetValue(HasDefaultTicksProperty, value);
     }
+
+    /// <inheritdoc />
+    public WavesPoint PointerLocation { get; private set; }
 
     /// <summary>
     /// Gets or sets whether if Shift key pressed or not.
@@ -809,6 +868,20 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         base.OnPointerEntered(e);
         Focus();
         IsMouseOver = true;
+        _isGridChanged = true;
+        InvalidateVisual();
+    }
+
+    /// <inheritdoc />
+    protected override void OnPointerMoved(PointerEventArgs e)
+    {
+        base.OnPointerMoved(e);
+        IsMouseOver = true;
+
+        var position = e.GetPosition(this);
+        PointerLocation = new WavesPoint(position.X, position.Y);
+        _isGridChanged = true;
+        InvalidateVisual();
     }
 
     /// <inheritdoc />
@@ -816,6 +889,8 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     {
         base.OnPointerExited(e);
         IsMouseOver = false;
+        _isGridChanged = true;
+        InvalidateVisual();
     }
 
     /// <inheritdoc />
@@ -832,6 +907,8 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         {
             IsCtrlPressed = true;
         }
+
+        _isGridChanged = true;
     }
 
     /// <inheritdoc />
@@ -848,6 +925,8 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         {
             IsCtrlPressed = false;
         }
+
+        _isGridChanged = true;
     }
 
     /// <inheritdoc />
@@ -897,35 +976,72 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// </summary>
     protected void PrepareGrid()
     {
+        if (!_isGridChanged)
+        {
+            return;
+        }
+
         if (HasDefaultTicks)
         {
             this.GenerateDefaultTicks(Ticks, SignaturesXFormat);
         }
 
-        // generate axis ticks
-        this.GenerateAxisTicksDrawingObjects(
-            Ticks,
-            _ticksCache,
-            Bounds.Width,
-            Bounds.Height);
+        this.GenerateGridObjects(Ticks, _gridCache);
 
-        // generate signatures
-        this.GenerateAxisSignaturesDrawingObjects(
-            Renderer,
-            Ticks,
-            _signaturesCache,
-            Bounds.Width,
-            Bounds.Height);
+        _isGridChanged = false;
+    }
+
+    /// <summary>
+    /// On value changed.
+    /// </summary>
+    /// <param name="newValue">New value.</param>
+    /// <param name="oldValue">Old value cache.</param>
+    /// <returns>Returns changed or not.</returns>
+    private bool OnValueChanged(object newValue, ref object oldValue)
+    {
+        if (newValue is double d && oldValue is double xMinD)
+        {
+            if (Math.Abs(d - xMinD) < double.Epsilon)
+            {
+                return false;
+            }
+        }
+
+        if (newValue is DateTime dt && oldValue is DateTime xMinDt)
+        {
+            if (dt == xMinDt)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// On value changed.
+    /// </summary>
+    /// <param name="newValue">New value.</param>
+    /// <param name="oldValue">Old value cache.</param>
+    /// <returns>Returns changed or not.</returns>
+    private bool OnValueChanged(double newValue, ref double oldValue)
+    {
+        if (Math.Abs(newValue - oldValue) < double.Epsilon)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     /// <summary>
     /// On XMin changed.
     /// </summary>
     /// <param name="obj">Obj.</param>
-    private void OnXMinChanged(AvaloniaPropertyChangedEventArgs<double> obj)
+    private void OnXMinChanged(AvaloniaPropertyChangedEventArgs<object> obj)
     {
         var newValue = obj.NewValue.Value;
-        if (Math.Abs(newValue - _xMin) < double.Epsilon)
+        if (!OnValueChanged(newValue, ref _xMin))
         {
             return;
         }
@@ -938,10 +1054,10 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// On XMax changed.
     /// </summary>
     /// <param name="obj">Obj.</param>
-    private void OnXMaxChanged(AvaloniaPropertyChangedEventArgs<double> obj)
+    private void OnXMaxChanged(AvaloniaPropertyChangedEventArgs<object> obj)
     {
         var newValue = obj.NewValue.Value;
-        if (Math.Abs(newValue - _xMax) < double.Epsilon)
+        if (!OnValueChanged(newValue, ref _xMax))
         {
             return;
         }
@@ -957,7 +1073,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     private void OnYMinChanged(AvaloniaPropertyChangedEventArgs<double> obj)
     {
         var newValue = obj.NewValue.Value;
-        if (Math.Abs(newValue - _yMin) < double.Epsilon)
+        if (!OnValueChanged(newValue, ref _yMin))
         {
             return;
         }
@@ -973,13 +1089,31 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     private void OnYMaxChanged(AvaloniaPropertyChangedEventArgs<double> obj)
     {
         var newValue = obj.NewValue.Value;
-        if (Math.Abs(newValue - _yMax) < double.Epsilon)
+        if (!OnValueChanged(newValue, ref _yMax))
         {
             return;
         }
 
         _yMax = newValue;
         CurrentYMax = newValue;
+    }
+
+    private void SetPan(double xMin, double xMax, double yMin, double yMax, double transition = 25)
+    {
+        if (CurrentXMin is double && CurrentXMax is double)
+        {
+            _currentXMin = xMin;
+            _currentXMax = xMax;
+        }
+
+        if (CurrentXMin is DateTime && CurrentXMax is DateTime)
+        {
+            _currentXMin = DateTime.FromOADate(xMin);
+            _currentXMax = DateTime.FromOADate(xMax);
+        }
+
+        CurrentYMin = yMin;
+        CurrentYMax = yMax;
     }
 
     /// <summary>
@@ -999,10 +1133,30 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         ////     return;
         //// }
 
-        var deltaF = -delta.Y;
+        var xMin = ValuesUtils.GetValue(XMin);
+        var xMax = ValuesUtils.GetValue(XMax);
+        var yMin = ValuesUtils.GetValue(YMin);
+        var yMax = ValuesUtils.GetValue(YMax);
+        var currentXMin = ValuesUtils.GetValue(CurrentXMin);
+        var currentXMax = ValuesUtils.GetValue(CurrentXMax);
+        var currentYMin = ValuesUtils.GetValue(CurrentYMin);
+        var currentYMax = ValuesUtils.GetValue(CurrentYMax);
 
-        var x = Valuation.DenormalizePointX2D(position.X, Bounds.Width, CurrentXMin, CurrentXMax);
-        var y = Valuation.DenormalizePointY2D(position.Y, Bounds.Height, CurrentYMin, CurrentYMax);
+        var deltaFY = -delta.Y;
+        var deltaFX = -delta.X;
+
+        if (deltaFY > 1)
+        {
+            deltaFY = 0.1 * Math.Sign(deltaFY);
+        }
+
+        if (deltaFX > 1)
+        {
+            deltaFX = 0.1 * Math.Sign(deltaFX);
+        }
+
+        var x = ValuationUtils.DenormalizeValueX(position.X, Bounds.Width, currentXMin, currentXMax);
+        var y = ValuationUtils.DenormalizeValueY(position.Y, Bounds.Height, CurrentYMin, CurrentYMax);
 
         if (double.IsInfinity(x))
         {
@@ -1014,69 +1168,34 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             return;
         }
 
-        if (IsCtrlPressed)
-        {
-            var yMin = 0.0d;
-            var yMax = 0.0d;
-
-            if (false) // TODO:
-            {
-                yMin = -CurrentYMin * deltaF;
-                yMax = CurrentYMax * deltaF;
-            }
-            else
-            {
-                yMin = (y - CurrentYMin) * deltaF;
-                yMax = (CurrentYMax - y) * deltaF;
-            }
-
-            if (CurrentYMax - yMax - (CurrentYMin + yMin) > (YMax - YMin) / 1000000)
-            {
-                CurrentYMax -= yMax;
-                CurrentYMin += yMin;
-            }
-
-            if (CurrentYMin < YMin)
-            {
-                CurrentYMin = YMin;
-            }
-
-            if (CurrentYMax > YMax)
-            {
-                CurrentYMax = YMax;
-            }
-
-            InvalidateVisual();
-            return;
-        }
-
         if (IsShiftPressed)
         {
-            ScrollChart(deltaF, x, y);
-
-            InvalidateVisual();
+            Console.WriteLine("X: " + deltaFX);
+            ScrollChart(deltaFY, x, y);
             return;
         }
 
-        var xMin = (x - CurrentXMin) * deltaF;
-        var xMax = (CurrentXMax - x) * deltaF;
+        Console.WriteLine("Y: " + deltaFY);
+        var xMinDelta = (x - currentXMin) * deltaFY;
+        var xMaxDelta = (currentXMax - x) * deltaFY;
 
-        if (CurrentXMax - xMax - (CurrentXMin + xMin) > (XMax - XMin) / 1000000)
+        if (currentXMax - xMaxDelta - (currentXMin + xMinDelta) > (xMax - xMin) / 1000000)
         {
-            CurrentXMax -= xMax;
-            CurrentXMin += xMin;
+            currentXMin = currentXMin + xMinDelta;
+            currentXMax = currentXMax - xMaxDelta;
         }
 
-        if (CurrentXMin < XMin)
+        if (currentXMin < xMin)
         {
-            CurrentXMin = XMin;
+            currentXMin = xMin;
         }
 
-        if (CurrentXMax > XMax)
+        if (currentXMax > xMax)
         {
-            CurrentXMax = XMax;
+            currentXMax = xMax;
         }
 
+        SetPan(currentXMin, currentXMax, currentYMin, currentYMax);
         InvalidateVisual();
     }
 
@@ -1088,30 +1207,56 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
     /// <param name="y">Scroll value along the Y axis.</param>
     private void ScrollChart(double delta, double x, double y)
     {
-        var xMin = delta / 100d;
-        var xMax = delta / 100d;
-
-        if (CurrentXMax + xMax > XMax)
+        if (delta == 0)
         {
             return;
         }
 
-        if (CurrentXMin + xMin < XMin)
+        var min = ValuesUtils.GetValue(XMin);
+        var max = ValuesUtils.GetValue(XMax);
+        var currentMin = ValuesUtils.GetValue(CurrentXMin);
+        var currentMax = ValuesUtils.GetValue(CurrentXMax);
+
+        var minDelta = (x - currentMin) * delta;
+        var maxDelta = (currentMax - x) * delta;
+
+        if (currentMax + maxDelta > max)
         {
             return;
         }
 
-        CurrentXMax += xMax;
-        CurrentXMin += xMin;
+        if (currentMin + minDelta < min)
+        {
+            return;
+        }
 
-        if (CurrentXMin < XMin)
+        if (CurrentXMin is double && CurrentXMax is double)
+        {
+            CurrentXMin = currentMin - minDelta;
+            CurrentXMax = currentMax - maxDelta;
+        }
+
+        if (CurrentXMin is DateTime && CurrentXMax is DateTime)
+        {
+            CurrentXMin = DateTime.FromOADate(currentMin - minDelta);
+            CurrentXMax = DateTime.FromOADate(currentMax - maxDelta);
+        }
+
+        if (currentMin < min)
         {
             CurrentXMin = XMin;
         }
 
-        if (CurrentXMax > XMax)
+        if (currentMax > max)
         {
             CurrentXMax = XMax;
         }
+
+        InvalidateVisual();
+    }
+
+    private bool SetGridChanged()
+    {
+        return _isGridChanged = true;
     }
 }

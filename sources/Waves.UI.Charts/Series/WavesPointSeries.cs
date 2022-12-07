@@ -118,10 +118,10 @@ public class WavesPointSeries : Waves2DSeries
             chart.DrawingObjects?.Remove(obj);
         }
 
-        var currentXMin = Values.GetValue(chart.CurrentXMin);
-        var currentXMax = Values.GetValue(chart.CurrentXMax);
-        var currentYMin = Values.GetValue(chart.CurrentYMin);
-        var currentYMax = Values.GetValue(chart.CurrentYMax);
+        var currentXMin = ValuesUtils.GetValue(chart.CurrentXMin);
+        var currentXMax = ValuesUtils.GetValue(chart.CurrentXMax);
+        var currentYMin = ValuesUtils.GetValue(chart.CurrentYMin);
+        var currentYMax = ValuesUtils.GetValue(chart.CurrentYMax);
         var visiblePoints = new List<WavesPoint> { new () };
         foreach (var point in Points)
         {
@@ -144,11 +144,11 @@ public class WavesPointSeries : Waves2DSeries
 
         var length = (int)chart.SurfaceWidth;
         var points = visiblePoints.Count > length
-            ? Resampling.LargestTriangleThreeBucketsDecimation(visiblePoints.ToArray(), length)
-            : Resampling.SplineInterpolation(visiblePoints.ToArray(), length);
+            ? ResamplingUtils.LargestTriangleThreeBucketsDecimation(visiblePoints.ToArray(), length)
+            : ResamplingUtils.SplineInterpolation(visiblePoints.ToArray(), length);
         for (var i = 0; i < points.Length; i++)
         {
-            points[i] = Valuation.NormalizePoint(
+            points[i] = ValuationUtils.NormalizePoint(
                 points[i],
                 chart.SurfaceWidth,
                 chart.SurfaceHeight,
@@ -187,7 +187,7 @@ public class WavesPointSeries : Waves2DSeries
             {
                 for (var i = 0; i < visiblePoints.Count; i++)
                 {
-                    dotPoints[i] = Valuation.NormalizePoint(
+                    dotPoints[i] = ValuationUtils.NormalizePoint(
                         visiblePoints[i],
                         chart.SurfaceWidth,
                         chart.SurfaceHeight,

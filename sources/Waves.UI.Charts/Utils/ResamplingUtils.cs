@@ -10,7 +10,7 @@ namespace Waves.UI.Charts.Utils;
 /// <summary>
 /// Resampling utils.
 /// </summary>
-public class Resampling
+public class ResamplingUtils
 {
     /// <summary>
     /// Largest Triangle Three Buckets Decimation.

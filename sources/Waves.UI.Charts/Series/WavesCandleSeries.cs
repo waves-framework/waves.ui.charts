@@ -108,17 +108,17 @@ public class WavesCandleSeries : Waves2DSeries
             chart.DrawingObjects.Remove(obj);
         }
 
-        var currentXMin = Values.GetValue(chart.CurrentXMin);
-        var currentXMax = Values.GetValue(chart.CurrentXMax);
-        var currentYMin = Values.GetValue(chart.CurrentYMin);
-        var currentYMax = Values.GetValue(chart.CurrentYMax);
+        var currentXMin = ValuesUtils.GetValue(chart.CurrentXMin);
+        var currentXMax = ValuesUtils.GetValue(chart.CurrentXMax);
+        var currentYMin = ValuesUtils.GetValue(chart.CurrentYMin);
+        var currentYMax = ValuesUtils.GetValue(chart.CurrentYMax);
 
         var candles = Candles;
         foreach (var candle in candles)
         {
             var color = candle.Close > candle.Open ? GrowingColor : FallingColor;
 
-            var rectangleLocation = Valuation.NormalizePoint(
+            var rectangleLocation = ValuationUtils.NormalizePoint(
                 candle.OpenDateTime.ToOADate(),
                 Convert.ToDouble(candle.Close > candle.Open ? candle.Close : candle.Open),
                 chart.SurfaceWidth,
@@ -129,11 +129,11 @@ public class WavesCandleSeries : Waves2DSeries
                 currentYMax);
 
             var rectangleHeight = Convert.ToDouble(Math.Abs(candle.Close - candle.Open));
-            var rectangleWidth = Valuation.NormalizeValueX(
+            var rectangleWidth = ValuationUtils.NormalizeValueX(
                 candle.CloseDateTime.ToOADate(),
                 chart.SurfaceWidth,
                 currentXMin,
-                currentXMax) - Valuation.NormalizeValueX(
+                currentXMax) - ValuationUtils.NormalizeValueX(
                 candle.OpenDateTime.ToOADate(),
                 chart.SurfaceWidth,
                 currentXMin,
@@ -163,11 +163,11 @@ public class WavesCandleSeries : Waves2DSeries
                 rectangle.Height = 3;
             }
 
-            var linePositionX = (Valuation.NormalizeValueX(
+            var linePositionX = (ValuationUtils.NormalizeValueX(
                 candle.CloseDateTime.ToOADate(),
                 chart.SurfaceWidth,
                 currentXMin,
-                currentXMax) + Valuation.NormalizeValueX(
+                currentXMax) + ValuationUtils.NormalizeValueX(
                 candle.OpenDateTime.ToOADate(),
                 chart.SurfaceWidth,
                 currentXMin,
@@ -177,14 +177,14 @@ public class WavesCandleSeries : Waves2DSeries
             {
                 Point1 = new WavesPoint(
                     linePositionX,
-                    Valuation.NormalizeValueY(
+                    ValuationUtils.NormalizeValueY(
                      Convert.ToDouble(candle.High),
                      chart.SurfaceHeight,
                      currentYMin,
                      currentYMax)),
                 Point2 = new WavesPoint(
                     linePositionX,
-                    Valuation.NormalizeValueY(
+                    ValuationUtils.NormalizeValueY(
                         Convert.ToDouble(candle.Low),
                         chart.SurfaceHeight,
                         currentYMin,

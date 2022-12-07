@@ -5,7 +5,7 @@ namespace Waves.UI.Charts.Utils;
 /// <summary>
 /// Data utils.
 /// </summary>
-public static class Values
+public static class ValuesUtils
 {
     /// <summary>
     /// Gets value from data.

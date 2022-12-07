@@ -8,7 +8,7 @@ namespace Waves.UI.Charts.Utils;
 /// <summary>
 ///     Valuation utils.
 /// </summary>
-public static class Valuation
+public static class ValuationUtils
 {
     /// <summary>
     ///     Normalizes X value.

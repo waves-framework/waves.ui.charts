@@ -67,8 +67,8 @@ public class RandomDataCandleSeriesGenerator :
             Max = YMax - YMin,
         });
 
-        var xMin = Values.GetValue(XMin);
-        var xMax = Values.GetValue(XMax);
+        var xMin = ValuesUtils.GetValue(XMin);
+        var xMax = ValuesUtils.GetValue(XMax);
         var step = Math.Abs(xMax - xMin) / Length;
         var candles = new WavesCandle[Length];
         var volatility = 0.01m;

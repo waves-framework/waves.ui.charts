@@ -144,10 +144,10 @@ public class SandboxViewModel : WavesViewModelBase
             return;
         }
 
-        var xMin = Series.Min(x => Values.GetValue(x.XMin));
-        var xMax = Series.Max(x => Values.GetValue(x.XMax));
-        var yMin = Series.Min(x => Values.GetValue(x.YMin));
-        var yMax = Series.Max(x => Values.GetValue(x.YMax));
+        var xMin = Series.Min(x => ValuesUtils.GetValue(x.XMin));
+        var xMax = Series.Max(x => ValuesUtils.GetValue(x.XMax));
+        var yMin = Series.Min(x => ValuesUtils.GetValue(x.YMin));
+        var yMax = Series.Max(x => ValuesUtils.GetValue(x.YMax));
 
         switch (SelectedSignaturesFormatType)
         {

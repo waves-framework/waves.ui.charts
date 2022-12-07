@@ -393,9 +393,7 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             nameof(IsMouseOver),
             false);
 
-    private readonly List<IWavesDrawingObject> _cache = new ();
-    private readonly List<IWavesDrawingObject> _ticksCache = new ();
-    private readonly List<IWavesDrawingObject> _signaturesCache = new ();
+    private readonly List<IWavesDrawingObject> _gridCache = new ();
 
     private IWavesDrawingObject _background;
 
@@ -927,35 +925,31 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             this.GenerateDefaultTicks(Ticks, SignaturesXFormat);
         }
 
-        // generate axis ticks
-        this.GenerateAxisTicksDrawingObjects(
-            Ticks,
-            _ticksCache);
+        this.GenerateGridObjects(Ticks, _gridCache);
 
-            // generate signatures
-        this.GenerateAxisSignaturesDrawingObjects(
-            Renderer,
-            Ticks,
-            _signaturesCache);
-
-        if (IsMouseOver)
-        {
-            var currentXMin = Values.GetValue(CurrentXMin);
-            var currentXMax = Values.GetValue(CurrentXMax);
-            var currentYMin = Values.GetValue(CurrentYMin);
-            var currentYMax = Values.GetValue(CurrentYMax);
-
-            this.GeneratePointerTicks(
-                _ticksCache,
-                PointerLocation,
-                WavesColor.Gray,    // TODO:
-                new double[] { 4, 4, 4, 4 });
-
-            this.GetPointerSignatures(
-                _ticksCache,
-                PointerLocation,
-                new double[] { 4, 4, 4, 4 });
-        }
+        // // generate axis ticks
+        // this.GenerateAxisTicksDrawingObjects(
+        //     Ticks,
+        //     _ticksCache);
+        //
+        //     // generate signatures
+        // this.GenerateAxisSignaturesDrawingObjects(
+        //     Renderer,
+        //     Ticks,
+        //     _signaturesCache);
+        //
+        // if (IsMouseOver)
+        // {
+        //     this.GeneratePointerTicks(
+        //         _ticksCache,
+        //         PointerLocation,
+        //         WavesColor.Gray,    // TODO:
+        //         new double[] { 4, 4, 4, 4 });
+        //
+        //     this.GetPointerSignatures(
+        //         _ticksCache,
+        //         PointerLocation);
+        // }
     }
 
     /// <summary>
@@ -1100,14 +1094,14 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
         ////     return;
         //// }
 
-        var xMin = Values.GetValue(XMin);
-        var xMax = Values.GetValue(XMax);
-        var yMin = Values.GetValue(YMin);
-        var yMax = Values.GetValue(YMax);
-        var currentXMin = Values.GetValue(CurrentXMin);
-        var currentXMax = Values.GetValue(CurrentXMax);
-        var currentYMin = Values.GetValue(CurrentYMin);
-        var currentYMax = Values.GetValue(CurrentYMax);
+        var xMin = ValuesUtils.GetValue(XMin);
+        var xMax = ValuesUtils.GetValue(XMax);
+        var yMin = ValuesUtils.GetValue(YMin);
+        var yMax = ValuesUtils.GetValue(YMax);
+        var currentXMin = ValuesUtils.GetValue(CurrentXMin);
+        var currentXMax = ValuesUtils.GetValue(CurrentXMax);
+        var currentYMin = ValuesUtils.GetValue(CurrentYMin);
+        var currentYMax = ValuesUtils.GetValue(CurrentYMax);
 
         var deltaFY = -delta.Y;
         var deltaFX = -delta.X;
@@ -1122,8 +1116,8 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             deltaFX = 0.1 * Math.Sign(deltaFX);
         }
 
-        var x = Valuation.DenormalizeValueX(position.X, Bounds.Width, currentXMin, currentXMax);
-        var y = Valuation.DenormalizeValueY(position.Y, Bounds.Height, CurrentYMin, CurrentYMax);
+        var x = ValuationUtils.DenormalizeValueX(position.X, Bounds.Width, currentXMin, currentXMax);
+        var y = ValuationUtils.DenormalizeValueY(position.Y, Bounds.Height, CurrentYMin, CurrentYMax);
 
         if (double.IsInfinity(x))
         {
@@ -1179,10 +1173,10 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
             return;
         }
 
-        var min = Values.GetValue(XMin);
-        var max = Values.GetValue(XMax);
-        var currentMin = Values.GetValue(CurrentXMin);
-        var currentMax = Values.GetValue(CurrentXMax);
+        var min = ValuesUtils.GetValue(XMin);
+        var max = ValuesUtils.GetValue(XMax);
+        var currentMin = ValuesUtils.GetValue(CurrentXMin);
+        var currentMax = ValuesUtils.GetValue(CurrentXMax);
 
         var minDelta = (x - currentMin) * delta;
         var maxDelta = (currentMax - x) * delta;

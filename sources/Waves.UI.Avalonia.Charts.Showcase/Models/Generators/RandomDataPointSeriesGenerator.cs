@@ -67,8 +67,8 @@ public class RandomDataPointSeriesGenerator :
             Max = YMax,
         });
 
-        var xMin = Values.GetValue(XMin);
-        var xMax = Values.GetValue(XMax);
+        var xMin = ValuesUtils.GetValue(XMin);
+        var xMax = ValuesUtils.GetValue(XMax);
         var step = Math.Abs(xMax - xMin) / Length;
         var points = new WavesPoint[Length];
         for (var i = 0; i < Length; i++)

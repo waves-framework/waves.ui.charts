@@ -1,4 +1,7 @@
 using System;
+using DynamicData.Binding;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 using Waves.UI.Charts.Series.Interfaces;
@@ -9,16 +12,33 @@ namespace Waves.UI.Charts.Series;
 /// Waves series.
 /// </summary>
 /// <typeparam name="T">Type of series data.</typeparam>
-public abstract class WavesSeries : IWavesSeries
+public abstract class WavesSeries : ReactiveObject, IWavesSeries
 {
+    private readonly IDisposable _propertyChangedDisposable;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="WavesSeries"/> class.
+    /// </summary>
+    public WavesSeries()
+    {
+        // default properties
+        IsVisible = true;
+        Opacity = 1.0d;
+
+        // disposables
+        _propertyChangedDisposable = this.WhenAnyPropertyChanged().Subscribe(_ => OnSeriesUpdated());
+    }
+
     /// <inheritdoc />
     public event EventHandler Updated;
 
     /// <inheritdoc />
-    public bool IsVisible { get; set; } = true;
+    [Reactive]
+    public bool IsVisible { get; set; }
 
     /// <inheritdoc />
-    public double Opacity { get; set; } = 1.0d;
+    [Reactive]
+    public double Opacity { get; set; }
 
     /// <inheritdoc />
     public virtual void Update()
@@ -28,6 +48,12 @@ public abstract class WavesSeries : IWavesSeries
 
     /// <inheritdoc />
     public abstract void Draw(IWavesChart chart);
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        _propertyChangedDisposable?.Dispose();
+    }
 
     /// <summary>
     /// Series updated invocator.

@@ -6,7 +6,7 @@ namespace Waves.UI.Charts.Series.Interfaces;
 /// <summary>
 /// Interface of series.
 /// </summary>
-public interface IWavesSeries
+public interface IWavesSeries : IDisposable
 {
     /// <summary>
     /// Series updated event.

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using ReactiveUI.Fody.Helpers;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Data;
@@ -36,11 +37,13 @@ public class WavesCandleSeries : Waves2DSeries
     /// <summary>
     /// Gets or sets growing color.
     /// </summary>
+    [Reactive]
     public WavesColor GrowingColor { get; set; } = WavesColor.Green;
 
     /// <summary>
     /// Gets or sets falling color.
     /// </summary>
+    [Reactive]
     public WavesColor FallingColor { get; set; } = WavesColor.Red;
 
     /// <summary>

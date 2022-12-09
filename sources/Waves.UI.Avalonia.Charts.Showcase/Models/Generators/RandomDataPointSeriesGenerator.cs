@@ -7,6 +7,7 @@ using Waves.UI.Avalonia.Charts.Showcase.Models.Generators.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Data;
 using Waves.UI.Charts.Series;
+using Waves.UI.Charts.Series.Enums;
 using Waves.UI.Charts.Series.Interfaces;
 using Waves.UI.Charts.Utils;
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using ReactiveUI.Fody.Helpers;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Data;
@@ -24,6 +25,7 @@ public class WavesPointSeries : Waves2DSeries
     /// <param name="points">Data.</param>
     public WavesPointSeries(WavesPoint[] points)
     {
+        InitializeDefaultValues();
         CheckAndFillArray(points);
     }
 
@@ -34,33 +36,39 @@ public class WavesPointSeries : Waves2DSeries
     /// <param name="y">Y Data.</param>
     public WavesPointSeries(double[] x, double[] y)
     {
+        InitializeDefaultValues();
         CheckAndFillArray(x, y);
     }
 
     /// <summary>
     ///     Gets or sets color.
     /// </summary>
-    public WavesColor Color { get; set; } = WavesColor.Red;
+    [Reactive]
+    public WavesColor Color { get; set; }
 
     /// <summary>
     ///     Gets or sets dash pattern.
     /// </summary>
+    [Reactive]
     public double[] DashPattern { get; set; }
 
     /// <summary>
     ///     Gets or sets stroke thickness.
     /// </summary>
+    [Reactive]
     public double Thickness { get; set; }
 
     /// <summary>
     ///     Gets or sets dot type.
     /// </summary>
-    public WavesDotType DotType { get; set; } = WavesDotType.None;
+    [Reactive]
+    public WavesDotType DotType { get; set; }
 
     /// <summary>
     ///     Gets or sets dot type.
     /// </summary>
-    public double DotSize { get; set; } = 5;
+    [Reactive]
+    public double DotSize { get; set; }
 
     /// <summary>
     ///     Gets or sets point.
@@ -165,7 +173,7 @@ public class WavesPointSeries : Waves2DSeries
                 Color = Color,
                 IsAntialiased = true,
                 IsVisible = true,
-                Thickness = 2,
+                Thickness = Thickness,
                 Point1 = points[i - 1],
                 Point2 = points[i],
                 Opacity = Opacity,
@@ -179,46 +187,49 @@ public class WavesPointSeries : Waves2DSeries
             _cache.Add(line);
         }
 
-        if (DotType != WavesDotType.None)
+        // dots
+        if (DotType == WavesDotType.None || DotSize == 0)
         {
-            List<IWavesDrawingObject> dotsObjects = null;
-            var dotPoints = new WavesPoint[visiblePoints.Count];
-            if (visiblePoints.Count <= length)
-            {
-                for (var i = 0; i < visiblePoints.Count; i++)
-                {
-                    dotPoints[i] = ValuationUtils.NormalizePoint(
-                        visiblePoints[i],
-                        chart.SurfaceWidth,
-                        chart.SurfaceHeight,
-                        currentXMin,
-                        currentYMin,
-                        currentXMax,
-                        currentYMax);
-                }
-            }
-            else
-            {
-                return;
-            }
+            return;
+        }
 
-            switch (DotType)
+        List<IWavesDrawingObject> dotsObjects = null;
+        var dotPoints = new WavesPoint[visiblePoints.Count];
+        if (visiblePoints.Count <= length)
+        {
+            for (var i = 0; i < visiblePoints.Count; i++)
             {
-                case WavesDotType.Circle:
-                    dotsObjects = GenerateCircleDots(dotPoints, chart.BackgroundColor, Color, DotSize);
-                    break;
-                case WavesDotType.FilledCircle:
-                    dotsObjects = GenerateCircleDots(dotPoints, Color, chart.BackgroundColor, DotSize);
-                    break;
+                dotPoints[i] = ValuationUtils.NormalizePoint(
+                    visiblePoints[i],
+                    chart.SurfaceWidth,
+                    chart.SurfaceHeight,
+                    currentXMin,
+                    currentYMin,
+                    currentXMax,
+                    currentYMax);
             }
+        }
+        else
+        {
+            return;
+        }
 
-            if (dotsObjects != null)
+        switch (DotType)
+        {
+            case WavesDotType.Circle:
+                dotsObjects = GenerateCircleDots(dotPoints, chart.BackgroundColor, Color, DotSize);
+                break;
+            case WavesDotType.FilledCircle:
+                dotsObjects = GenerateCircleDots(dotPoints, Color, chart.BackgroundColor, DotSize);
+                break;
+        }
+
+        if (dotsObjects != null)
+        {
+            foreach (var obj in dotsObjects)
             {
-                foreach (var obj in dotsObjects)
-                {
-                    chart.DrawingObjects?.Add(obj);
-                    _cache.Add(obj);
-                }
+                chart.DrawingObjects?.Add(obj);
+                _cache.Add(obj);
             }
         }
     }
@@ -300,5 +311,13 @@ public class WavesPointSeries : Waves2DSeries
         {
             Points[i] = new WavesPoint(x[i], y[i]);
         }
+    }
+
+    private void InitializeDefaultValues()
+    {
+        Color = WavesColor.Red;
+        Thickness = 2;
+        DotType = WavesDotType.None;
+        DotSize = 5;
     }
 }

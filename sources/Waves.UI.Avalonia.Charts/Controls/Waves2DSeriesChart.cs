@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using Avalonia;
 using Avalonia.Media;
 using Avalonia.Styling;
+using ReactiveUI;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 using Waves.UI.Charts.Series;
 using Waves.UI.Charts.Series.Interfaces;
@@ -26,6 +27,7 @@ public class Waves2DSeriesChart :
             true);
 
     private readonly object _seriesLocker = new ();
+    private readonly Dictionary<IWaves2DSeries, IDisposable> _disposables = new ();
 
     /// <summary>
     ///     Creates new instance of <see cref="Waves2DSeriesChart" />.
@@ -136,6 +138,7 @@ public class Waves2DSeriesChart :
                 {
                     if (item is IWaves2DSeries series)
                     {
+                        series.Dispose();
                         series.Updated -= OnSeriesUpdated;
                     }
                 }

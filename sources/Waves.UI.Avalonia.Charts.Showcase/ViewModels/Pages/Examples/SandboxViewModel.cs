@@ -81,6 +81,12 @@ public class SandboxViewModel : WavesViewModelBase
     /// Gets or sets series.
     /// </summary>
     [Reactive]
+    public IWaves2DSeries SelectedSeries { get; set; }
+
+    /// <summary>
+    /// Gets or sets series.
+    /// </summary>
+    [Reactive]
     public ObservableCollection<IWaves2DSeries> Series { get; set; }
 
     /// <summary>

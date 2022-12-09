@@ -163,6 +163,35 @@
                                   Items="{Binding AvailableSignaturesFormatTypes}"
                                   SelectedItem="{Binding SelectedSignaturesFormatType}"
                                   Margin="0,0,0,18"/>
+                        
+                        <ListBox Height="200"
+                                 Items="{Binding Series}"
+                                 SelectedItem="{Binding SelectedSeries}"
+                                 Margin="0,0,0,18">
+                            <ListBox.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceInclude Source="avares://Waves.UI.Avalonia.Charts.Showcase/Views/Templates/SeriesTemplates.axaml" />    
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </ListBox.Resources>
+                            <ListBox.DataTemplates>
+                                <StaticResource ResourceKey="PointSeriesListItemTemplate"/>
+                            </ListBox.DataTemplates>
+                        </ListBox>
+                        
+                        <ContentControl Content="{Binding SelectedSeries}">
+                            <ContentControl.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceInclude Source="avares://Waves.UI.Avalonia.Charts.Showcase/Views/Templates/SeriesTemplates.axaml" />    
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </ContentControl.Resources>
+                            <ContentControl.DataTemplates>
+                                <StaticResource ResourceKey="PointSeriesTemplate"/>
+                            </ContentControl.DataTemplates>
+                        </ContentControl>
                     
                     </StackPanel>
                     

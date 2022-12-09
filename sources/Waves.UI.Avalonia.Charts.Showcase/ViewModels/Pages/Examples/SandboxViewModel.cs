@@ -9,6 +9,7 @@ using ReactiveUI.Fody.Helpers;
 using Waves.UI.Avalonia.Charts.Showcase.Models.Enums;
 using Waves.UI.Avalonia.Charts.Showcase.ViewModels.Dialogs;
 using Waves.UI.Base.Attributes;
+using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Series;
 using Waves.UI.Charts.Series.Interfaces;
 using Waves.UI.Charts.Utils;
@@ -94,6 +95,11 @@ public class SandboxViewModel : WavesViewModelBase
     /// </summary>
     public ICommand AddSeriesCommand { get; private set; }
 
+    /// <summary>
+    /// Generate random color command.
+    /// </summary>
+    public ICommand GenerateRandomColorCommand { get; private set; }
+
     /// <inheritdoc/>
     public override async Task InitializeAsync()
     {
@@ -117,11 +123,18 @@ public class SandboxViewModel : WavesViewModelBase
 
         // commands
         AddSeriesCommand = ReactiveCommand.CreateFromTask(OnAddSeries);
+        GenerateRandomColorCommand = ReactiveCommand.CreateFromTask<WavesPointSeries>(OnGenerateRandomColor);
 
         // observables
         _disposables.Add(this.WhenAnyValue(
                 x => x.SelectedSignaturesFormatType)
             .Subscribe(_ => OnSignaturesFormatChanged()));
+    }
+
+    private Task OnGenerateRandomColor(WavesPointSeries series)
+    {
+        series.Color = WavesColor.Random();
+        return Task.CompletedTask;
     }
 
     private void OnSignaturesFormatChanged()

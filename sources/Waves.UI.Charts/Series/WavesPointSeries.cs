@@ -71,6 +71,12 @@ public class WavesPointSeries : Waves2DSeries
     public double DotSize { get; set; }
 
     /// <summary>
+    ///     Gets or sets dot color.
+    /// </summary>
+    [Reactive]
+    public WavesColor DotColor { get; set; }
+
+    /// <summary>
     ///     Gets or sets point.
     /// </summary>
     public WavesPoint[] Points { get; protected set; }
@@ -217,10 +223,16 @@ public class WavesPointSeries : Waves2DSeries
         switch (DotType)
         {
             case WavesDotType.Circle:
-                dotsObjects = GenerateCircleDots(dotPoints, chart.BackgroundColor, Color, DotSize);
+                dotsObjects = GenerateCircleDots(dotPoints, chart.BackgroundColor, DotColor, DotSize);
                 break;
             case WavesDotType.FilledCircle:
-                dotsObjects = GenerateCircleDots(dotPoints, Color, chart.BackgroundColor, DotSize);
+                dotsObjects = GenerateCircleDots(dotPoints, DotColor, chart.BackgroundColor, DotSize);
+                break;
+            case WavesDotType.Square:
+                dotsObjects = GenerateSquareDots(dotPoints, chart.BackgroundColor, DotColor, DotSize);
+                break;
+            case WavesDotType.FilledSquare:
+                dotsObjects = GenerateSquareDots(dotPoints, DotColor, chart.BackgroundColor, DotSize);
                 break;
         }
 
@@ -246,6 +258,29 @@ public class WavesPointSeries : Waves2DSeries
         return points.Select(point => new WavesEllipse()
             {
                 Location = point,
+                Fill = background,
+                Stroke = foreground,
+                StrokeThickness = 1.5,
+                Width = dotSize,
+                Height = dotSize,
+            })
+            .Cast<IWavesDrawingObject>()
+            .ToList();
+    }
+
+    /// <summary>
+    /// Generates rect dots.
+    /// </summary>
+    /// <param name="points">Points.</param>
+    /// <param name="background">Background.</param>
+    /// <param name="foreground">Foreground.</param>
+    /// <param name="dotSize">DotSize.</param>
+    private static List<IWavesDrawingObject> GenerateSquareDots(WavesPoint[] points, WavesColor background, WavesColor foreground, double dotSize)
+    {
+        var offset = dotSize / 2;
+        return points.Select(point => new WavesRectangle()
+            {
+                Location = new WavesPoint(point.X - offset, point.Y - offset),
                 Fill = background,
                 Stroke = foreground,
                 StrokeThickness = 1.5,
@@ -316,6 +351,7 @@ public class WavesPointSeries : Waves2DSeries
     private void InitializeDefaultValues()
     {
         Color = WavesColor.Red;
+        DotColor = WavesColor.Blue;
         Thickness = 2;
         DotType = WavesDotType.None;
         DotSize = 5;

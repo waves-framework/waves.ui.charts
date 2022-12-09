@@ -8,51 +8,6 @@ namespace Waves.UI.Charts.Drawing.Primitives;
 public struct WavesColor
 {
     /// <summary>
-    ///     Red color.
-    /// </summary>
-    public static readonly WavesColor Red = FromArgb(255, 255, 0, 0);
-
-    /// <summary>
-    ///     Green color.
-    /// </summary>
-    public static readonly WavesColor Green = FromArgb(255, 0, 255, 0);
-
-    /// <summary>
-    ///     Blue color.
-    /// </summary>
-    public static readonly WavesColor Blue = FromArgb(255, 0, 0, 255);
-
-    /// <summary>
-    ///     White color.
-    /// </summary>
-    public static readonly WavesColor White = FromArgb(255, 255, 255, 255);
-
-    /// <summary>
-    ///     Gray color.
-    /// </summary>
-    public static readonly WavesColor Gray = FromArgb(255, 100, 100, 100);
-
-    /// <summary>
-    ///     Light color.
-    /// </summary>
-    public static readonly WavesColor LightGray = FromArgb(255, 150, 150, 150);
-
-    /// <summary>
-    ///     Dark gray color.
-    /// </summary>
-    public static readonly WavesColor DarkGray = FromArgb(255, 50, 50, 50);
-
-    /// <summary>
-    ///     Black color.
-    /// </summary>
-    public static readonly WavesColor Black = FromArgb(255, 0, 0, 0);
-
-    /// <summary>
-    ///     Transparent color.
-    /// </summary>
-    public static readonly WavesColor Transparent = FromArgb(0, 0, 0, 0);
-
-    /// <summary>
     ///     Creates new instance of color structure.
     /// </summary>
     /// <param name="a">Alpha value.</param>
@@ -80,6 +35,51 @@ public struct WavesColor
         G = g;
         B = b;
     }
+
+    /// <summary>
+    ///     Red color.
+    /// </summary>
+    public static WavesColor Red => FromArgb(255, 255, 0, 0);
+
+    /// <summary>
+    ///     Green color.
+    /// </summary>
+    public static WavesColor Green => FromArgb(255, 0, 255, 0);
+
+    /// <summary>
+    ///     Blue color.
+    /// </summary>
+    public static WavesColor Blue => FromArgb(255, 0, 0, 255);
+
+    /// <summary>
+    ///     White color.
+    /// </summary>
+    public static WavesColor White => FromArgb(255, 255, 255, 255);
+
+    /// <summary>
+    ///     Gray color.
+    /// </summary>
+    public static WavesColor Gray => FromArgb(255, 100, 100, 100);
+
+    /// <summary>
+    ///     Light color.
+    /// </summary>
+    public static WavesColor LightGray => FromArgb(255, 150, 150, 150);
+
+    /// <summary>
+    ///     Dark gray color.
+    /// </summary>
+    public static WavesColor DarkGray => FromArgb(255, 50, 50, 50);
+
+    /// <summary>
+    ///     Black color.
+    /// </summary>
+    public static WavesColor Black => FromArgb(255, 0, 0, 0);
+
+    /// <summary>
+    ///     Transparent color.
+    /// </summary>
+    public static WavesColor Transparent => FromArgb(0, 0, 0, 0);
 
     /// <summary>
     ///     Gets red color component value.

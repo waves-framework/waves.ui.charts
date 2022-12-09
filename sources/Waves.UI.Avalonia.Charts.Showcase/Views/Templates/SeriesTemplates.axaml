@@ -3,7 +3,8 @@
         xmlns:series="clr-namespace:Waves.UI.Charts.Series;assembly=Waves.UI.Charts"
         xmlns:converters="clr-namespace:Waves.UI.Avalonia.Charts.Converters;assembly=Waves.UI.Avalonia.Charts"
         xmlns:collections="clr-namespace:Avalonia.Collections;assembly=Avalonia.Base"
-        xmlns:enums="clr-namespace:Waves.UI.Charts.Series.Enums;assembly=Waves.UI.Charts">
+        xmlns:enums="clr-namespace:Waves.UI.Charts.Series.Enums;assembly=Waves.UI.Charts"
+        xmlns:primitives="clr-namespace:Waves.UI.Charts.Drawing.Primitives;assembly=Waves.UI.Charts">
     
     <converters:WavesColorToSolidColorBrushConverter x:Key="WavesColorToSolidColorBrushConverter" />
     
@@ -24,7 +25,14 @@
         <enums:WavesDotType>None</enums:WavesDotType>
         <enums:WavesDotType>Circle</enums:WavesDotType>
         <enums:WavesDotType>FilledCircle</enums:WavesDotType>
+        <enums:WavesDotType>Square</enums:WavesDotType>
+        <enums:WavesDotType>FilledSquare</enums:WavesDotType>
     </collections:AvaloniaList>
+    
+    <DataTemplate x:Key="ColorTemplate"
+                  x:DataType="{x:Type primitives:WavesColor}">
+        <TextBlock Text="{Binding}"/>
+    </DataTemplate>
     
     <DataTemplate x:Key="PointSeriesTemplate" x:DataType="{x:Type series:WavesPointSeries}">
         <StackPanel>
@@ -71,6 +79,13 @@
                     Minimum="0"
                     Maximum="24"
                     Margin="0,0,0,18"/>
+            <TextBlock Text="Random color"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       Margin="0,0,0,9"/>
+            <Button Content="Generate"
+                    Command="{Binding DataContext.GenerateRandomColorCommand, RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}"
+                    CommandParameter="{Binding}"/>
         </StackPanel>
     </DataTemplate>
     

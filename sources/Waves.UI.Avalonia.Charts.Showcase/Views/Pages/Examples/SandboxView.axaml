@@ -165,6 +165,10 @@
                                   Margin="0,0,0,18"/>
                         
                         <ListBox Height="200"
+                                 CornerRadius="6"
+                                 BorderThickness="1"
+                                 BorderBrush="White"
+                                 Background="Transparent"
                                  Items="{Binding Series}"
                                  SelectedItem="{Binding SelectedSeries}"
                                  Margin="0,0,0,18">

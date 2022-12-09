@@ -62,6 +62,15 @@
                       Items="{StaticResource DotTypes}"
                       SelectedItem="{Binding DotType}"
                       Margin="0,0,0,18"/>
+            <TextBlock Text="Dot size"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       Margin="0,0,0,9"/>
+            <Slider HorizontalAlignment="Stretch"
+                    Value="{Binding DotSize}"
+                    Minimum="0"
+                    Maximum="24"
+                    Margin="0,0,0,18"/>
         </StackPanel>
     </DataTemplate>
     

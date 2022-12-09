@@ -37,11 +37,14 @@ Install-Package Waves.UI.Avalonia.Charts
 After installing the package you just need add chart control to XAML:
 
 ```xml
-<controls:WavesPointSeriesChart Series="{Binding Series}"
-                                XMin="{Binding XMin}"
-                                XMax="{Binding XMax}"
-                                YMin="{Binding YMin}"
-                                YMax="{Binding YMax}"/>
+<controls:Waves2DSeriesChart Series="{Binding Series}"
+                             XMin="{Binding XMin}"
+                             XMax="{Binding XMax}"
+                             YMin="{Binding YMin}"
+                             YMax="{Binding YMax}"
+                             BorderThickness="1"
+                             VerticalSignatureAlignment="Right"
+                             HorizontalSignatureAlignment="Bottom" />
 ```
 
 And add the appropriate fields to the viewmodel:
@@ -75,10 +78,10 @@ And add the appropriate fields to the viewmodel:
     /// Gets or sets series.
     /// </summary>
     [Reactive]
-    public ObservableCollection<IWavesPointSeries> Series { get; set; }
+    public ObservableCollection<IWaves2DSeries> Series { get; set; }
 ```
 
-Chart initialization looks like this:
+Simple point chart initialization looks like this:
 ```c#
     var x = new double[length];
     var y = new double[length];

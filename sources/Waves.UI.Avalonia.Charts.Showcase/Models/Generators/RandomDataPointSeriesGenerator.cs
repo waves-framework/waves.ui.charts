@@ -31,7 +31,6 @@ public class RandomDataPointSeriesGenerator :
         YMin = 0;
         YMax = 1;
         Color = WavesColor.Random();
-        DotColor = WavesColor.Random();
     }
 
     /// <inheritdoc/>
@@ -59,12 +58,6 @@ public class RandomDataPointSeriesGenerator :
     /// </summary>
     [Reactive]
     public WavesColor Color { get; set; }
-
-    /// <summary>
-    /// Gets or sets series dot color.
-    /// </summary>
-    [Reactive]
-    public WavesColor DotColor { get; set; }
 
     /// <inheritdoc/>
     public async Task<IWaves2DSeries> Generate()

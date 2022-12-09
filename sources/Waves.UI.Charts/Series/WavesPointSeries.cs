@@ -195,7 +195,7 @@ public class WavesPointSeries : Waves2DSeries
 
         List<IWavesDrawingObject> dotsObjects = null;
         var dotPoints = new WavesPoint[visiblePoints.Count];
-        if (visiblePoints.Count <= length)
+        if (visiblePoints.Count <= length || Opacity == 0 || Thickness == 0)
         {
             for (var i = 0; i < visiblePoints.Count; i++)
             {

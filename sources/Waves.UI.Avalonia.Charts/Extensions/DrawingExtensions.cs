@@ -22,6 +22,18 @@ public static class DrawingExtensions
     }
 
     /// <summary>
+    /// Converts <see cref="WavesColor"/> to <see cref="SolidColorBrush"/>.
+    /// </summary>
+    /// <param name="color">Color.</param>
+    /// <param name="opacity">Opacity.</param>
+    /// <returns>Return <see cref="SolidColorBrush"/>.</returns>
+    public static SolidColorBrush ToAvaloniaSolidColorBrush(this WavesColor color, double opacity)
+    {
+        var a = Convert.ToByte(opacity * color.A);
+        return new SolidColorBrush(Color.FromArgb(a, color.R, color.G, color.B));
+    }
+
+    /// <summary>
     /// Converts <see cref="WavesColor"/> to <see cref="Color"/>.
     /// </summary>
     /// <param name="color">Color.</param>

@@ -1,24 +1,37 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:series="clr-namespace:Waves.UI.Charts.Series;assembly=Waves.UI.Charts"
-        xmlns:converters="clr-namespace:Waves.UI.Avalonia.Charts.Converters;assembly=Waves.UI.Avalonia.Charts">
+        xmlns:converters="clr-namespace:Waves.UI.Avalonia.Charts.Converters;assembly=Waves.UI.Avalonia.Charts"
+        xmlns:collections="clr-namespace:Avalonia.Collections;assembly=Avalonia.Base"
+        xmlns:enums="clr-namespace:Waves.UI.Charts.Series.Enums;assembly=Waves.UI.Charts">
     
     <converters:WavesColorToSolidColorBrushConverter x:Key="WavesColorToSolidColorBrushConverter" />
     
     <DataTemplate x:Key="PointSeriesListItemTemplate" x:DataType="{x:Type series:WavesPointSeries}">
         <Grid Height="34" ColumnDefinitions="14,14,*">
-            <Ellipse Grid.Column="0"
-                     Width="14"
-                     Height="14"
-                     Fill="{Binding Color, Converter={StaticResource WavesColorToSolidColorBrushConverter}}"/>
+            <Border Grid.Column="0"
+                    CornerRadius="6"
+                    Width="14"
+                    Height="14"
+                    Background="{Binding Color, Converter={StaticResource WavesColorToSolidColorBrushConverter}}"/>
             <TextBlock Grid.Column="2"
                        Text="Point Series"
                        VerticalAlignment="Center"/>
         </Grid>
     </DataTemplate>
     
+    <collections:AvaloniaList x:Key="DotTypes" x:TypeArguments="enums:WavesDotType">
+        <enums:WavesDotType>None</enums:WavesDotType>
+        <enums:WavesDotType>Circle</enums:WavesDotType>
+        <enums:WavesDotType>FilledCircle</enums:WavesDotType>
+    </collections:AvaloniaList>
+    
     <DataTemplate x:Key="PointSeriesTemplate" x:DataType="{x:Type series:WavesPointSeries}">
         <StackPanel>
+            <TextBlock Text="Common properties"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Margin="0,0,0,12"/>
             <TextBlock Text="Line Thickness"
                        FontSize="14"
                        FontWeight="SemiBold"
@@ -28,6 +41,27 @@
                     Minimum="0"
                     Maximum="20"
                     Margin="0,0,0,18"/>
+            <TextBlock Text="Line Opacity"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       Margin="0,0,0,9"/>
+            <Slider HorizontalAlignment="Stretch"
+                    Value="{Binding Opacity}"
+                    Minimum="0"
+                    Maximum="1"
+                    Margin="0,0,0,18"/>
+            <TextBlock Text="Point series properties"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Margin="0,0,0,12"/>
+            <TextBlock Text="Dot Type"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       Margin="0,0,0,9"/>
+            <ComboBox HorizontalAlignment="Stretch"
+                      Items="{StaticResource DotTypes}"
+                      SelectedItem="{Binding DotType}"
+                      Margin="0,0,0,18"/>
         </StackPanel>
     </DataTemplate>
     

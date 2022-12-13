@@ -24,6 +24,14 @@
         <PackageReference Include="ReactiveUI.Fody" Version="18.4.1" />
     </ItemGroup>
 
+    <ItemGroup Condition="'$(Configuration)'=='Debug'">
+        <ProjectReference Include="..\..\submodules\ui.avalonia\sources\Waves.UI.Avalonia\Waves.UI.Avalonia.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)'!='Debug'">
+        <PackageReference Include="Waves.UI.Avalonia" Version="2022.3.3-prerelease.6" />
+    </ItemGroup>
+
     <ItemGroup>
       <ProjectReference Include="..\Waves.UI.Charts\Waves.UI.Charts.csproj" />
     </ItemGroup>

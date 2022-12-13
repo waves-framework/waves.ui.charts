@@ -1,3 +1,4 @@
+using System;
 using Waves.UI.Charts.Drawing.Primitives;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 
@@ -6,8 +7,18 @@ namespace Waves.UI.Charts.Drawing.Interfaces;
 /// <summary>
 /// Interface of Waves surface.
 /// </summary>
-public interface IWavesSurface
+public interface IWavesSurface : IDisposable
 {
+    /// <summary>
+    /// Gets surfaces width.
+    /// </summary>
+    public double SurfaceWidth { get; }
+
+    /// <summary>
+    /// Gets surface height.
+    /// </summary>
+    public double SurfaceHeight { get; }
+
     /// <summary>
     /// Gets renderer.
     /// </summary>
@@ -26,5 +37,5 @@ public interface IWavesSurface
     /// <summary>
     /// Gets or sets drawing object collection.
     /// </summary>
-    public IWavesDrawingObjects? DrawingObjects { get; set; }
+    public IWavesDrawingObjects DrawingObjects { get; set; }
 }

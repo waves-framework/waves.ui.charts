@@ -1,6 +1,7 @@
 using System.Drawing;
 using Avalonia.Media;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Data;
 using Color = Avalonia.Media.Color;
 
 namespace Waves.UI.Avalonia.Charts.Extensions;
@@ -18,6 +19,18 @@ public static class DrawingExtensions
     public static SolidColorBrush ToAvaloniaSolidColorBrush(this WavesColor color)
     {
         return new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
+    }
+
+    /// <summary>
+    /// Converts <see cref="WavesColor"/> to <see cref="SolidColorBrush"/>.
+    /// </summary>
+    /// <param name="color">Color.</param>
+    /// <param name="opacity">Opacity.</param>
+    /// <returns>Return <see cref="SolidColorBrush"/>.</returns>
+    public static SolidColorBrush ToAvaloniaSolidColorBrush(this WavesColor color, double opacity)
+    {
+        var a = Convert.ToByte(opacity * color.A);
+        return new SolidColorBrush(Color.FromArgb(a, color.R, color.G, color.B));
     }
 
     /// <summary>

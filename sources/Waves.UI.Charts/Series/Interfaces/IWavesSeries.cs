@@ -1,13 +1,12 @@
 using System;
-using System.Drawing;
-using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Interfaces;
 
 namespace Waves.UI.Charts.Series.Interfaces;
 
 /// <summary>
-/// Series.
+/// Interface of series.
 /// </summary>
-public interface IWavesSeries
+public interface IWavesSeries : IDisposable
 {
     /// <summary>
     /// Series updated event.
@@ -25,17 +24,13 @@ public interface IWavesSeries
     public double Opacity { get; set; }
 
     /// <summary>
-    ///     Gets or sets dash pattern.
+    /// Updates series.
     /// </summary>
-    public double[] DashPattern { get; set; }
+    void Update();
 
     /// <summary>
-    /// Gets or sets stroke thickness.
+    /// Draws series.
     /// </summary>
-    public double Thickness { get; set; }
-
-    /// <summary>
-    /// Gets or sets fill.
-    /// </summary>
-    public WavesColor Color { get; set; }
+    /// <param name="chart">Chart.</param>
+    void Draw(IWavesChart chart);
 }

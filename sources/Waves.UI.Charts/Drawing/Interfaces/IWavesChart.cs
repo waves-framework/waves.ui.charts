@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Data;
 using Waves.UI.Charts.Drawing.Primitives.Enums;
+using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 
 namespace Waves.UI.Charts.Drawing.Interfaces;
 
@@ -53,12 +55,12 @@ public interface IWavesChart : IWavesSurface
     /// <summary>
     /// Gets or sets X min.
     /// </summary>
-    public double XMin { get; set; }
+    public object XMin { get; set; }
 
     /// <summary>
     /// Gets or sets X max.
     /// </summary>
-    public double XMax { get; set; }
+    public object XMax { get; set; }
 
     /// <summary>
     /// Gets or sets Y min.
@@ -73,12 +75,12 @@ public interface IWavesChart : IWavesSurface
     /// <summary>
     /// Gets or sets current X min.
     /// </summary>
-    public double CurrentXMin { get; set; }
+    public object CurrentXMin { get; set; }
 
     /// <summary>
     /// Gets or sets current X max.
     /// </summary>
-    public double CurrentXMax { get; set; }
+    public object CurrentXMax { get; set; }
 
     /// <summary>
     /// Gets or sets current Y min.
@@ -91,19 +93,9 @@ public interface IWavesChart : IWavesSurface
     public double CurrentYMax { get; set; }
 
     /// <summary>
-    /// Gets or sets XMin for signatures.
-    /// </summary>
-    public object SignatureXMin { get; set; }
-
-    /// <summary>
     /// Gets or sets X-axis signatures format.
     /// </summary>
     public string SignaturesXFormat { get; set; }
-
-    /// <summary>
-    /// Gets or sets XMax for signatures.
-    /// </summary>
-    public object SignatureXMax { get; set; }
 
     /// <summary>
     /// Gets or sets X axis primary ticks number.
@@ -216,9 +208,9 @@ public interface IWavesChart : IWavesSurface
     public WavesColor YAxisZeroLineColor { get; set; }
 
     /// <summary>
-    /// Gets or sets font size.
+    /// Gets or sets text style.
     /// </summary>
-    public double FontSize { get; set; }
+    public WavesTextStyle TextStyle { get; set; }
 
     /// <summary>
     /// Gets or sets horizontal signature alignment.
@@ -234,4 +226,9 @@ public interface IWavesChart : IWavesSurface
     /// Gets or sets whether chart has default ticks or not.
     /// </summary>
     bool HasDefaultTicks { get; }
+
+    /// <summary>
+    /// Gets pointer location.
+    /// </summary>
+    public WavesPoint PointerLocation { get; }
 }

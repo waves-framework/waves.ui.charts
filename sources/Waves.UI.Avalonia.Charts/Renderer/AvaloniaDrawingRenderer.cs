@@ -4,6 +4,7 @@ using Avalonia.Media;
 using Waves.UI.Avalonia.Charts.Extensions;
 using Waves.UI.Charts.Drawing.Interfaces;
 using Waves.UI.Charts.Drawing.Primitives;
+using Waves.UI.Charts.Drawing.Primitives.Data;
 using Waves.UI.Charts.Drawing.Primitives.Interfaces;
 
 namespace Waves.UI.Avalonia.Charts.Renderer;
@@ -13,12 +14,20 @@ namespace Waves.UI.Avalonia.Charts.Renderer;
 /// </summary>
 public class AvaloniaDrawingRenderer : IWavesDrawingRenderer
 {
+    private bool _disposed = false;
+
     private DrawingContext _context;
 
     /// <inheritdoc />
     public void Dispose()
     {
-        _context.Dispose();
+        //// if (_disposed)
+        //// {
+        ////     return;
+        //// }
+        ////
+        //// _context.Dispose();
+        //// _disposed = true;
     }
 
     /// <inheritdoc />
@@ -52,7 +61,7 @@ public class AvaloniaDrawingRenderer : IWavesDrawingRenderer
     {
         var pen = new Pen()
         {
-            Brush = line.Color.ToAvaloniaSolidColorBrush(),
+            Brush = line.Color.ToAvaloniaSolidColorBrush(line.Opacity),
             Thickness = line.Thickness,
             DashStyle = new DashStyle(line.DashPattern, 0),
         };

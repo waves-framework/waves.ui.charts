@@ -19,4 +19,14 @@ public enum WavesDotType
     /// Filled circle.
     /// </summary>
     FilledCircle,
+
+    /// <summary>
+    /// Square.
+    /// </summary>
+    Square,
+
+    /// <summary>
+    /// Filled square.
+    /// </summary>
+    FilledSquare,
 }

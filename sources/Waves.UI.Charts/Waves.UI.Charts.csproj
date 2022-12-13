@@ -13,15 +13,17 @@
     </PropertyGroup>
 
     <ItemGroup Condition="'$(Configuration)'=='Debug'">
-        <ProjectReference Include="..\..\submodules\ui\sources\Waves.UI\Waves.UI.csproj" />
+        <ProjectReference Include="..\..\submodules\ui.avalonia\submodules\ui\sources\Waves.UI\Waves.UI.csproj" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(Configuration)'!='Debug'">
-        <PackageReference Include="Waves.UI" Version="2022.3.3-prerelease.3" />
+        <PackageReference Include="Waves.UI" Version="2022.3.3-prerelease.6" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="SkiaSharp" Version="2.88.3" />
+        <PackageReference Include="SkiaSharp" Version="2.88.3" />
+        <PackageReference Include="ReactiveUI" Version="18.4.1" />
+        <PackageReference Include="ReactiveUI.Fody" Version="18.4.1" />
     </ItemGroup>
 
 </Project>

@@ -11,7 +11,7 @@ public class WavesTextStyle
     /// <summary>
     /// Gets or sets font size.
     /// </summary>
-    public float FontSize { get; set; } = 12;
+    public double FontSize { get; set; } = 12;
 
     /// <summary>
     /// Gets or sets font family.

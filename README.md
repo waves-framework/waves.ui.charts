@@ -5,6 +5,16 @@
 
 **Waves** is a cross-platform framework designed for flexible developing of desktop, mobile applications and web-services.
 
+> **Warning**
+> This project currently in progress. There will be significant changes before the final release.
+
+> **Note**
+> This repository is open for contributing. If you want to learn how to develop data visualization software, then welcome! :)
+> Just email me: khek@ambertape.ru
+
+> **Note**
+> Also feel free to write issues. It will be a good motivation to develop project.
+
 ### 📒 About Waves.UI.Charts
 
 ![logo](files/images/screenshots/1.png)
@@ -27,11 +37,14 @@ Install-Package Waves.UI.Avalonia.Charts
 After installing the package you just need add chart control to XAML:
 
 ```xml
-<controls:WavesPointSeriesChart Series="{Binding Series}"
-                                XMin="{Binding XMin}"
-                                XMax="{Binding XMax}"
-                                YMin="{Binding YMin}"
-                                YMax="{Binding YMax}"/>
+<controls:Waves2DSeriesChart Series="{Binding Series}"
+                             XMin="{Binding XMin}"
+                             XMax="{Binding XMax}"
+                             YMin="{Binding YMin}"
+                             YMax="{Binding YMax}"
+                             BorderThickness="1"
+                             VerticalSignatureAlignment="Right"
+                             HorizontalSignatureAlignment="Bottom" />
 ```
 
 And add the appropriate fields to the viewmodel:
@@ -65,10 +78,10 @@ And add the appropriate fields to the viewmodel:
     /// Gets or sets series.
     /// </summary>
     [Reactive]
-    public ObservableCollection<IWavesPointSeries> Series { get; set; }
+    public ObservableCollection<IWaves2DSeries> Series { get; set; }
 ```
 
-Chart initialization looks like this:
+Simple point chart initialization looks like this:
 ```c#
     var x = new double[length];
     var y = new double[length];
@@ -98,4 +111,4 @@ Chart initialization looks like this:
 
 ### 📋 Licence
 
-Waves.Core is licenced under the [MIT licence](https://github.com/waves-framework/waves.ui.charts/blob/master/license.md).
+Waves.UI.Charts is licenced under the [MIT licence](https://github.com/waves-framework/waves.ui.charts/blob/master/license.md).

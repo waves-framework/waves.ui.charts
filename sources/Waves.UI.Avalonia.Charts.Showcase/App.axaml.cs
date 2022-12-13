@@ -1,41 +1,45 @@
-using Avalonia;
+using System;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Waves.UI.Avalonia.Charts.Showcase.ViewModels;
-using Waves.UI.Avalonia.Charts.Showcase.Views;
+using Microsoft.Extensions.Logging;
+using Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages;
+using Waves.UI.Avalonia.Charts.Showcase.ViewModels.Windows;
 
 namespace Waves.UI.Avalonia.Charts.Showcase;
 
 /// <summary>
 /// Application.
 /// </summary>
-public partial class App : Application
+public partial class App : WavesApplication
 {
     /// <inheritdoc />
     public override void Initialize()
     {
+        base.Initialize();
         AvaloniaXamlLoader.Load(this);
     }
 
     /// <inheritdoc />
-    public override void OnFrameworkInitializationCompleted()
+    public override async void OnFrameworkInitializationCompleted()
     {
-        switch (ApplicationLifetime)
+        try
         {
-            case IClassicDesktopStyleApplicationLifetime desktop:
-                desktop.MainWindow = new MainWindow
-                {
-                    DataContext = new MainViewModel(),
-                };
-                break;
-            case ISingleViewApplicationLifetime singleViewPlatform:
-                singleViewPlatform.MainView = new MainView
-                {
-                    DataContext = new MainViewModel(),
-                };
-                break;
-        }
+            switch (ApplicationLifetime)
+            {
+                case IClassicDesktopStyleApplicationLifetime desktop:
+                    await NavigationService.NavigateAsync<MainWindowViewModel>();
+                    await NavigationService.NavigateAsync<SandboxViewModel>();
+                    break;
+                case ISingleViewApplicationLifetime singleViewPlatform:
+                    await NavigationService.NavigateAsync<SandboxViewModel>();
+                    break;
+            }
 
-        base.OnFrameworkInitializationCompleted();
+            base.OnFrameworkInitializationCompleted();
+        }
+        catch (Exception e)
+        {
+            Logger.LogError("Error occured while doing initial navigation: {Message}", e);
+        }
     }
 }

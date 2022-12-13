@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
 using ReactiveUI;
-using Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages.Examples;
-using Waves.UI.Avalonia.Charts.Showcase.ViewModels.Windows;
 using Waves.UI.Base.Attributes;
 using Waves.UI.Presentation;
 using Waves.UI.Services.Interfaces;
@@ -38,7 +36,7 @@ public class MainViewModel : WavesViewModelBase
 
         GoBackCommand = ReactiveCommand.CreateFromTask(OnGoBack);
 
-        await _navigationService.NavigateAsync<ExampleSelectionControlViewModel>();
+        await _navigationService.NavigateAsync<SandboxViewModel>();
     }
 
     private async Task OnGoBack()

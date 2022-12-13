@@ -21,7 +21,7 @@
         <PackageReference Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
         <PackageReference Include="Avalonia.Xaml.Behaviors" Version="$(AvaloniaVersion)" />
         <PackageReference Include="ReactiveUI" Version="18.4.1" />
-        <PackageReference Include="ReactiveUI.Fody" Version="18.3.1" />
+        <PackageReference Include="ReactiveUI.Fody" Version="18.4.1" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1170,19 +1170,19 @@ public class WavesChart : WavesSurface, IWavesChart, IStyleable
 
         if (IsShiftPressed)
         {
-            Console.WriteLine("X: " + deltaFX);
+            // Console.WriteLine("X: " + deltaFX);
             ScrollChart(deltaFY, x, y);
             return;
         }
 
-        Console.WriteLine("Y: " + deltaFY);
+        // Console.WriteLine("Y: " + deltaFY);
         var xMinDelta = (x - currentXMin) * deltaFY;
         var xMaxDelta = (currentXMax - x) * deltaFY;
 
         if (currentXMax - xMaxDelta - (currentXMin + xMinDelta) > (xMax - xMin) / 1000000)
         {
-            currentXMin = currentXMin + xMinDelta;
-            currentXMax = currentXMax - xMaxDelta;
+            currentXMin += xMinDelta;
+            currentXMax -= xMaxDelta;
         }
 
         if (currentXMin < xMin)

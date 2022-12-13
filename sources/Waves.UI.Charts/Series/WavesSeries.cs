@@ -11,7 +11,6 @@ namespace Waves.UI.Charts.Series;
 /// <summary>
 /// Waves series.
 /// </summary>
-/// <typeparam name="T">Type of series data.</typeparam>
 public abstract class WavesSeries : ReactiveObject, IWavesSeries
 {
     private readonly IDisposable _propertyChangedDisposable;

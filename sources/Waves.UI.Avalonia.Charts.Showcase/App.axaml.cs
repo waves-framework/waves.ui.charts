@@ -28,10 +28,10 @@ public partial class App : WavesApplication
             {
                 case IClassicDesktopStyleApplicationLifetime desktop:
                     await NavigationService.NavigateAsync<MainWindowViewModel>();
-                    await NavigationService.NavigateAsync<MainViewModel>();
+                    await NavigationService.NavigateAsync<SandboxViewModel>();
                     break;
                 case ISingleViewApplicationLifetime singleViewPlatform:
-                    await NavigationService.NavigateAsync<MainViewModel>();
+                    await NavigationService.NavigateAsync<SandboxViewModel>();
                     break;
             }
 

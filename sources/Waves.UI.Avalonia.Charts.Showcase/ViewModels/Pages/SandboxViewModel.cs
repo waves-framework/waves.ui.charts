@@ -16,7 +16,7 @@ using Waves.UI.Charts.Utils;
 using Waves.UI.Presentation;
 using Waves.UI.Services.Interfaces;
 
-namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages.Examples;
+namespace Waves.UI.Avalonia.Charts.Showcase.ViewModels.Pages;
 
 /// <summary>
 /// Sandbox view model.

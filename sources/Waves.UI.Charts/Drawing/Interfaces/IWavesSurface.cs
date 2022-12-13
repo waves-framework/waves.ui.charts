@@ -37,5 +37,5 @@ public interface IWavesSurface : IDisposable
     /// <summary>
     /// Gets or sets drawing object collection.
     /// </summary>
-    public IWavesDrawingObjects? DrawingObjects { get; set; }
+    public IWavesDrawingObjects DrawingObjects { get; set; }
 }

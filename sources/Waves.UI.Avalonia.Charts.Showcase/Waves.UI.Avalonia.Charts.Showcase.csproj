@@ -51,16 +51,12 @@
         <DependentUpon>MainView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
-      <Compile Update="Views\Pages\Examples\ExampleSelectionControl.axaml.cs">
-        <DependentUpon>ExampleSelectionControl.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Update="Views\Pages\Examples\SandboxView.axaml.cs">
-        <DependentUpon>SandboxView.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
       <Compile Update="Views\Dialogs\AddSeriesDialogView.axaml.cs">
         <DependentUpon>MainView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\SandboxView.axaml.cs">
+        <DependentUpon>SandboxView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>
@@ -72,6 +68,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="ViewModels\Pages\Examples" />
       <Folder Include="Views\Controls" />
+      <Folder Include="Views\Pages\Examples" />
     </ItemGroup>
 </Project>

@@ -16,7 +16,7 @@ public readonly struct WavesSize
     }
 
     /// <summary>
-    ///     Creates new instance of size (rectangle)
+    ///     Creates new instance of size (rectangle).
     /// </summary>
     /// <param name="width">Width.</param>
     /// <param name="height">Height.</param>

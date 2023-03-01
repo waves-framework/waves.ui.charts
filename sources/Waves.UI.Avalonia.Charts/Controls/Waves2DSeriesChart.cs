@@ -60,6 +60,7 @@ public class Waves2DSeriesChart :
     {
         PrepareBackground();
         ClearCacheObjects();
+        PrepareGrid();
 
         if (Series != null)
         {
@@ -68,8 +69,6 @@ public class Waves2DSeriesChart :
                 series.Draw(this);
             }
         }
-
-        PrepareGrid();
 
         if (!DrawingObjects.Any())
         {

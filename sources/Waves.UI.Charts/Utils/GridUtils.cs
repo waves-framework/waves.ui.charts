@@ -193,8 +193,8 @@ public static class GridUtils
         if (chart.CurrentXMin is double || chart.CurrentXMax is double)
         {
             ticks.GenerateAxisTicks(
-                (double)chart.CurrentXMin,
-                (double)chart.CurrentXMax,
+                Convert.ToDouble(chart.CurrentXMin),
+                Convert.ToDouble(chart.CurrentXMax),
                 chart.XAxisPrimaryTicksNumber,
                 chart.XAxisAdditionalTicksNumber,
                 WavesAxisTickOrientation.Horizontal);
